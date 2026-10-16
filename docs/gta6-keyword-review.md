@@ -12,12 +12,12 @@ Generic phrases like "who dies" or "ending" cover that stuff anyway.
 | Tier | Blurs when | Example |
 |---|---|---|
 | **strong** | alone, always | "GTA 6", "Lucia Caminos", "Port Gellhorn" |
-| **weak** | next to a strong term, or next to a *different* weak term | "Jason" + "Lucia" blurs; "Jason" alone doesn't |
+| **weak** | next to a strong term, or next to a *different* weak term | "Boobie" + "Vice City" blurs; "Boobie" alone doesn't |
 | **context** | never by itself, never with other context words. It only counts as the second clue for a weak term | "Rockstar" + "trailer" blurs; "trailer" + "leak" (some other game) doesn't |
 
 Your own examples needed that third tier. "Rockstar Games + trailer", "GTA ending" and "GTA leak" only work if "trailer", "ending" and "leak" can be clues without blurring every trailer on the internet.
 
-**One exception:** context words don't pair with *character names* (the pack's `contextIgnores` setting lists the "Characters" groups). "Jason's pizza review" and "Jason killed it on stage" stay visible, while "GTA review" and "Vice City trailer" blur. Names still pair with each other, so "Jason and Lucia" blurs. A test caught this one: the first version blurred a fake "Jason's pizza review" video.
+**One exception:** context words don't pair with *character names* (the pack's `contextIgnores` setting lists the "Characters" groups). "Raul's pizza review" stays visible, while "GTA review" and "Vice City trailer" blur. (Jason and Lucia are strong now, so they blur on their own anyway.)
 
 **Allow terms** get cut out of the text before matching. "Jason Momoa" never counts as "Jason", and "GTA V" never counts as "GTA". "GTA V vs GTA VI" still blurs, because the VI part is still there.
 **Allowed channels** never get blurred, whatever they post.
@@ -53,7 +53,7 @@ You don't need to type every spelling. For every term:
 - "Six" spelled out: GTA seis (es/pt) · sei (it) · sechs (de) · zes (nl) · sześć (pl) · šest (cs/sk/hr) · șase (ro) · kuusi (fi) · altı (tr) · enam (id/ms) · sáu (vi)
 - (Most countries just write "GTA 6", which is already covered.)
 
-**Characters**: Jason Duval · Lucia Caminos · Cal Hampton · Boobie Ike · Dre'Quan Priest · Real Dimez · Bae-Luxe · Raul Bautista · Brian Heder · Lori Heder
+**Characters**: Jason · Lucia (alone, your call: any "Jason" or "Lucia" blurs, famous Jasons and Saint Lucia are allow-listed) · Jason Duval · Lucia Caminos · Cal Hampton · Boobie Ike · Dre'Quan Priest · Real Dimez · Bae-Luxe · Raul Bautista · Brian Heder · Lori Heder
 
 **Places**: Leonida · Leonida Keys · Lake Leonida · Grassrivers · Port Gellhorn · Mount Kalaga (National Park) · Vice-Dale County · Vice Dale · Vice Beach · Ekanfinaka · Tisha-Wocka (Flea Market) · Lummox County · LeonidaGov
 
@@ -71,7 +71,7 @@ You don't need to type every spelling. For every term:
 
 **Title fragments**: GTA · Grand Theft Auto · Grand Thief Auto · Grand Theif Auto · 侠盗猎车手 · 俠盜獵車手 · 侠盗飞车 · 俠盜飛車 · 给他爱 · 給他愛 · グランド・セフト・オート · グラセフ · 그랜드 테프트 오토 · 지티에이 · ГТА · Гранд Тефт Авто · جي تي اي · جراند ثفت أوتو · जीटीए
 
-**Characters**: Jason · Lucia · Boobie · Andrés de León (from the Extended Look) · Dolls of Destruction · Gutless Wonders · The Hummers & The Strummers (in-game bands)
+**Characters**: Boobie · Andrés de León (from the Extended Look) · Dolls of Destruction · Gutless Wonders · The Hummers & The Strummers (in-game bands)
 
 **Places**: Vice City · Ambrosia (+ County) · Gellhorn · Kalaga · Gloriana · Gloriana Key · Little Cuba · La Perle · Washington Beach · Starfish Island · Vercetti Estate · Leaf Links · Catalan Key · Dalton Island · Tequesta Retreat · Leonard / Kelly / Mariana County · Waning Sands · Allied Crystal (the sugar refinery)
 Vice City in other scripts: 罪恶都市 · 罪惡都市 · バイスシティ · 바이스 시티 · Вайс-Сити · فايس سيتي

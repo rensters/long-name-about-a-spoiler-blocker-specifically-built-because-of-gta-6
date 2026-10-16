@@ -119,6 +119,20 @@
         <h2>Look &amp; feel</h2>
         <div class="look-grid">
           <div class="look-controls">
+            <div class="field">
+              <label for="ov-text">Spoiler text (what shows on every blurred thing)</label>
+              <div class="row">
+                <span class="muted">for pack</span>
+                <select id="ov-pack" aria-label="Which pack's text"></select>
+              </div>
+              <textarea id="ov-text" rows="4" spellcheck="false"></textarea>
+              <span class="hint">one line per line, up to 5. tiny cards (chat, sidebars) only show the first line</span>
+              <div class="row">
+                <button id="ov-save" type="button" class="btn primary">Save text</button>
+                <button id="ov-reset" type="button" class="btn">Back to the original</button>
+              </div>
+              <p id="ov-msg" class="msg" role="status"></p>
+            </div>
             <label class="field">Blur strength <span id="blur-val" class="muted"></span>
               <input id="blur" type="range" min="8" max="40" step="1" />
             </label>
@@ -134,13 +148,11 @@
               <div class="pv-thumb"></div>
               <div class="pv-text"><b>A video title you shouldn't read</b><br /><span>Some Channel · 1.2M views</span></div>
               <div class="pv-shield">
-                <p class="l0" id="pv-l0"></p>
-                <p class="l1" id="pv-l1"></p>
-                <p class="l2" id="pv-l2"></p>
+                <div id="pv-lines"></div>
                 <span class="pv-btn" id="pv-btn">Hold to reveal</span>
               </div>
             </div>
-            <p class="hint">preview with your default pack's overlay text</p>
+            <p class="hint">live preview, updates as you type</p>
           </div>
         </div>
       </section>

@@ -75,7 +75,7 @@ test('settings: edit the pack, test box explains matches, expiry date saves', as
 
   await opts.locator('#test-text').fill('Jason and Lucia in the new trailer');
   await expect(opts.locator('#test-out')).toContainText('Would blur');
-  await opts.locator('#test-text').fill('my friend Jason');
+  await opts.locator('#test-text').fill('my friend Raul');
   await expect(opts.locator('#test-out')).toContainText('Would NOT blur');
 
   await opts.locator('.pack').first().getByRole('button', { name: 'Edit' }).click();
@@ -101,4 +101,18 @@ test('settings: edit the pack, test box explains matches, expiry date saves', as
     for (let i = 0; i < all['ss:packs']; i++) json += all['ss:packs:' + i];
     return JSON.parse(json).diffs.gta6.set && JSON.parse(json).diffs.gta6.set.expires;
   })).toBe('2027-02-20');
+});
+
+test('settings: change the spoiler text, open tabs show it right away', async ({ context, sw, extensionId }) => {
+  const site = await openSite(context, 'https://www.youtube.com/');
+  const opts = await context.newPage();
+  await opts.goto(`chrome-extension://${extensionId}/src/options/options.html`);
+  await expect(opts.locator('#ov-text')).toHaveValue(/Not today, spoiling shitbag\./);
+  await opts.locator('#ov-text').fill('nope, not for you\nwait for the PC version');
+  await expect(opts.locator('#pv-lines')).toContainText('nope, not for you'); // live preview
+  await opts.locator('#ov-save').click();
+  await expect(opts.locator('#ov-msg')).toContainText('Saved');
+  await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain('wait for the PC version');
+  await opts.locator('#ov-reset').click();
+  await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain('Not today, spoiling shitbag.');
 });

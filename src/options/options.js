@@ -342,10 +342,66 @@
     $('preview').style.setProperty('--pv-blur', s.blurPx + 'px');
     for (const r of document.querySelectorAll('input[name="reveal"]')) r.checked = r.value === s.revealMode;
     $('show-matched').checked = !!s.showMatched;
-    const lines = (state.livePacks[0] && state.livePacks[0].overlayText) || P.DEFAULT_OVERLAY;
-    ['pv-l0', 'pv-l1', 'pv-l2'].forEach((id, i) => ($(id).textContent = lines[i] || ''));
     $('pv-btn').textContent = s.revealMode === 'confirm' ? 'Reveal…' : 'Hold to reveal';
+
+    // spoiler text editor. don't stomp on the textarea while you're mid-typing
+    const sel = $('ov-pack');
+    const keep = sel.value;
+    sel.innerHTML = '';
+    for (const p of state.packs) sel.add(new Option(p.name + (P.isLive(p) ? '' : ' (off)'), p.id));
+    if (keep && state.packs.some((p) => p.id === keep)) sel.value = keep;
+    else if (state.livePacks[0]) sel.value = state.livePacks[0].id;
+    if (!ovDirty) fillOverlay();
+    previewLines();
   }
+
+  let ovDirty = false;
+  const ovPack = () => state.packs.find((p) => p.id === $('ov-pack').value);
+  const ovLines = () => $('ov-text').value.split(/\r?\n/).map((x) => x.trim()).filter(Boolean).slice(0, 5);
+
+  function fillOverlay() {
+    const p = ovPack();
+    $('ov-text').value = ((p && p.overlayText) || P.DEFAULT_OVERLAY).join('\n');
+    ovDirty = false;
+  }
+
+  function previewLines() {
+    const box = $('pv-lines');
+    box.innerHTML = '';
+    const lines = ovLines();
+    (lines.length ? lines : P.DEFAULT_OVERLAY).forEach((line, i) => box.append(el('p', { class: 'l' + i, text: line })));
+  }
+
+  $('ov-text').addEventListener('input', () => {
+    ovDirty = true;
+    previewLines();
+  });
+  $('ov-pack').addEventListener('change', () => {
+    fillOverlay();
+    previewLines();
+    say('ov-msg', '');
+  });
+  $('ov-save').addEventListener('click', async () => {
+    if (!guard()) return;
+    const p = ovPack();
+    if (!p) return;
+    const lines = ovLines();
+    if (!lines.length) return say('ov-msg', 'Needs at least one line. Even "no." works.', 'bad');
+    await SS.edit.setField(state, p.id, { overlayText: lines });
+    ovDirty = false;
+    await load();
+    say('ov-msg', 'Saved. Every open tab shows the new text right away.', 'ok');
+  });
+  $('ov-reset').addEventListener('click', async () => {
+    if (!guard()) return;
+    const p = ovPack();
+    if (!p) return;
+    const original = (state.builtins[p.id] && state.builtins[p.id].overlayText) || P.DEFAULT_OVERLAY;
+    await SS.edit.setField(state, p.id, { overlayText: original.slice() });
+    ovDirty = false;
+    await load();
+    say('ov-msg', 'Back to the original text.', 'ok');
+  });
 
   $('blur').addEventListener('input', () => {
     $('blur-val').textContent = $('blur').value + 'px';

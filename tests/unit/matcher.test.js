@@ -67,13 +67,18 @@ test('weak terms need a second clue', () => {
 });
 
 test('one weak term alone stays visible', () => {
-  ['Jason', 'My friend Jason loves pizza', 'Lucia', 'Vice City', 'Rockstar', 'GTA', 'rockstar by post malone', 'Ambrosia'].forEach(clean);
+  ['Boobie', 'Raul from work says hi', 'Vice City', 'Rockstar', 'GTA', 'rockstar by post malone', 'Ambrosia'].forEach(clean);
 });
 
 test('character names do NOT pair with context words (contextIgnores)', () => {
-  ["Jason's pizza review", 'Lucia gameplay of her cooking stream', 'Jason killed it on stage', 'Raul story time'].forEach(clean);
+  ["Raul's pizza review", 'Boobie killed it on stage', 'Raul story time'].forEach(clean);
   // ...but names still pair with other weak terms, and franchise words still pair with context
-  ['Jason and Lucia', 'GTA review', 'Rockstar story trailer'].forEach(blurs);
+  ['Raul and Boobie', 'GTA review', 'Rockstar story trailer'].forEach(blurs);
+});
+
+test('Jason and Lucia block on their own (their call, 2026-10-16), famous Jasons still pass', () => {
+  ['Jason', 'Lucia', 'my friend Jason loves pizza', "Lucia's new outfit", '#Jason'].forEach(blurs);
+  ['Jason Momoa new trailer', 'Jason Statham movie', 'Saint Lucia travel guide', 'Jasonville'].forEach(clean);
 });
 
 test('context words alone, or with each other, stay visible', () => {
@@ -157,7 +162,7 @@ test('multiple packs: first hit wins and carries its own overlay text', () => {
 test('explain() says what matched', () => {
   const [r] = m.explain('Jason Momoa and Lucia in the GTA trailer');
   assert.deepEqual(r.allowed, ['Jason Momoa']);
-  assert.ok(r.weak.includes('Lucia'));
+  assert.ok(r.strong.includes('Lucia'));
   assert.ok(r.blur);
 });
 

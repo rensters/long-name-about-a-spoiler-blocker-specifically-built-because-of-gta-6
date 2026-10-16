@@ -266,9 +266,11 @@
       delete el.dataset.ssRevealed;
       if (!el.hasAttribute('data-ss-pos') && getComputedStyle(el).position === 'static') el.setAttribute('data-ss-pos', '');
       const why = this.settings.showMatched ? describe(res) : null;
+      const lines = res.overlayText || SS.packs.DEFAULT_OVERLAY;
       SS.shield.attach(el, {
-        key: [sig, this.settings.revealMode, why || ''].join('|'),
-        lines: res.overlayText || SS.packs.DEFAULT_OVERLAY,
+        // text is in the key so editing your spoiler text rebuilds overlays that are already up
+        key: [sig, this.settings.revealMode, why || '', lines.join('\n')].join('|'),
+        lines,
         why,
         mode: this.settings.revealMode,
         onReveal: () => this.reveal(el, sig),

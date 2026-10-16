@@ -9,7 +9,7 @@ const keys = (list) => P.entries(list).map((e) => P.keyOf(e.term)).sort();
 
 test('textarea format round-trips groups', () => {
   const text = P.toLines(gta.strong);
-  assert.ok(text.includes('// Characters\nJason Duval'));
+  assert.ok(text.includes('// Characters\nJason\nLucia\nJason Duval'));
   assert.deepEqual(keys(P.fromLines(text)), keys(gta.strong));
   assert.deepEqual(P.fromLines('a\n\n// G\nb\n  c  \n// H\n'), { '': ['a'], G: ['b', 'c'] });
   assert.deepEqual(P.fromLines('x\ny', true), ['x', 'y']);
