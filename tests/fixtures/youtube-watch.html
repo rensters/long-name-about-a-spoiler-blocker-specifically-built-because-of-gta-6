@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- fake youtube watch page. {{TITLE}} etc are filled in by the test router per video id.
+     the "video" is a canvas stream so it really plays (and we can check it really gets paused) -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{TITLE}} - YouTube</title>
+    <style>
+      body { margin: 0; background: #0f0f0f; color: #f1f1f1; font: 14px Roboto, Arial, sans-serif; display: flex; gap: 24px; padding: 24px; }
+      #primary { width: 760px; }
+      video { width: 720px; height: 405px; background: #000; display: block; }
+      h1 { font-size: 20px; }
+      #secondary { width: 380px; display: flex; flex-direction: column; gap: 8px; }
+      yt-lockup-view-model { display: block; height: 90px; background: #181818; border-radius: 8px; padding: 6px; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <ytd-app>
+      <ytd-page-manager>
+        <ytd-watch-flexy role="main">
+          <div id="primary">
+            <div id="player"><div id="movie_player" class="html5-video-player"><video id="v" playsinline></video></div></div>
+            <ytd-watch-metadata>
+              <div id="title"><h1><yt-formatted-string id="video-title">{{TITLE}}</yt-formatted-string></h1></div>
+              <div id="owner"><ytd-video-owner-renderer><ytd-channel-name id="channel-name"><a href="/@somechannel">{{CHANNEL}}</a></ytd-channel-name></ytd-video-owner-renderer></div>
+              <div id="info"><span>{{INFO}}</span></div>
+              <div id="description-inline-expander">just a description</div>
+            </ytd-watch-metadata>
+          </div>
+          <div id="secondary">
+            {{CHAT}}
+            <yt-lockup-view-model data-test="spoiler"><div><h3 title="GTA VI trailer frame by frame">GTA VI trailer frame by frame</h3><span>Guide Guy</span></div></yt-lockup-view-model>
+            <yt-lockup-view-model data-test="clean"><div><h3 title="rain sounds for sleeping">rain sounds for sleeping</h3><span>Rain Channel</span></div></yt-lockup-view-model>
+          </div>
+        </ytd-watch-flexy>
+      </ytd-page-manager>
+    </ytd-app>
+    <script>
+      // a canvas stream: a real playing video with no media file needed
+      const c = document.createElement('canvas');
+      c.width = 320;
+      c.height = 180;
+      const ctx = c.getContext('2d');
+      let hue = 0;
+      setInterval(() => {
+        ctx.fillStyle = `hsl(${(hue += 7) % 360} 80% 50%)`;
+        ctx.fillRect(0, 0, 320, 180);
+      }, 33);
+      const v = document.getElementById('v');
+      v.srcObject = c.captureStream(30);
+      v.muted = false;
+      v.play().catch(() => {});
+      // the "player" keeps trying to play, like real players do when you pause them
+      setInterval(() => { if (v.paused && !window.__userPaused) v.play().catch(() => {}); }, 500);
+    </script>
+  </body>
+</html>

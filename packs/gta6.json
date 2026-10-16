@@ -1,0 +1,232 @@
+{
+  "id": "gta6",
+  "name": "GTA VI",
+  "version": "2026.10.16",
+  "description": "Everything Grand Theft Auto VI: titles in 20+ languages, characters, Leonida places, businesses, radio, cars, trailers, leaks, studio people, communities and streamers. Researched 2026-10-16 (launch trailer is out, console launch Nov 19 2026). Groups marked (check) are the ones I wasn't sure about.",
+  "active": true,
+  "expires": null,
+  "remindDaysBefore": 3,
+  "overlayText": [
+    "Hey, it's the thing you prevented from showing up.",
+    "Not today, spoiling shitbag.",
+    "The Endgame Incident will never happen again!"
+  ],
+
+  "strong": {
+    "Title and spellings": [
+      "GTA 6", "GTA VI", "GTA Six", "GTA 6ix",
+      "Grand Theft Auto 6", "Grand Theft Auto VI", "Grand Theft Auto Six"
+    ],
+    "Typos and misspellings": [
+      "Grand Thief Auto 6", "Grand Theif Auto 6", "Grand Thef Auto 6", "Grand Theft Otto 6",
+      "Gran Theft Auto 6", "Grand Theft Atuo 6", "Grand Theft Aut 6", "Grnad Theft Auto 6",
+      "Grand Theft Autos 6"
+    ],
+    "Codename (check)": [
+      "Project Americas"
+    ],
+    "Other languages and scripts": [
+      "侠盗猎车手6", "俠盜獵車手6", "侠盗飞车6", "俠盜飛車6", "给他爱6", "給他愛6",
+      "グランド・セフト・オート6", "グラセフ6", "ジーティーエー6",
+      "그랜드 테프트 오토 6", "지티에이 6",
+      "ГТА 6", "ГТА шесть", "ГТА шість", "Гранд Тефт Авто 6", "GTA шесть", "GTA шість",
+      "جي تي اي 6", "جي تي أي 6", "قراند 6", "جراند ثفت أوتو 6", "غراند ثفت أوتو 6", "جی تی ای 6",
+      "जीटीए 6", "ग्रैंड थेफ्ट ऑटो 6",
+      "จีทีเอ 6",
+      "GTA seis", "GTA sei", "GTA sechs", "GTA zes", "GTA sześć", "GTA šest", "GTA șase",
+      "GTA kuusi", "GTA altı", "GTA enam", "GTA sáu"
+    ],
+    "Other languages (check)": [
+      "GTA seks"
+    ],
+    "Characters": [
+      "Jason Duval", "Lucia Caminos", "Cal Hampton", "Boobie Ike", "Dre'Quan Priest",
+      "Real Dimez", "Bae-Luxe", "Raul Bautista", "Brian Heder", "Lori Heder"
+    ],
+    "Characters (check)": [
+      "Dre'Quan"
+    ],
+    "Places": [
+      "Leonida", "Leonida Keys", "Lake Leonida", "Grassrivers", "Port Gellhorn", "Mount Kalaga",
+      "Vice-Dale County", "Vice Dale", "Vice Beach", "Ekanfinaka", "Tisha-Wocka", "Lummox County",
+      "LeonidaGov"
+    ],
+    "Businesses, gangs and radio": [
+      "Only Raw Records", "PTT Youngin$", "Cocoteo FM", "AfroBank FM", "Chamber 106.6"
+    ],
+    "Marketing": [
+      "Vice City, USA", "Vintage Vice City Pack"
+    ],
+    "Leaks": [
+      "teapotuberhacker", "CyberLeek"
+    ],
+    "Leaks (check)": [
+      "Arion Kurtaj"
+    ]
+  },
+
+  "weak": {
+    "Title fragments": [
+      "GTA", "Grand Theft Auto", "Grand Thief Auto", "Grand Theif Auto",
+      "侠盗猎车手", "俠盜獵車手", "侠盗飞车", "俠盜飛車", "给他爱", "給他愛",
+      "グランド・セフト・オート", "グラセフ", "그랜드 테프트 오토", "지티에이",
+      "ГТА", "Гранд Тефт Авто", "جي تي اي", "جراند ثفت أوتو", "जीटीए"
+    ],
+    "Title fragments (check)": [
+      "قراند"
+    ],
+    "Characters": [
+      "Jason", "Lucia", "Boobie", "Andrés de León",
+      "Dolls of Destruction", "Gutless Wonders", "The Hummers & The Strummers"
+    ],
+    "Characters (check)": [
+      "Raul", "Duval", "Caminos", "Heder", "Roxy", "Lori", "Mendez", "Ernesto", "Petra Navarro",
+      "Wyman", "Erin Henshaw", "Kenny Brewster", "Phil Cassidy", "San 4 San", "Guardia Brothers"
+    ],
+    "Places": [
+      "Vice City", "Ambrosia", "Ambrosia County", "Gellhorn", "Kalaga", "Gloriana", "Gloriana Key",
+      "Little Cuba", "La Perle", "Washington Beach", "Starfish Island", "Vercetti Estate", "Leaf Links",
+      "Catalan Key", "Dalton Island", "Tequesta Retreat", "Leonard County", "Kelly County",
+      "Mariana County", "Waning Sands", "Allied Crystal",
+      "罪恶都市", "罪惡都市", "バイスシティ", "바이스 시티", "Вайс-Сити", "Вайс Сити", "فايس سيتي"
+    ],
+    "Places (check)": [
+      "Ocean Beach", "Rockridge", "Belville", "Venetian Islands"
+    ],
+    "Businesses and apps": [
+      "Jack of Hearts", "Only Raw", "Malibu Club", "Delights Cabaret", "Rideout Customs",
+      "Chip's Body Shop", "Watkin's Auto Parts", "Diamond Dawgs", "Frills and Fancy", "Zeke's Gadgets",
+      "Starlet Motel", "Ocean View Hotel", "Dominion Hotel", "Sahara Arena", "The Sumerian",
+      "Hoodwinks", "Sara's Unisex Salon", "Stock 305", "Electric Fang", "One-Eyed Willie's",
+      "One Eyed Wilie's", "Goodtime Gear", "Mega Mundo", "The Vice City Collection"
+    ],
+    "Businesses and apps (check)": [
+      "Effluvia", "Paradise Garage", "RydeMe", "BuckMe"
+    ],
+    "Radio stations": [
+      "Flash FM", "V-Rock", "Back Country Radio", "Dirty South Classics", "Stockyard FM",
+      "Symphony FM", "CircoLoco Records Radio", "Honey FM", "Radio On-U", "Kaleidoscope FM"
+    ],
+    "Radio stations (check)": [
+      "Worldwide FM"
+    ],
+    "Weapons": [
+      "Girardi ES9", "Klose K17"
+    ],
+    "Leaks and insiders": [
+      "GTAForums", "Tez2", "TezFunz2", "Yan2295"
+    ],
+    "Leaks and insiders (check)": [
+      "Lapsus$", "Videotech", "Dyllie"
+    ],
+    "Studio and people": [
+      "Rockstar", "Rockstar Games", "Rockstar North", "R*", "Take-Two", "Take-Two Interactive",
+      "Strauss Zelnick", "Zelnick", "Sam Houser", "Aaron Garbut"
+    ],
+    "Studio and people (check)": [
+      "Dan Houser", "Rob Nelson", "Lazlow", "Ivan Pavlovich", "Jennifer Kolbe", "TTWO",
+      "Stephen Root", "Manni L. Perez", "Dylan Rourke", "Jason Schreier", "Tom Henderson"
+    ]
+  },
+
+  "context": {
+    "Spoiler phrases": [
+      "ending", "endings", "ending explained", "final mission", "last mission", "final boss",
+      "who dies", "dies", "death", "killed", "plot twist", "twist", "full map", "entire map",
+      "map size", "story explained", "story", "lore", "every mission", "all missions",
+      "100% walkthrough", "walkthrough", "playthrough", "longplay", "full game", "gameplay",
+      "cutscene", "cutscenes", "credits", "post-credits", "secret ending", "true ending",
+      "good ending", "bad ending", "all endings", "epilogue", "betrayal", "betrays", "boss fight",
+      "easter egg", "easter eggs", "secrets", "spoiler", "spoilers", "map", "mission", "missions",
+      "review", "reviews", "Metacritic", "OpenCritic", "wanted level", "6 star wanted"
+    ],
+    "Marketing beats": [
+      "trailer", "trailers", "trailer 1", "trailer 2", "trailer 3", "third trailer", "launch trailer",
+      "extended look", "gameplay reveal", "gameplay trailer", "first look", "reveal", "screenshots",
+      "screenshot", "artwork", "pre-order", "preorder", "pre-load", "preload", "Ultimate Edition",
+      "Standard Edition", "release date", "launch", "launch day", "November 19", "Nov 19",
+      "delay", "delayed", "PS5", "Xbox Series", "PC version", "PC port", "PC release"
+    ],
+    "Leak words": [
+      "leak", "leaks", "leaked", "leaker", "leaked footage", "leaked build", "leaked gameplay",
+      "dev build", "development build", "playable build", "test build", "debug build", "2022 leak",
+      "datamine", "datamined", "dataminer", "insider", "rumor", "rumors", "rumour", "rumours"
+    ],
+    "Trailer songs": [
+      "Love Is a Long Road", "Hot Together", "Thunder Island", "Everybody Have Fun Tonight",
+      "Talkin' to Myself Again", "Pop Bottles", "Pound Town", "Skrilla", "Cars and Girls",
+      "Mine O' Mine", "Flower in a Hurricane"
+    ],
+    "Trailer songs (check)": [
+      "Child Support", "I Love Rock 'n' Roll", "Love Bites", "People Are People",
+      "Against All Odds", "Inner Light"
+    ],
+    "Vehicles": [
+      "Grotti Cheetah", "Bravado Banshee", "Pfister Comet", "Vapid Ganado", "Vapid Dominator",
+      "Dominator Buggy", "Vapid Stanier", "Dinka Enduro", "Shitzu Squalo", "Crest Kayak",
+      "Willard Faction", "Nagasaki Caddy", "Rexhall Rose Air", "Declasse Granger", "Maibatsu Penumbra",
+      "Progen Emerus", "Buckingham Valkyrie", "Buckingham Luxor", "Principe Lectro", "HVY Airtug",
+      "Canis Terminus", "Übermacht Rebla", "Mammoth Patriot", "Pfister Neon", "Grotti Itali RSX",
+      "Pegassi Infernus", "Fathom FR36", "Dundreary Landstalker", "Brute Tipper", "Brute Stockade",
+      "Jacksheepe Excavator"
+    ],
+    "GTA-universe brands": [
+      "Ammu-Nation", "Snapmatic", "Weazel News", "Burger Shot", "Cluckin' Bell", "Sprunk", "eCola",
+      "Pißwasser", "Up-n-Atom", "Lifeinvader", "Bleeter", "Social Club", "Hawk & Little",
+      "Bravado", "Declasse", "Dewbauchee", "Dinka", "Grotti", "Lampadati", "Pegassi", "Pfister",
+      "Progen", "Truffade", "Übermacht", "Maibatsu", "Dundreary", "Endurex", "Jacksheepe", "Shitzu"
+    ],
+    "GTA-universe brands (check)": [
+      "Vapid", "Little Morgan"
+    ]
+  },
+
+  "contextIgnores": ["Characters", "Characters (check)"],
+
+  "regex": [
+    {
+      "pattern": "#[\\p{L}\\p{N}_]*(?:gta_?(?:6|vi)|grandtheftauto_?(?:6|vi|six))[\\p{L}\\p{N}_]*",
+      "flags": "u",
+      "tier": "strong",
+      "why": "squished hashtags like #gtavitrailer or #newgta6 that have no word breaks to split on"
+    },
+    {
+      "pattern": "rockstargames\\.com/(?:[a-z-]+/)?(?:vi|gta-?vi|gta-?6)(?![a-z0-9])",
+      "flags": "u",
+      "tier": "strong",
+      "why": "links to the official GTA VI site in link previews"
+    }
+  ],
+
+  "allow": [
+    "GTA V", "GTA 5", "GTA Five", "Grand Theft Auto V", "Grand Theft Auto 5",
+    "GTA IV", "Grand Theft Auto IV", "GTA III", "Grand Theft Auto III", "GTA 2", "GTA London",
+    "GTA San Andreas", "GTA Liberty City Stories", "GTA Vice City Stories", "GTA Chinatown Wars",
+    "GTA Advance", "GTA Trilogy", "Grand Theft Auto: The Trilogy",
+    "Jason Momoa", "Jason Statham", "Jason Derulo", "Jason Bourne", "Jason Voorhees", "Jason Mraz",
+    "Jason Aldean", "Jason Sudeikis", "Jason Kelce", "Jason Todd", "Jason Bateman", "Jason Segel",
+    "Jason Isbell", "Jason Kidd", "Jason Day", "Jason Mantzoukas", "Jason Schwartzman",
+    "Saint Lucia", "St. Lucia", "Santa Lucia",
+    "Ambrosia salad", "Rockstar Energy"
+  ],
+  "allowChannels": [],
+
+  "blockedCommunities": [
+    "GTA6", "GTAVI", "GTA", "rockstar", "GamingLeaksAndRumours",
+    "GTA6Leaks", "GrandTheftAutoVI", "Leonida", "ViceCity", "RockstarGames", "gtaonline"
+  ],
+  "blockedCategories": [
+    "Grand Theft Auto VI", "Grand Theft Auto 6", "GTA VI", "GTA 6"
+  ],
+  "blockedChannels": [
+    "Rockstar Games", "TGG", "The Gaming Gorilla", "MrBossFTW", "GTA Series Videos", "Rockstar INTEL",
+    "GTA BOOM", "GTABase", "GTA Intel", "GTA6 Bible", "Tez2", "TezFunz2", "Yan2295", "videotech_",
+    "CyberLeek", "GTA 6 Countdown", "GTAVI Countdown", "GTAForums",
+    "Dyllie", "ViceReel", "RENZI", "DarkViperAU", "Typical Gamer"
+  ],
+  "watchlist": [
+    "Kai Cenat", "IShowSpeed", "xQc", "summit1g", "Sodapoppin", "LIRIK", "shroud", "TimTheTatman",
+    "Ninja", "Jynxzi", "CaseOh", "Adin Ross", "penguinz0", "moistcr1tikal", "Ludwig", "IlloJuan",
+    "Rubius", "AuronPlay", "TheGrefg", "Ibai", "fps_shaka", "Fanum", "Duke Dennis"
+  ]
+}

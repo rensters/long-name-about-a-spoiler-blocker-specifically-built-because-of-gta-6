@@ -1,0 +1,62 @@
+<!doctype html>
+<!-- fake twitch channel page with a playing "stream" (canvas) and chat. {{VARS}} come from the router -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{LOGIN}} - Twitch</title>
+    <style>
+      body { margin: 0; background: #0e0e10; color: #efeff1; font: 13px Inter, sans-serif; display: flex; gap: 16px; padding: 16px; }
+      video { width: 800px; height: 450px; background: #000; display: block; }
+      .stream-chat { width: 340px; height: 600px; background: #18181b; overflow: auto; }
+      .chat-line__message { padding: 4px 10px; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <div id="root">
+      <div class="channel-root">
+        <video id="v" playsinline></video>
+        <div class="channel-info-content">
+          <h1 class="tw-title">{{NAME}}</h1>
+          <p data-a-target="stream-title">{{TITLE}}</p>
+          <a data-a-target="stream-game-link" href="/directory/category/{{SLUG}}"><span>{{GAME}}</span></a>
+          <strong data-a-target="animated-channel-viewers-count">3,039</strong>
+        </div>
+      </div>
+    </div>
+    <div class="stream-chat">
+      <section class="chat-room" data-test-selector="chat-room-component-layout">
+        <div data-test-selector="chat-scrollable-area__message-container" id="chat">
+          <div class="chat-line__message" data-a-target="chat-line-message" data-a-user="nice_person" data-test="clean"><span class="chat-author__display-name">nice_person</span>: <span data-a-target="chat-line-message-body"><span class="text-fragment">hi chat</span></span></div>
+          <div class="chat-line__message" data-a-target="chat-line-message" data-a-user="troll" data-test="spoiler"><span class="chat-author__display-name">troll</span>: <span data-a-target="chat-line-message-body"><span class="text-fragment">GTA VI looks insane</span></span></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const c = document.createElement('canvas');
+      c.width = 320;
+      c.height = 180;
+      const ctx = c.getContext('2d');
+      let hue = 0;
+      setInterval(() => {
+        ctx.fillStyle = `hsl(${(hue += 5) % 360} 70% 45%)`;
+        ctx.fillRect(0, 0, 320, 180);
+      }, 33);
+      const v = document.getElementById('v');
+      v.srcObject = c.captureStream(30);
+      v.muted = false;
+      v.play().catch(() => {});
+      setInterval(() => { if (v.paused) v.play().catch(() => {}); }, 500);
+      // streamer switches category mid-stream (tests call this)
+      window.__switchCategory = (name, slug) => {
+        const a = document.querySelector('[data-a-target="stream-game-link"]');
+        a.href = '/directory/category/' + slug;
+        a.firstElementChild.textContent = name;
+      };
+      window.__say = (who, msg, test) => {
+        document.getElementById('chat').insertAdjacentHTML('beforeend',
+          `<div class="chat-line__message" data-a-target="chat-line-message" data-a-user="${who}" data-test="${test}"><span>${who}</span>: <span data-a-target="chat-line-message-body"><span class="text-fragment">${msg}</span></span></div>`);
+      };
+    </script>
+  </body>
+</html>

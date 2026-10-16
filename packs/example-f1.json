@@ -1,0 +1,45 @@
+{
+  "id": "example-f1",
+  "name": "Example: F1 race results",
+  "version": "2026.10.16",
+  "description": "Second pack to show the thing isn't GTA-only. Watching a Grand Prix on replay? This hides results until you're done. Off by default. Copy it, swap the names, done.",
+  "active": false,
+  "expires": null,
+  "remindDaysBefore": 1,
+  "overlayText": [
+    "Race result hidden.",
+    "You're watching the replay later, remember?",
+    "Lights out and away we... don't."
+  ],
+  "strong": {
+    "Results talk": [
+      "F1 results", "Grand Prix results", "GP results", "race results", "race winner",
+      "wins the Grand Prix", "won the Grand Prix", "championship standings", "drivers standings"
+    ]
+  },
+  "weak": {
+    "Drivers (surnames, need a second clue)": [
+      "Verstappen", "Norris", "Piastri", "Leclerc", "Hamilton", "Russell", "Antonelli", "Alonso",
+      "Stroll", "Gasly", "Colapinto", "Albon", "Sainz", "Hülkenberg", "Bortoleto", "Ocon", "Bearman",
+      "Lawson", "Hadjar", "Lindblad", "Pérez", "Bottas"
+    ],
+    "Teams": [
+      "Red Bull Racing", "McLaren", "Ferrari", "Mercedes", "Aston Martin", "Alpine", "Williams",
+      "Racing Bulls", "Haas", "Audi F1", "Cadillac F1", "Formula 1", "F1"
+    ]
+  },
+  "context": {
+    "Race words": [
+      "wins", "win", "won", "winner", "podium", "P1", "P2", "P3", "pole", "pole position", "crash",
+      "DNF", "retires", "overtake", "fastest lap", "championship", "title", "highlights", "result",
+      "results", "safety car", "red flag", "penalty"
+    ]
+  },
+  "regex": [],
+  "allow": ["Lewis Hamilton musical", "Hamilton the musical", "Russell Crowe", "Chuck Norris"],
+  "allowChannels": [],
+  "blockedCommunities": ["formula1", "F1Technical", "formuladank"],
+  "blockedCategories": ["Formula 1"],
+  "blockedChannels": ["FORMULA 1", "Sky Sports F1", "F1 TV"],
+  "watchlist": []
+}

@@ -1,0 +1,49 @@
+<!doctype html>
+<!-- fake new-reddit feed + comments, shreddit components with the same attributes the real ones carry -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Reddit</title>
+    <style>
+      body { margin: 0; background: #fff; color: #1c1c1c; font: 14px -apple-system, sans-serif; padding: 16px; }
+      shreddit-post { display: block; border: 1px solid #ddd; border-radius: 12px; padding: 12px; margin: 0 0 12px; max-width: 700px; }
+      shreddit-comment { display: block; border-left: 2px solid #ddd; padding: 6px 10px; margin: 6px 0; max-width: 700px; }
+      .thumb { height: 120px; background: linear-gradient(90deg, #4caf50, #2196f3); border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <shreddit-app>
+      <main>
+        <shreddit-feed>
+          <article><shreddit-post data-test="spoiler" post-title="GTA 6 hype megathread" subreddit-prefixed-name="r/gaming" author="leaky" permalink="/r/gaming/comments/aa/x">
+            <a slot="title" href="/r/gaming/comments/aa/x">GTA 6 hype megathread</a>
+            <div slot="text-body"><p>post your predictions</p></div>
+          </shreddit-post></article>
+          <article><shreddit-post data-test="clean" post-title="Look at my cat" subreddit-prefixed-name="r/aww" author="catlady">
+            <a slot="title" href="/r/aww/comments/bb/y">Look at my cat</a>
+            <div class="thumb"></div>
+          </shreddit-post></article>
+          <article><shreddit-post data-test="spoiler" post-title="Daily discussion thread" subreddit-prefixed-name="r/GTA6" author="AutoModerator">
+            <a slot="title" href="/r/GTA6/comments/cc/z">Daily discussion thread</a>
+            <div slot="text-body"><p>talk about whatever</p></div>
+          </shreddit-post></article>
+          <article><shreddit-post data-test="clean" post-title="Which Jason is your favorite?" subreddit-prefixed-name="r/movies" author="filmbro">
+            <a slot="title" href="/r/movies/comments/dd/w">Which Jason is your favorite?</a>
+          </shreddit-post></article>
+        </shreddit-feed>
+        <shreddit-comment-tree>
+          <shreddit-comment data-test="spoiler" author="spoilerguy" thingid="t1_a">
+            <div slot="comment"><p>Lucia and Jason are the best duo ever</p></div>
+          </shreddit-comment>
+          <shreddit-comment data-test="clean" author="nice" thingid="t1_b">
+            <div slot="comment"><p>Nice cat, what's her name?</p></div>
+            <shreddit-comment data-test="spoiler" author="replyguy" thingid="t1_c">
+              <div slot="comment"><p>the GTA VI hype though</p></div>
+            </shreddit-comment>
+          </shreddit-comment>
+        </shreddit-comment-tree>
+      </main>
+    </shreddit-app>
+  </body>
+</html>

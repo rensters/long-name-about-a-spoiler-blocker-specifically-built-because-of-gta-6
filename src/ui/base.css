@@ -1,0 +1,178 @@
+/* shared look for the popup + settings page. dark by default because it's a spoiler blocker and
+   we are all gremlins, light if your system says so */
+:root {
+  --bg: #0f0f15;
+  --bg-2: #171720;
+  --bg-3: #20202b;
+  --line: #2d2d3a;
+  --text: #f3f2f7;
+  --muted: #9a98ad;
+  --accent: #ff3d6e;
+  --accent-2: #ff8a5c;
+  --ok: #3ddc97;
+  --warn: #ffc24b;
+  --radius: 12px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --bg: #f6f5fa;
+    --bg-2: #ffffff;
+    --bg-3: #efedf5;
+    --line: #dddbe7;
+    --text: #17151f;
+    --muted: #6b6880;
+    --accent: #e0245e;
+    --accent-2: #f26b3a;
+    --ok: #12945f;
+    --warn: #a86b00;
+    color-scheme: light;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, sans-serif;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.btn:hover {
+  border-color: var(--muted);
+}
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.btn.danger {
+  color: var(--accent);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.link {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+}
+input[type='text'],
+input[type='password'],
+input[type='date'],
+input[type='number'],
+select,
+textarea {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  min-width: 0;
+}
+input:focus,
+select:focus,
+textarea:focus,
+.btn:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.muted {
+  color: var(--muted);
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex: none;
+}
+.switch input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+.switch .track {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: background 0.15s;
+}
+.switch .track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: transform 0.15s, background 0.15s;
+}
+.switch input:checked + .track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.switch input:checked + .track::after {
+  transform: translateX(18px);
+  background: #fff;
+}
+.switch input:focus-visible + .track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.switch input:disabled + .track {
+  opacity: 0.45;
+}
+.switch.small {
+  width: 34px;
+  height: 20px;
+}
+.switch.small .track::after {
+  width: 14px;
+  height: 14px;
+}
+.switch.small input:checked + .track::after {
+  transform: translateX(14px);
+}
+.banner {
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--warn) 14%, var(--bg-2));
+  border: 1px solid color-mix(in srgb, var(--warn) 45%, var(--line));
+}
+.banner.bad {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-2));
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+[hidden] {
+  display: none !important;
+}

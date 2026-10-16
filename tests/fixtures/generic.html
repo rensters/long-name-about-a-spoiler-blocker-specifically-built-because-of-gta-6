@@ -1,0 +1,27 @@
+<!doctype html>
+<!-- some random news site the extension has no module for: generic mode, strong terms only -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Some News Site</title>
+    <style>
+      body { font: 16px Georgia, serif; max-width: 720px; margin: 24px auto; padding: 0 16px; }
+      figure { margin: 0; }
+      img { width: 320px; height: 180px; background: #ccc; display: block; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <main>
+      <h1>Today's headlines</h1>
+      <ul>
+        <li data-test="spoiler">GTA 6 trailer breakdown: everything we spotted</li>
+        <li data-test="clean">Local bakery wins award for best croissant</li>
+        <li data-test="clean">Jason from accounting retires after 30 years</li>
+      </ul>
+      <p data-test="spoiler">Opinion: why Leonida is the most detailed map Rockstar has ever made.</p>
+      <p data-test="clean">The weather this weekend looks great for hiking.</p>
+      <figure data-test="spoiler"><img alt="Grand Theft Auto VI screenshot of the beach" src="data:," /><figcaption>A screenshot</figcaption></figure>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<!-- fake youtube home feed. same tags/attributes as the real thing (checked 2026-10-16), fake content.
+     data-test="spoiler" / "clean" is what the tests assert on, the extension never looks at it -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>YouTube</title>
+    <style>
+      body { margin: 0; background: #0f0f0f; color: #f1f1f1; font: 14px Roboto, Arial, sans-serif; }
+      #contents { display: grid; grid-template-columns: repeat(3, 320px); gap: 16px; padding: 16px; }
+      ytd-rich-item-renderer { display: block; height: 270px; background: #181818; border-radius: 12px; overflow: hidden; }
+      .thumb { display: block; height: 180px; background: linear-gradient(135deg, #e91e63, #ff9800); }
+      h3 { margin: 8px 10px 2px; font-size: 15px; }
+      yt-content-metadata-view-model { display: block; margin: 0 10px; color: #aaa; }
+      .live { background: #c00; color: #fff; padding: 1px 4px; border-radius: 3px; font-size: 11px; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <ytd-app>
+      <ytd-masthead><a href="/">YouTube</a></ytd-masthead>
+      <ytd-page-manager>
+        <ytd-browse>
+          <ytd-rich-grid-renderer>
+            <div id="contents"></div>
+          </ytd-rich-grid-renderer>
+        </ytd-browse>
+      </ytd-page-manager>
+    </ytd-app>
+    <script>
+      const card = (id, title, channel, test, opts = {}) => `
+        <ytd-rich-item-renderer id="${id}" data-test="${test}">
+          <div id="content"><yt-lockup-view-model class="ytLockupViewModelWrapper"><div class="ytLockupViewModelHost">
+            <a class="thumb" href="/watch?v=${id}"><yt-thumbnail-view-model>
+              ${opts.live ? '<yt-thumbnail-badge-view-model><badge-shape class="ytBadgeShapeHost ytBadgeShapeThumbnailLive"><div>LIVE</div></badge-shape></yt-thumbnail-badge-view-model>' : '<badge-shape class="ytBadgeShapeHost ytBadgeShapeThumbnailDefault">12:34</badge-shape>'}
+            </yt-thumbnail-view-model></a>
+            <yt-lockup-metadata-view-model>
+              <yt-decorated-avatar-view-model><div aria-label="Go to channel ${channel}" role="button"></div></yt-decorated-avatar-view-model>
+              <h3 title="${title}"><a href="/watch?v=${id}"><span>${title}</span></a></h3>
+              <yt-content-metadata-view-model>
+                <div class="ytContentMetadataViewModelMetadataRow"><span class="ytContentMetadataViewModelMetadataText">${channel}</span></div>
+                <div class="ytContentMetadataViewModelMetadataRow"><span class="ytContentMetadataViewModelMetadataText">${opts.live ? '12K watching' : '1.2M views · 3 days ago'}</span></div>
+              </yt-content-metadata-view-model>
+            </yt-lockup-metadata-view-model>
+          </div></yt-lockup-view-model></div>
+        </ytd-rich-item-renderer>`;
+      // the parser builds these synchronously, before first paint, exactly like a server-rendered feed
+      document.getElementById('contents').innerHTML = [
+        card('s1', 'GTA 6 trailer reaction (made-up test video)', 'Recap Guy', 'spoiler'),
+        card('c1', 'Minecraft hardcore: day 1000', 'Blocky Bob', 'clean'),
+        card('s2', 'Lucia and Jason: first look breakdown', 'Trailer Nerd', 'spoiler'),
+        card('c2', "Jason's pizza review #42", 'Pizza Jason', 'clean'),
+        card('s3', 'my thoughts on the new update', 'TGG', 'spoiler'),
+        card('s4', 'GT4 V1 hype compilation 😱', 'Leak Watch', 'spoiler'),
+        card('c3', 'GTA 5 online heist guide 2026', 'Heist Helper', 'clean'),
+        card('s5', 'just chatting, come hang', 'xQc', 'spoiler', { live: true }),
+        card('c4', 'reacting to memes', 'xQc', 'clean'),
+        card('s6', '#GTAVI is so close', 'Hype Train', 'spoiler'),
+        card('c5', 'Elden Ring ending explained', 'Lore Guy', 'clean'),
+        card('s7', 'Leónida map size compared', 'Map Guy', 'spoiler'),
+      ].join('');
+
+      // infinite scroll: tests call this to append the "next page" of cards
+      window.__more = (n) => {
+        const box = document.getElementById('contents');
+        box.insertAdjacentHTML('beforeend', [
+          card('m' + n + 'a', 'Grand Theft Auto VI graphics comparison', 'React Andy', 'spoiler'),
+          card('m' + n + 'b', 'cozy cooking stream highlights', 'Chef Cozy', 'clean'),
+          card('m' + n + 'c', 'Port Gellhorn screenshot tour', 'Explorer', 'spoiler'),
+          card('m' + n + 'd', 'Stardew Valley perfection run', 'Farmer Fran', 'clean'),
+        ].join(''));
+      };
+    </script>
+  </body>
+</html>

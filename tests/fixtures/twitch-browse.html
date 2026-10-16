@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- fake twitch browse/directory page: stream cards + side nav, using twitch's data-a-target hooks -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Twitch</title>
+    <style>
+      body { margin: 0; background: #0e0e10; color: #efeff1; font: 13px Inter, sans-serif; display: flex; }
+      nav { width: 240px; padding: 8px; }
+      .side-nav-card { display: flex; flex-direction: column; padding: 6px; height: 44px; }
+      main { flex: 1; display: grid; grid-template-columns: repeat(3, 300px); gap: 16px; padding: 16px; }
+      article { display: block; background: #18181b; border-radius: 6px; height: 240px; }
+      .thumb { display: block; height: 160px; background: linear-gradient(135deg, #9147ff, #00c8af); }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <nav data-a-target="side-nav-bar">
+      <div class="side-nav-card" data-test="spoiler"><a href="/somegtaguy"><p data-a-target="side-nav-title" title="SomeGtaGuy">SomeGtaGuy</p><p data-a-target="side-nav-game-title">Grand Theft Auto VI</p><span class="tw-channel-status-indicator"></span></a></div>
+      <div class="side-nav-card" data-test="clean"><a href="/chatter"><p data-a-target="side-nav-title" title="Chatter">Chatter</p><p data-a-target="side-nav-game-title">Just Chatting</p></a></div>
+    </nav>
+    <main id="grid">
+      <div><article data-test="spoiler"><a data-a-target="preview-card-image-link" class="thumb" href="/chillgamer"><div class="tw-channel-status-text">LIVE</div></a>
+        <a data-a-target="preview-card-channel-link" href="/chillgamer"><h3 title="chill vibes :)">chill vibes :)</h3></a><p title="ChillGamer">ChillGamer</p>
+        <a data-a-target="preview-card-game-link" href="/directory/category/grand-theft-auto-vi">Grand Theft Auto VI</a></article></div>
+      <div><article data-test="clean"><a data-a-target="preview-card-image-link" class="thumb" href="/blocky"><div class="tw-channel-status-text">LIVE</div></a>
+        <a data-a-target="preview-card-channel-link" href="/blocky"><h3 title="minecraft hardcore day 100">minecraft hardcore day 100</h3></a><p title="Blocky">Blocky</p>
+        <a data-a-target="preview-card-game-link" href="/directory/category/minecraft">Minecraft</a></article></div>
+      <div><article data-test="spoiler"><a data-a-target="preview-card-image-link" class="thumb" href="/rpking"><div class="tw-channel-status-text">LIVE</div></a>
+        <a data-a-target="preview-card-channel-link" href="/rpking"><h3 title="vice city trailer rewatch, no spoilers pls">vice city trailer rewatch, no spoilers pls</h3></a><p title="RPKing">RPKing</p>
+        <a data-a-target="preview-card-game-link" href="/directory/category/just-chatting">Just Chatting</a></article></div>
+      <div><article data-test="clean"><a data-a-target="preview-card-image-link" class="thumb" href="/painter"><div class="tw-channel-status-text">LIVE</div></a>
+        <a data-a-target="preview-card-channel-link" href="/painter"><h3 title="painting a lighthouse">painting a lighthouse</h3></a><p title="Painter">Painter</p>
+        <a data-a-target="preview-card-game-link" href="/directory/category/art">Art</a></article></div>
+    </main>
+  </body>
+</html>

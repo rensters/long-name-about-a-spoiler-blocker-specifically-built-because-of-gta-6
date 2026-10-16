@@ -1,0 +1,54 @@
+/* injected into every page at document_start, before the site has drawn a single pixel.
+   lots of !important because every site on earth thinks its css is the main character */
+
+:root {
+  --ss-blur: 24px;
+}
+
+/* a blurred card. isolation keeps our overlay from climbing over the site's sticky header,
+   overflow keeps the blur from smearing onto the neighbours */
+[data-ss='blocked'] {
+  isolation: isolate !important;
+  overflow: hidden !important;
+}
+[data-ss='blocked'][data-ss-pos] {
+  position: relative !important;
+}
+[data-ss='blocked'] > :not(ss-shield) {
+  filter: blur(var(--ss-blur)) saturate(0.5) brightness(0.55) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  transition: none !important;
+  animation-play-state: paused !important;
+}
+
+/* the overlay host. the actual look lives in its shadow root (shield.js) so site css can't wreck it */
+ss-shield {
+  all: initial !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2147483000 !important;
+  display: block !important;
+  container-type: size !important;
+  contain: strict !important;
+  pointer-events: auto !important;
+}
+
+/* full-screen stream warning / blocked-page wall */
+ss-wall {
+  all: initial !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  display: block !important;
+}
+
+/* while we're still figuring out what a stream/video page is: no picture, no sound (stream.js pauses too) */
+html[data-ss-hold] video {
+  opacity: 0 !important;
+}
+
+/* whole-page checks (subreddit / category pages): blank until we know it's safe. failsafe in main.js */
+html[data-ss-pagecheck] body {
+  visibility: hidden !important;
+}

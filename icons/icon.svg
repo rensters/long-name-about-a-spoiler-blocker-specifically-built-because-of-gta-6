@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- shield + crossed-out eye. source for every png in this folder (npm run icons) -->
+  <defs>
+    <linearGradient id="g" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#ff3d6e"/>
+      <stop offset="1" stop-color="#ff8a3d"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 7 L111 22 V58 C111 89 92 110 64 121 C36 110 17 89 17 58 V22 Z" fill="url(#g)" stroke="#1b0d16" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M29 63 C39 47 51 41 64 41 C77 41 89 47 99 63 C89 79 77 85 64 85 C51 85 39 79 29 63 Z" fill="#ffffff" stroke="#1b0d16" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="64" cy="63" r="12" fill="#1b0d16"/>
+  <path d="M37 91 L91 35" stroke="#1b0d16" stroke-width="17" stroke-linecap="round"/>
+  <path d="M37 91 L91 35" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+</svg>

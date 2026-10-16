@@ -1,0 +1,55 @@
+<!doctype html>
+<!-- fake x.com timeline: cellInnerDiv wrappers (positioned like the real virtual list) + tweet articles + trends -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Home / X</title>
+    <style>
+      body { margin: 0; background: #000; color: #e7e9ea; font: 15px -apple-system, sans-serif; display: flex; gap: 24px; padding: 16px; }
+      #timeline { width: 600px; position: relative; }
+      [data-testid="cellInnerDiv"] { border-bottom: 1px solid #2f3336; }
+      article { padding: 12px; min-height: 60px; }
+      aside { width: 340px; }
+      [data-testid="trend"] { padding: 10px; border-bottom: 1px solid #2f3336; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <main>
+      <section id="timeline" aria-label="Timeline: Your Home Timeline">
+        <div data-testid="cellInnerDiv"><article data-testid="tweet" data-test="spoiler">
+          <div data-testid="User-Name"><a href="/videotech_"><span>Videotech</span></a><span>@videotech_</span></div>
+          <div data-testid="tweetText"><span>something big tomorrow 👀</span></div>
+        </article></div>
+        <div data-testid="cellInnerDiv"><article data-testid="tweet" data-test="spoiler">
+          <div data-testid="User-Name"><a href="/newsguy"><span>News Guy</span></a></div>
+          <div data-testid="tweetText"><span>Rockstar just dropped the launch trailer and I'm crying</span></div>
+        </article></div>
+        <div data-testid="cellInnerDiv"><article data-testid="tweet" data-test="clean">
+          <div data-testid="User-Name"><a href="/morning"><span>Morning Person</span></a></div>
+          <div data-testid="tweetText"><span>good morning, coffee time ☕</span></div>
+        </article></div>
+        <div data-testid="cellInnerDiv"><article data-testid="tweet" data-test="spoiler">
+          <div data-testid="User-Name"><a href="/quoter"><span>Quoter</span></a></div>
+          <div data-testid="tweetText"><span>lmaooo no way</span></div>
+          <div role="link"><div data-testid="User-Name"><span>Leaks</span></div><div data-testid="tweetText"><span>GTA VI fan theory thread (fake test post)</span></div></div>
+        </article></div>
+        <div data-testid="cellInnerDiv"><article data-testid="tweet" data-test="clean">
+          <div data-testid="User-Name"><a href="/hiker"><span>Hiker</span></a></div>
+          <div data-testid="tweetText"><span>Views from the trail today</span></div>
+          <div data-testid="tweetPhoto"><img alt="A mountain lake at sunrise" src="data:," /></div>
+        </article></div>
+        <div data-testid="cellInnerDiv"><article data-testid="tweet" data-test="spoiler">
+          <div data-testid="User-Name"><a href="/artist"><span>Artist</span></a></div>
+          <div data-testid="tweetText"><span>new fanart!</span></div>
+          <div data-testid="tweetPhoto"><img alt="Jason Duval and Lucia Caminos on a beach" src="data:," /></div>
+        </article></div>
+      </section>
+    </main>
+    <aside aria-label="Trending">
+      <div data-testid="trend" data-test="spoiler"><span>Trending in Gaming</span><span>#GTA6</span><span>120K posts</span></div>
+      <div data-testid="trend" data-test="clean"><span>Trending</span><span>#MondayMotivation</span></div>
+      <div data-testid="trend" data-test="spoiler"><span>Gaming · Trending</span><span>Leonida</span></div>
+    </aside>
+  </body>
+</html>

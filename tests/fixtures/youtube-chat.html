@@ -1,0 +1,30 @@
+<!doctype html>
+<!-- fake youtube live chat iframe (/live_chat) -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>live chat</title>
+    <style>
+      body { margin: 0; background: #181818; color: #eee; font: 13px Roboto, Arial, sans-serif; }
+      yt-live-chat-text-message-renderer { display: block; padding: 4px 8px; min-height: 22px; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler Shield test page. Every title here is made up, nothing about the real game.</div>
+    <yt-live-chat-app>
+      <yt-live-chat-item-list-renderer>
+        <div id="items">
+          <yt-live-chat-text-message-renderer data-test="clean"><span id="author-name">@chill_dude</span> <span id="message">this beat is so good</span></yt-live-chat-text-message-renderer>
+          <yt-live-chat-text-message-renderer data-test="spoiler"><span id="author-name">@troll123</span> <span id="message">gta 6 hype in chat lol</span></yt-live-chat-text-message-renderer>
+          <yt-live-chat-text-message-renderer data-test="clean"><span id="author-name">@studybuddy</span> <span id="message">good luck on exams everyone</span></yt-live-chat-text-message-renderer>
+        </div>
+      </yt-live-chat-item-list-renderer>
+    </yt-live-chat-app>
+    <script>
+      window.__say = (who, msg, test) => {
+        document.getElementById('items').insertAdjacentHTML('beforeend',
+          `<yt-live-chat-text-message-renderer data-test="${test}"><span id="author-name">${who}</span> <span id="message">${msg}</span></yt-live-chat-text-message-renderer>`);
+      };
+    </script>
+  </body>
+</html>
