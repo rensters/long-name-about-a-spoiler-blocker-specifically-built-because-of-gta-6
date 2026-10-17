@@ -105,6 +105,8 @@
         }
       }
       btn.classList.add('holding');
+      // pointer capture can fail inside shadow roots, so also catch the release anywhere on the page
+      window.addEventListener('pointerup', stop, { once: true, capture: true });
       timer = setTimeout(() => {
         timer = null;
         btn.classList.remove('holding');
@@ -121,15 +123,20 @@
       if (e.button !== 0) return;
       start(e);
     });
-    for (const t of ['pointerup', 'pointercancel', 'pointerleave', 'lostpointercapture', 'blur']) btn.addEventListener(t, stop);
+    // no 'blur' / 'pointerleave' here anymore: sites move focus around on mousedown, and a small wobble
+    // off the button shouldn't cancel. letting go (anywhere) is what cancels
+    for (const t of ['pointerup', 'pointercancel']) btn.addEventListener(t, stop);
     btn.addEventListener('keydown', (e) => {
       if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) {
         e.preventDefault();
         start();
+        // keyup can land somewhere else if the site moves focus, so listen on window
+        window.addEventListener('keyup', function up(ev) {
+          if (ev.key !== ' ' && ev.key !== 'Enter') return;
+          window.removeEventListener('keyup', up, true);
+          stop();
+        }, true);
       }
-    });
-    btn.addEventListener('keyup', (e) => {
-      if (e.key === ' ' || e.key === 'Enter') stop();
     });
     btn.addEventListener('click', (e) => e.preventDefault()); // a plain click does nothing. that's the point
   }

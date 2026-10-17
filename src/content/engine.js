@@ -22,6 +22,10 @@
   const GENERIC_BLOCK = 'p, li, h1, h2, h3, h4, h5, h6, blockquote, figcaption, figure, td, th, dd, dt, summary, article, [role="article"], [role="listitem"], [role="heading"]';
   const GENERIC_SKIP = 'script, style, noscript, textarea, input, select, [contenteditable=""], [contenteditable="true"], ss-shield, ss-wall, head';
 
+  // links that point at THE post itself, best first. used to remember reveals across re-renders
+  const PERMALINKS = ['a[href*="/status/"]', 'a[href*="/watch?v="]', 'a[href*="/shorts/"]', 'a[href*="/comments/"]',
+    'a[href*="/post/"]', 'a[href*="/p/"]', 'a[href*="/reel/"]', 'a[href*="/video/"]', 'a[href*="/clip/"]', 'a[href]'];
+
   const describe = (res) => {
     const t = (res.terms || []).map((x) => `"${x}"`).join(' + ');
     switch (res.reason) {
@@ -48,6 +52,7 @@
       this.matcher = null;
       this.settings = SS.store.DEFAULT_SETTINGS;
       this.sigs = new WeakMap();
+      this.revealed = new Set(); // posts you held-to-reveal on this page (by identity, see identity())
       this.acked = new Set(); // page/stream warnings you already clicked through
       this.wallKey = null;
       this.lastUrl = location.href;
@@ -101,7 +106,6 @@
         this.inert(el, false);
         el.removeAttribute('data-ss');
         el.removeAttribute('data-ss-pos');
-        delete el.dataset.ssRevealed;
       }
       SS.shield.hideWall();
       this.wallKey = null;
@@ -255,25 +259,44 @@
         return;
       }
       this.sigs.set(el, sig);
-      if (state === 'revealed' && el.dataset.ssRevealed === sig) return; // you already said yes to this exact card
       const res = this.generic ? this.matcher.matchStrong(f.text) : this.matcher.match(f);
-      if (res) this.block(el, res, sig);
-      else this.clear(el);
+      if (!res) return this.clear(el);
+      // you already said yes to this post. remembered per post (its permalink), not per DOM node or
+      // exact text, because X re-creates posts and bumps like counts constantly. that re-blurred stuff
+      if (this.revealed.has(this.identity(el, f, res))) return this.reveal(el);
+      this.block(el, res, f);
     }
 
-    block(el, res, sig) {
+    // "which post is this" in a way that survives re-renders: its permalink if it has one, else its text
+    identity(el, f, res) {
+      let id = null;
+      for (const sel of PERMALINKS) {
+        const a = el.querySelector(sel);
+        if (a && !a.closest('ss-shield')) {
+          id = a.getAttribute('href');
+          break;
+        }
+      }
+      if (!id) id = 't:' + hash(String(f.text || '').replace(/[0-9]+/g, '#').slice(0, 400)); // digits out, counters tick
+      return id + '|' + (res.pack || '') + '|' + (res.terms || []).join(',');
+    }
+
+    block(el, res, f) {
       el.setAttribute('data-ss', 'blocked');
-      delete el.dataset.ssRevealed;
       if (!el.hasAttribute('data-ss-pos') && getComputedStyle(el).position === 'static') el.setAttribute('data-ss-pos', '');
       const why = this.settings.showMatched ? describe(res) : null;
       const lines = res.overlayText || SS.packs.DEFAULT_OVERLAY;
       SS.shield.attach(el, {
-        // text is in the key so editing your spoiler text rebuilds overlays that are already up
-        key: [sig, this.settings.revealMode, why || '', lines.join('\n')].join('|'),
+        // NOT keyed on the card's text: a like count ticking up mid-hold rebuilt the overlay and ate
+        // your hold (the "hold it twice" bug). only a different verdict or look rebuilds it now
+        key: [res.pack, res.reason, (res.terms || []).join(','), this.settings.revealMode, why || '', lines.join('|')].join('#'),
         lines,
         why,
         mode: this.settings.revealMode,
-        onReveal: () => this.reveal(el, sig),
+        onReveal: () => {
+          if (f) this.revealed.add(this.identity(el, f, res));
+          this.reveal(el);
+        },
       });
       this.inert(el, true);
       SS.stream.pauseInside(el);
@@ -288,9 +311,8 @@
       else el.setAttribute('data-ss', 'ok');
     }
 
-    reveal(el, sig) {
+    reveal(el) {
       el.setAttribute('data-ss', 'revealed');
-      el.dataset.ssRevealed = sig;
       SS.shield.detach(el);
       this.inert(el, false);
       this.countSoon();
@@ -554,7 +576,7 @@
           if (ours && box.getAttribute('data-ss') === 'revealed') continue;
           box.setAttribute('data-ss-chat', '1');
           if (box.getAttribute('data-ss') !== 'blocked') {
-            this.block(box, { reason: 'chat', terms: [], overlayText: ['Chat hidden.', 'Live chat on a spoiler stream is a minefield.'] }, 'chat');
+            this.block(box, { reason: 'chat', terms: [], overlayText: ['Chat hidden.', 'Live chat on a spoiler stream is a minefield.'] }, null);
           }
         } else if (ours) {
           box.removeAttribute('data-ss-chat');

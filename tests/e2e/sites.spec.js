@@ -111,3 +111,56 @@ test.describe('Generic sites', () => {
     expect(await page.locator('[data-ss]').count()).toBe(0);
   });
 });
+
+test.describe('X / Twitter reveal (bug report 2026-10-17)', () => {
+  const POST = 'article:has(a[href="/newsguy/status/1111"])';
+
+  test('one hold is enough even when the post updates mid-hold (like counter ticking)', async ({ context, sw }) => {
+    const page = await openSite(context, 'https://x.com/home');
+    await expect(page.locator(POST)).toHaveAttribute('data-ss', 'blocked');
+    const btn = page.locator(`${POST} > ss-shield button.reveal`);
+    const box = await btn.boundingBox();
+    await page.mouse.move(box.x + 10, box.y + 8);
+    await page.mouse.down();
+    for (let i = 0; i < 4; i++) {
+      await page.waitForTimeout(250);
+      await page.evaluate((n) => {
+        document.querySelector('a[href="/newsguy/status/1111"]').closest('article').querySelector('[data-testid="like"]').textContent = String(12 + n);
+      }, i + 1);
+    }
+    await page.waitForTimeout(200);
+    await page.mouse.up();
+    await expect(page.locator(POST)).toHaveAttribute('data-ss', 'revealed');
+  });
+
+  test('stays revealed when X re-renders or re-creates the post', async ({ context, sw }) => {
+    const page = await openSite(context, 'https://x.com/home');
+    const btn = page.locator(`${POST} > ss-shield button.reveal`);
+    const box = await btn.boundingBox();
+    await page.mouse.move(box.x + 10, box.y + 8);
+    await page.mouse.down();
+    await page.waitForTimeout(1200);
+    await page.mouse.up();
+    await expect(page.locator(POST)).toHaveAttribute('data-ss', 'revealed');
+    // counter + timestamp update in place
+    await page.evaluate(() => {
+      const a = document.querySelector('a[href="/newsguy/status/1111"]').closest('article');
+      a.querySelector('[data-testid="like"]').textContent = '99';
+      a.querySelector('time').textContent = '3m';
+    });
+    await page.waitForTimeout(600);
+    await expect(page.locator(POST)).toHaveAttribute('data-ss', 'revealed');
+    // react throws the node away and makes a fresh one (what X's virtual list does when you scroll)
+    await page.evaluate(() => {
+      const old = document.querySelector('a[href="/newsguy/status/1111"]').closest('article');
+      const fresh = document.createElement('div');
+      fresh.innerHTML = old.outerHTML.replace(/ data-ss(-[a-z]+)?="[^"]*"/g, '').replace(/<ss-shield[\s\S]*?<\/ss-shield>/g, '');
+      old.replaceWith(fresh.firstElementChild);
+    });
+    await page.waitForTimeout(600);
+    await expect(page.locator(POST)).toHaveAttribute('data-ss', 'revealed');
+    await expect(page.locator(`${POST} > ss-shield`)).toHaveCount(0);
+    // other spoiler posts are still blurred
+    await expect(page.locator('article[data-test="spoiler"][data-ss="blocked"]')).toHaveCount(3);
+  });
+});
