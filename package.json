@@ -9,10 +9,11 @@
     "test:all": "npm test && npm run test:e2e",
     "lint:firefox": "web-ext lint --source-dir . --ignore-files \"node_modules/**\" \"tests/**\" \"dist/**\" \"tools/**\" \"docs/**\" \"docs\" \"tools\" \"tests\" \"test-results/**\" \"playwright-report/**\" \"*.md\" \"package*.json\" \"playwright.config.js\"",
     "icons": "node tools/make-icons.js",
-    "package": "web-ext build --source-dir . --artifacts-dir dist --overwrite-dest --ignore-files \"node_modules/**\" \"tests/**\" \"dist/**\" \"tools/**\" \"docs/**\" \"docs\" \"tools\" \"tests\" \"test-results/**\" \"playwright-report/**\" \"*.md\" \"package*.json\" \"playwright.config.js\" \"icons/icon-256.png\""
+    "package": "node tools/build.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "web-ext": "^10.8.0"
-  }
+  },
+  "license": "Unlicense"
 }

@@ -69,7 +69,7 @@ Heads-up: Mozilla has moved this option around. It's always in Nightly and Beta;
 
 Some Android browsers can load Chrome extensions from a file in developer mode. The list changes a lot: Kiwi stopped development in January 2025 (old installs still work), and Lemur, Quetta and Mises have offered "install from .zip/.crx" at various points. Check that yours still does.
 
-1. On your PC: `npm install && npm run package`. You get `dist/spoiler_shield-1.0.0.zip`.
+1. On your PC: `npm install && npm run package`. You get `dist/spoiler-shield-chrome-1.0.0.zip`.
 2. Copy the zip to the phone.
 3. In the browser: open its extensions page (often `chrome://extensions`), enable **Developer mode**, use **+ (from .zip/.crx/.user.js)** and pick the zip.
 
@@ -136,7 +136,7 @@ it blurs there. Supported sites never do that.
 ## When something slips through
 
 1. Settings → **Test a sentence**: paste the title that got through. It tells you exactly which words it found and why it did or didn't blur.
-2. If the words are fine but the *card* wasn't touched, the site changed its layout. Every site has its own file in `src/sites/` (`youtube.js`, `reddit.js`, …), each selector with a comment saying what it targets. Right-click the card → Inspect, find its tag/attribute, add it to `items`, reload the extension. Usually a one-line fix. Or just tell Claude *"this got through on YouTube"* and paste what Inspect shows.
+2. If the words are fine but the *card* wasn't touched, the site changed its layout. Every site has its own file in `src/sites/` (`youtube.js`, `reddit.js`, …), each selector with a comment saying what it targets. Right-click the card → Inspect, find its tag/attribute, add it to `items`, reload the extension. Usually a one-line fix. Or open an issue / message with "this got through on YouTube" and paste what Inspect shows.
 
 ## Privacy
 
@@ -166,7 +166,7 @@ npm test                   # unit tests: matcher, packs, storage, source-file sa
 npx playwright install chromium
 npm run test:e2e           # end-to-end in Chromium with the real extension loaded
 npm run lint:firefox       # mozilla's linter (0 errors; 1 expected warning about service_worker)
-npm run package            # dist/spoiler_shield-<version>.zip for Kiwi-style Android browsers / store uploads
+npm run package            # dist/spoiler-shield-{chrome,firefox}-<version>.zip, store-ready (see store/LISTING.md)
 npm run icons              # re-render icons/*.png from icons/icon.svg
 ```
 

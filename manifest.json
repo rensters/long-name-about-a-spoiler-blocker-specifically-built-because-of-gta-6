@@ -89,7 +89,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "spoiler-shield@local",
+      "id": "{74e0e5b7-0625-4926-87a0-0d238402457d}",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
         "required": ["none"]
