@@ -179,3 +179,21 @@ New names will flood in after Nov 19. If something gets through, the fastest fix
 - Streams/creators: [Rockstar Intel on Extended Look reaction streams](https://rockstarintel.com/gta-6-gameplay-reveal-had-nearly-4-million-live-viewers-as-it-broke-netflix/), [GTA BOOM on the Rockstar North creator preview](https://www.gtaboom.com/creators-confirm-a-hands-off-gta-6-preview-at-rockstar-north-with-coverage-after-the-extended-look-d9cb)
 - Subreddits: [The Hive Index](https://thehiveindex.com/topics/gta/platform/reddit/), [GTA Intel on r/GTA6](https://gtaintel.com/news/gta6-subreddit-nearly-one-million-members)
 - Launch trailer and PC timing: [pasqualepillitteri.it](https://pasqualepillitteri.it/en/news/24206/gta-6-launch-trailer-rockstar-ps5), [aktualita.co](https://aktualita.co/en/technology/gta-6-release-date-rockstar-confirms-nov-19-2026-pc-version-rumored)
+
+## Added 2026-10-27
+
+Everything since the Oct 16 list. It's all marketing and radio stuff, nothing about the story.
+
+| Term | Tier | Where it came from |
+|---|---|---|
+| Vice City Takeover · Vice City Heat | strong | Miami Heat's GTA VI launch-eve event (Nov 18) |
+| Macca & Friends | strong | in-game TV show, advertised at the Kaseya Center |
+| The Vault Nightclub · Vice City FM | weak | Kaseya Center ads (Vice City FM isn't confirmed as a station yet) |
+| Mud Dog Mike · El Martillo · Delta Dawne · Palmsy | weak | radio hosts (Back Country Radio, Cocoteo FM, AfroBank FM) |
+| DJ Kerry · La Gata · Trick and Trina | weak (check) | radio hosts with very generic names |
+| Pegassi GranForma · GranForma | context | new car from the Bloomberg screenshot |
+| review copies · review copy · review embargo · playable build leak | context | reviewer copies are reportedly going out, and CyberLeek keeps threatening a full build |
+| in-game podcasts · on foot radio | context | the radio reveal's new features |
+| VI Countdown | blocked channel | GTA VI news site / channel |
+
+Sources: [VGC on the radio reveal](https://www.videogameschronicle.com/news/rockstar-reveals-some-of-gta-6s-radio-stations-says-players-can-now-listen-to-the-radio-and-podcasts-on-foot/), [Forbes on the hosts](https://www.forbes.com/sites/brianmazique/2026/10/08/lana-del-rey-learned-las-roads-from-gta---now-shes-a-radio-dj-in-gta-vi-alongside-bad-bunny-and-morgan-wallen/), [games.gg on the Kaseya Center campaign](https://games.gg/news/gta-6-burger-shot-cluckin-bell-kaseya-center/), [Beebom on the Vice City Takeover](https://beebom.com/gta-6-irl-burger-shot-cluckin-bell-joints-in-miami/), [RockstarINTEL screenshots](https://rockstarintel.com/new-gta-6-screenshot-and-launch-trailer-artwork-released/), [Dexerto on CyberLeek](https://www.dexerto.com/gta/gta-6-leaker-cyberleek-threatens-to-release-playable-build-from-start-to-finish-3417786/)

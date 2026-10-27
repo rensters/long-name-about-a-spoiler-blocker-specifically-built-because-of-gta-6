@@ -195,3 +195,9 @@ test('compiling the whole pack is quick', () => {
   console.log(`  compile gta6 pack: ${ms.toFixed(1)} ms, counts ${JSON.stringify(mm.packs[0].counts)}`);
   assert.equal(mm.errors.length, 0, mm.errors.join('\n'));
 });
+
+test('2026-10-27 additions', () => {
+  ['Vice City Takeover tickets', 'Macca & Friends', 'Macca and Friends rerun', 'Mud Dog Mike + Vice City'].forEach(blurs);
+  ['Rockstar review embargo lifts', 'GTA review copies are out', 'Delta Dawne on Flash FM'].forEach(blurs);
+  ['review copies of the new phone', 'the vault nightclub downtown'].forEach(clean);
+});
