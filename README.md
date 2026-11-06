@@ -14,7 +14,7 @@ every blurred thing gets this slapped on top of it:
 > Not today, spoiling shitbag.
 > The Endgame Incident will never happen again!
 
-(we don't talk about the Endgame Incident. it will never happen again. that's the whole point of this repo.)
+endgame was spoiled to me, it will never fucking happen again
 
 what it actually does:
 
