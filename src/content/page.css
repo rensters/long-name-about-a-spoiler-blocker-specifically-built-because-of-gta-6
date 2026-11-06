@@ -22,7 +22,7 @@
   animation-play-state: paused !important;
 }
 
-/* the overlay host. the actual look lives in its shadow root (shield.js) so site css can't wreck it */
+/* the overlay host. hey, the real look is in its shadow root (shield.js), so site css can't wreck it. go look there */
 ss-shield {
   all: initial !important;
   position: absolute !important;

@@ -1,4 +1,4 @@
-// X / Twitter (x.com, twitter.com, mobile web is the same app).
+// X / Twitter (x.com, twitter.com, mobile web is the same app). yes i still call it twitter.
 // X's timeline is a virtual list: posts get deleted and re-created as you scroll. we hide the inner
 // <article>, never the cell wrapper, because the list measures the wrappers to know where to put
 // things and an invisible-but-same-size article doesn't upset it.

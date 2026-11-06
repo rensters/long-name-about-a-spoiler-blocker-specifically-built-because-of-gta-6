@@ -1,4 +1,4 @@
-// npm run package -> two store-ready zips in dist/:
+// hey, this makes the zips. npm run package -> two store-ready zips in dist/:
 //   <name>-chrome-<v>.zip   Chrome Web Store (also Brave/Edge/Opera/Vivaldi, Kiwi-style android)
 //   <name>-firefox-<v>.zip  addons.mozilla.org (desktop + android)
 // same code in both, only the manifest differs. the dev manifest has BOTH background styles so the

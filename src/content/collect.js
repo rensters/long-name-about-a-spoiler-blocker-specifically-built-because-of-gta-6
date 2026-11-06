@@ -1,7 +1,7 @@
-// pulls the readable stuff out of a card: text, alt text, aria-labels, channel names, categories,
-// live badges. the annoying part is not gluing unrelated bits together: a title ending in "GTA" next
-// to "6M views" must NOT read as "GTA 6M views". so text from different blocks of the card gets a
-// wall char between it (see normalize.js), text inside the same block (<b>GTA</b> 6) stays glued.
+// oh hey. this one yanks the readable stuff out of a card: text, alt text, aria-labels, channel names,
+// categories, live badges. the annoying bit is NOT gluing unrelated stuff together: a title ending in "GTA"
+// next to "6M views" must NOT turn into "GTA 6M views" (ask me how i know). so text from different blocks
+// gets a wall char between it (see normalize.js), text inside one block (<b>GTA</b> 6) stays glued.
 (function () {
   const SS = globalThis.SpoilerShield;
   const { WALL } = SS.text;

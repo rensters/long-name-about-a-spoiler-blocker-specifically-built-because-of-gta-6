@@ -1,4 +1,4 @@
-// renders icons/source/pfp.png into the png sizes browsers want (center-cropped to a square),
+// hey, this one turns icons/source/pfp.png into every png size browsers want (center-cropped to a square),
 // using playwright's chromium so there's no image library to install. run: npm run icons
 const { chromium } = require('@playwright/test');
 const fs = require('node:fs');

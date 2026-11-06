@@ -1,5 +1,5 @@
-// the brain. takes packs (lists of words), turns every word into a regex that survives leetspeak,
-// dots, emoji, hashtags and roman numerals, then decides if a card is a spoiler.
+// hey, not a good idea, like seriously, don't touch this file. it's the brain: takes packs (word lists), turns
+// every word into a regex that survives leetspeak, dots, emoji, hashtags + roman numerals, then decides if a card is a spoiler.
 //
 // rules, short version:
 //   strong  -> blur on sight
@@ -8,7 +8,7 @@
 //              game stays visible, "Rockstar" + "trailer" doesn't
 //   allow   -> cut out of the text before anything else looks at it ("Jason Momoa" is not our Jason)
 //
-// this file took like 6 rewrites. the regex compiler below is the part that's held together with tape
+// this file took like 6 rewrites. the regex compiler below is held together with tape and prayers. why are you still reading
 (function (root) {
   const SS = (root.SpoilerShield = root.SpoilerShield || {});
   const { normalize, squash, WALL } = SS.text;
@@ -363,7 +363,7 @@
         (item.categories || []).join('\u0001'), item.live ? 1 : 0].join('\u0002');
       if (this.cache.has(key)) return this.cache.get(key);
       const res = this.run(item);
-      if (this.cache.size > 2000) this.cache.clear(); // lazy LRU: just nuke it. it's fine
+      if (this.cache.size > 2000) this.cache.clear(); // lazy LRU: just nuke it. it's fine. it's FINE
       this.cache.set(key, res);
       return res;
     }

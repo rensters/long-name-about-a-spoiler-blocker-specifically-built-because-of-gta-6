@@ -1,7 +1,7 @@
-// the scanner. watches the page, checks every card once (and again if the site recycles it with new
-// content), blurs the bad ones, handles stream pages, blocked pages and live chat.
+// hey, not a good idea to touch this one. it's the scanner: watches the page, checks every card once (and
+// again if the site recycles it with new content), blurs the bad ones, does stream pages, blocked pages + live chat.
 //
-// timing, because this is where it all goes wrong:
+// timing, because this is where EVERYTHING goes wrong:
 //  - new cards are already invisible thanks to early.js, so checking them can wait for idle time
 //  - but cards that were ALREADY checked and then got new content (youtube recycles DOM nodes like
 //    it's saving the planet) are visible, so those get re-checked right there in the mutation
@@ -560,7 +560,7 @@
       const c = this.site.page && this.site.page.chat;
       if (!c) return;
       // first selector that finds anything wins. chat boxes nest (shell > chat > room) and two
-      // overlays stacked on each other look stupid
+      // overlays stacked on each other look so dumb. trust me i've seen it
       let boxes = [];
       for (const sel of c) {
         try {
@@ -576,7 +576,7 @@
           if (ours && box.getAttribute('data-ss') === 'revealed') continue;
           box.setAttribute('data-ss-chat', '1');
           if (box.getAttribute('data-ss') !== 'blocked') {
-            this.block(box, { reason: 'chat', terms: [], overlayText: ['Chat hidden.', 'Live chat on a spoiler stream is a minefield.'] }, null);
+            this.block(box, { reason: 'chat', terms: [], overlayText: ['Chat hidden.', "hey, not a good idea, like seriously, don't unblock this"] }, null);
           }
         } else if (ours) {
           box.removeAttribute('data-ss-chat');
@@ -592,7 +592,7 @@
     watchdog() {
       if (!this.running) return;
       if (!this.generic && this.itemSel) {
-        // cards we somehow never saw (shouldn't happen, but sites are creative)
+        // cards we somehow never saw (shouldn't happen, but sites are "creative". looking at you youtube)
         for (const el of document.querySelectorAll(this.itemSel)) {
           if (!el.hasAttribute('data-ss')) this.queue.add(el);
           else if (el.getAttribute('data-ss') === 'blocked' && !el.querySelector(':scope > ss-shield')) {

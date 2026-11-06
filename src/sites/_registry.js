@@ -1,4 +1,4 @@
-// every site file calls SS.sites.register({...}). this is the phone book.
+// hey, this is the phone book. every site file calls SS.sites.register({...}) and ends up here.
 //
 // a site definition looks like this (only id/name/hosts are required):
 // {

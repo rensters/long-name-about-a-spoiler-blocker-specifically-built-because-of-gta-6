@@ -1,6 +1,6 @@
-// runs at document_start: the page is basically an empty <html> right now. job #1 is getting the
-// "hide every card until we've looked at it" css in before the site paints anything. storage is async
-// so we don't even know if the extension is switched on yet. we hide first and ask questions later
+// hey, you found the speedrun file. runs at document_start, the page is basically an empty <html> rn.
+// job #1: get the "hide every card until we've looked at it" css in before the site paints ANYTHING. storage
+// is async so we don't even know if the extension is on yet. hide first, ask questions later
 // (main.js un-hides everything if it turns out we're off).
 (function () {
   const SS = globalThis.SpoilerShield;

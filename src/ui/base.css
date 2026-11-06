@@ -1,4 +1,4 @@
-/* shared look for the popup + settings page. dark by default because it's a spoiler blocker and
+/* hey, why are you looking at the css? shared look for the popup + settings page. dark by default because it's a spoiler blocker and
    we are all gremlins, light if your system says so */
 :root {
   --bg: #0f0f15;

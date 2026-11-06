@@ -1,4 +1,4 @@
-// settings + packs live in storage.sync so they follow you between browsers. sync storage is TINY
+// hey. settings + packs live in storage.sync so they follow you between browsers. sync storage is TINY
 // (8KB per key, 100KB total) and some browsers don't have it at all (kiwi-likes, some firefox setups),
 // so: big stuff gets chopped into chunks, and if sync says no for any reason we quietly fall back to
 // local and remember that we did.
@@ -40,7 +40,7 @@
     try {
       force = !!(await local.get(K.forceLocal))[K.forceLocal];
     } catch (e) {
-      /* local broken too? then we're doomed anyway */
+      /* local broken too? then we're doomed anyway lol */
     }
     if (!force && a.storage.sync) {
       try {

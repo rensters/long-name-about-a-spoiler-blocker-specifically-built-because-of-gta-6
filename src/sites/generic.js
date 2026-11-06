@@ -1,4 +1,4 @@
-// every other site on the internet. no selectors: the engine looks at paragraphs, list items,
+// hey, this is every other site on the internet. no selectors: the engine looks at paragraphs, list items,
 // headings, table cells, figures and image alt text, and blurs any that contain a STRONG term.
 // weak combos are off here on purpose: random blogs mention "Jason" and "trailer" in the same
 // paragraph all the time and that's not our business.

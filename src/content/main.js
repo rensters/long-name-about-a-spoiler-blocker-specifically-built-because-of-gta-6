@@ -1,4 +1,4 @@
-// boot. everything above this file just defined stuff; this one actually turns it on.
+// hey, why are you here? this is boot. everything before this file just defined stuff, this one turns it ON.
 // order of events on a page load:
 //   1. early.js already hid all the cards (we're at document_start, before anything paints)
 //   2. load settings + packs from storage (async, a few ms)
@@ -16,7 +16,7 @@
   // stream/video pages: no picture, no sound from the very first frame until we know what it is
   if (site && site.page && site.page.kind && site.page.kind(location)) SS.stream.hold();
 
-  // whatever happens (storage dead, exception, cosmic ray), never leave a page blank
+  // whatever happens (storage dead, exception, cosmic ray, my code), never ever leave a page blank
   const failsafe = setTimeout(() => document.documentElement.removeAttribute('data-ss-pagecheck'), 2500);
 
   const engine = new SS.Engine(site);

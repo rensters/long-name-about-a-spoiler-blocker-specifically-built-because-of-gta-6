@@ -1,4 +1,4 @@
-// turns whatever cursed text a website hands us into something regexes can actually work with.
+// hey, welcome to the cursed text department. turns whatever a website hands us into something regexes can work with.
 // "𝐆𝐓𝐀 Ⅵ", "ＧＴＡ６", "GТА 6" (that Т is cyrillic, yes people do this), "Leónida", "#GTA6Trailer"
 // all come out the other side as plain lowercase boring text. terms go through the exact same
 // function, so whatever we mangle, we mangle on both sides and it still lines up.
@@ -44,7 +44,7 @@
   const CAMEL_1 = /(\p{Ll})(\p{Lu})/gu;
   const CAMEL_2 = /(\p{Lu})(\p{Lu}\p{Ll})/gu;
 
-  const MAX = 20000; // nobody's spoiler is in character 20001. probably
+  const MAX = 20000; // nobody's spoiler is in character 20001. probably. hopefully
 
   function normalize(input) {
     if (input == null) return '';

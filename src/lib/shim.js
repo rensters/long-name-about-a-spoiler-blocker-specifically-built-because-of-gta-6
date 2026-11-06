@@ -1,5 +1,5 @@
-// browser vs chrome. firefox + safari give us `browser` (promises), chromium gives us `chrome`
-// (also promises in MV3, mostly, when it feels like it). we grab whichever exists and move on with our lives.
+// hey, why are you looking at this? it's just browser vs chrome. firefox + safari give us `browser` (promises),
+// chromium gives us `chrome` (also promises in MV3, mostly, when it feels like it). grab whichever exists, move on with life.
 // every file hangs its stuff off one global: SpoilerShield. no bundler, no modules, no tears.
 (function (root) {
   const SS = (root.SpoilerShield = root.SpoilerShield || {});

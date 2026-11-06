@@ -1,4 +1,4 @@
-// YouTube, desktop + m.youtube.com + the live chat iframe.
+// YouTube, desktop + m.youtube.com + the live chat iframe. hey, if something slipped through, you're in the right place.
 // checked against the real site on 2026-10-16. youtube renames its components roughly every time
 // someone at google gets bored, so if something slips through, this is the file. look at the card in
 // devtools, find its tag name, add it to `items`. that's usually the whole fix.

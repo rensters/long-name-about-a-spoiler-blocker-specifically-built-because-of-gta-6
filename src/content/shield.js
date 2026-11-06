@@ -1,7 +1,7 @@
-// the overlay that sits on a blurred card + the full-screen wall for streams and blocked pages.
-// both live in shadow roots so a site's css can't make our text invisible or 3px tall or comic sans.
+// hey, you're looking at the blur overlay + the full-screen wall for streams and blocked pages. hi
+// both live in shadow roots so a site's css can't make our text invisible or 3px tall or comic sans (yes really).
 // revealing needs a deliberate move: hold the button for a second, or click + confirm. scrolling past
-// with your thumb on a phone should never reveal anything. that was the whole brief
+// with your thumb on a phone should never reveal anything. that was literally the whole point
 (function () {
   const SS = globalThis.SpoilerShield;
   const HOLD_MS = 1000;
@@ -101,7 +101,7 @@
         try {
           btn.setPointerCapture(e.pointerId);
         } catch (err) {
-          /* not every browser lets you capture from a shadow root. whatever */
+          /* not every browser lets you capture from a shadow root. whatever, moving on */
         }
       }
       btn.classList.add('holding');

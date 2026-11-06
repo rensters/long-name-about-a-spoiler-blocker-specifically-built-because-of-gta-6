@@ -1,7 +1,7 @@
-// background: the badge number, the built-in pack files, the pause timer and the "your GTA VI pack
-// switches off in 3 days" reminders. chromium runs this as a service worker (so it naps whenever it
-// likes and we keep NOTHING important in memory), firefox runs it as an event page via the "scripts"
-// list in the manifest. same file either way.
+// hey, why are you looking at this? ok fine. this is the background: badge number, built-in pack files,
+// the pause timer and the "your GTA VI pack switches off in 3 days" pings. chromium runs it as a service worker
+// (it naps whenever it wants, so NOTHING important lives in memory, don't even try), firefox runs it as an
+// event page via "scripts" in the manifest. same file both ways. you're welcome
 if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalThis.SpoilerShield.store)) {
   importScripts('lib/shim.js', 'lib/normalize.js', 'lib/packs.js', 'lib/store.js');
 }
@@ -42,7 +42,7 @@ if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalT
       await action.setBadgeBackgroundColor({ tabId, color: '#ff3d6e' });
       if (action.setBadgeTextColor) await action.setBadgeTextColor({ tabId, color: '#ffffff' });
     } catch (e) {
-      /* tab closed mid-update. happens */
+      /* tab closed mid-update. it happens, chill */
     }
   }
 
@@ -62,7 +62,7 @@ if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalT
         .then((r) => (r[SS.store.K.builtin] && r[SS.store.K.builtin].packs) || loadBuiltins())
         .then((packs) => sendResponse({ packs }))
         .catch(() => sendResponse({ packs: {} }));
-      return true; // async response
+      return true; // async response. yes this has to return true. don't ask
     }
     if (msg.type === 'ss:count' && sender.tab) {
       const tabId = sender.tab.id;

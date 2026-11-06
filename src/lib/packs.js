@@ -1,4 +1,4 @@
-// pack plumbing: groups, textarea <-> lists, your edits stored as a tiny diff on top of the built-in
+// hey, this is pack plumbing. groups, textarea <-> lists, your edits stored as a tiny diff on top of the built-in
 // pack (so when i update gta6.json with new names after launch, your edits survive AND you get the
 // new names), import/export, validation, expiry dates.
 (function (root) {

@@ -1,4 +1,4 @@
-// shared "change a pack" helpers for the popup + settings page. built-in packs are saved as a diff
+// hey there. shared "change a pack" helpers for the popup + settings page. built-in packs get saved as a diff
 // on top of the json file, your own packs are saved whole.
 (function (root) {
   const SS = root.SpoilerShield;

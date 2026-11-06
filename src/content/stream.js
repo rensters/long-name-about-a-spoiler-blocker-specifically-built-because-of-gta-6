@@ -1,7 +1,7 @@
-// player lock. while a stream/video page is being checked ("hold") or sitting behind a warning ("lock"),
+// hey, this is the player lock. while a stream/video page is being checked ("hold") or behind a warning ("lock"),
 // every <video>/<audio> on the page stays paused and muted. players love to call play() 40 times a
 // second when you pause them, so we don't just pause once: we sit on the 'play' event (capture phase,
-// installed at document_start before the site's own scripts even exist) and slap it back down.
+// installed at document_start before the site's own scripts even exist) and slap it back down. every. time.
 (function () {
   const SS = globalThis.SpoilerShield;
 
@@ -61,7 +61,7 @@
           if (p && p.catch) p.catch(() => {});
         }
       } catch (e) {
-        /* meh */
+        /* meh. not my problem */
       }
       state.saved.delete(m);
     }
