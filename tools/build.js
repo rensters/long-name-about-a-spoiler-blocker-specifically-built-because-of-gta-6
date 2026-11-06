@@ -11,7 +11,7 @@ const ROOT = path.join(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const SHIP = ['manifest.json', 'UNLICENSE', 'src', 'packs', 'icons'];
 const STORE_NAME = 'no spoil gta 6 pls'; // what both stores show. the full name lives in the UI + README
-const SKIP = new Set(['icon-256.png', 'icon.svg']); // source art, not needed at runtime
+const SKIP = new Set(['icon-256.png', 'source']); // source art, not needed at runtime
 
 function copy(from, to) {
   const st = fs.statSync(from);

@@ -157,7 +157,7 @@ src/background.js        badge, built-in pack loading, pause timer, switch-off r
 src/popup/, src/options/ the toolbar popup and the settings page
 tests/unit/              node --test, no dependencies
 tests/e2e/ + fixtures/   Playwright: real Chromium + the unpacked extension, fake sites served on the real domains
-icons/                   icon.svg + rendered pngs (npm run icons)
+icons/                   source/pfp.png + rendered pngs (npm run icons)
 ```
 
 ```bash
@@ -167,7 +167,7 @@ npx playwright install chromium
 npm run test:e2e           # end-to-end in Chromium with the real extension loaded
 npm run lint:firefox       # mozilla's linter (0 errors; 1 expected warning about service_worker)
 npm run package            # dist/i-cant-afford-a-ps5-but-i-also-wish-to-not-get-spoiled-{chrome,firefox}-<version>.zip, store-ready (see store/LISTING.md)
-npm run icons              # re-render icons/*.png from icons/icon.svg
+npm run icons              # re-render icons/*.png from icons/source/pfp.png
 ```
 
 Firefox can't be driven by Playwright with an extension loaded, so Firefox coverage is `npm run lint:firefox` plus the manual checklist below.
