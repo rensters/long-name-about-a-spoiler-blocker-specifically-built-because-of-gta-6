@@ -2,7 +2,7 @@
 //   <name>-chrome-<v>.zip   Chrome Web Store (also Brave/Edge/Opera/Vivaldi, Kiwi-style android)
 //   <name>-firefox-<v>.zip  addons.mozilla.org (desktop + android)
 // same code in both, only the manifest differs. the dev manifest has BOTH background styles so the
-// folder loads unpacked anywhere, but the stores whine about the key meant for the other browser
+// folder loads unpacked anywhere, but the stores whine about the key meant for the other browser. ugh
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
@@ -32,7 +32,7 @@ const targets = {
   },
   firefox(m) {
     m.background = { scripts: m.background.scripts };
-    // firefox caps names at 45 chars (the full name is 55), so the stores get the short one
+    // firefox caps names at 45 chars and my full name is 55, so the stores get the short one. rude
     m.name = STORE_NAME;
     m.action.default_title = STORE_NAME;
     return m;

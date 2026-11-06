@@ -7,10 +7,10 @@
 
   // the "don't let a match jump across this" character. the scanner glues separate blocks of a card
   // (title / channel / view count) together with it, so "...GTA" + "6M views" can't turn into "GTA 6".
-  // regexes treat it as a wall. U+2063 INVISIBLE SEPARATOR, nobody types this on purpose
+  // regexes treat it as a wall. U+2063 INVISIBLE SEPARATOR, nobody types this on purpose (if you do, why)
   const WALL = '\u2063';
 
-  // NFKC already fixes fullwidth digits, but arabic-indic, devanagari, thai etc digits sail right through.
+  // NFKC already fixes fullwidth digits, but arabic-indic, devanagari, thai etc digits just sail right through. annoying
   // these are the code points of each script's zero; digits are always the 10 code points after it
   const DIGIT_ZEROS = [
     0x0660, 0x06f0, 0x07c0, 0x0966, 0x09e6, 0x0a66, 0x0ae6, 0x0b66, 0x0be6, 0x0c66, 0x0ce6, 0x0d66,
@@ -36,7 +36,7 @@
   const LOOKALIKE_RE = new RegExp('[' + Object.keys(LOOKALIKES).join('') + ']', 'g');
 
   // accents only get stripped off latin/greek/cyrillic letters. hindi, thai, japanese dakuten etc use
-  // combining marks as actual parts of letters and stripping those turns グランド into クラント lmao
+  // combining marks as actual parts of letters and stripping those turns グランド into クラント lmao. don't do that
   const ACCENT_RE = /([\p{Script=Latin}\p{Script=Greek}\p{Script=Cyrillic}])\p{M}+/gu;
   const ARABIC_JUNK_RE = /[ً-ٰٟـ]/g; // harakat + tatweel, decorative
 
@@ -66,7 +66,7 @@
     return normalize(input).replace(/[^\p{L}\p{N}]+/gu, '');
   }
 
-  // tiny fast string hash, used to notice when a site recycles a DOM node with new content in it
+  // tiny fast string hash. spots when a site recycles a DOM node with new content in it. nothing fancy, move along
   function hash(str) {
     let h = 0x811c9dc5;
     for (let i = 0; i < str.length; i++) {

@@ -66,7 +66,7 @@
           .join(' ');
       },
       gaming(info) {
-        if (!info.categories.length) return true; // no category visible, assume the worst
+        if (!info.categories.length) return true; // no category visible? assume the worst. always assume the worst
         return !info.categories.every((c) => NOT_GAMING.test(c.trim()));
       },
       chat: ['.stream-chat', '.chat-shell', 'section[data-test-selector="chat-room-component-layout"]', '.chat-room'],

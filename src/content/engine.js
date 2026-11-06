@@ -11,14 +11,14 @@
   const SS = globalThis.SpoilerShield;
   const { WALL, hash } = SS.text;
 
-  const BUDGET_MS = 8; // per mutation batch, before we punt the rest to idle time
-  const HOLD_MAX_MS = 6000; // longest we'll hold a player while waiting for the page to say what it is
+  const BUDGET_MS = 8; // per mutation batch, then we punt the rest to idle time. don't crank this up, the tab will cry
+  const HOLD_MAX_MS = 6000; // longest we'll hold a player while the page makes up its mind about what it is
   const NAV_SETTLE_MS = 3000; // after a SPA navigation, wait up to this long for the old title to go away
   const idle = globalThis.requestIdleCallback
     ? (cb) => requestIdleCallback(cb, { timeout: 90 })
     : (cb) => setTimeout(() => cb({ timeRemaining: () => 8, didTimeout: true }), 16);
 
-  // generic mode: things that count as "a paragraph or card" on random websites
+  // generic mode: stuff that counts as "a paragraph or card" on random websites. vibes based, honestly
   const GENERIC_BLOCK = 'p, li, h1, h2, h3, h4, h5, h6, blockquote, figcaption, figure, td, th, dd, dt, summary, article, [role="article"], [role="listitem"], [role="heading"]';
   const GENERIC_SKIP = 'script, style, noscript, textarea, input, select, [contenteditable=""], [contenteditable="true"], ss-shield, ss-wall, head';
 
@@ -115,7 +115,7 @@
       this.report(0);
     }
 
-    // new settings/packs: look at everything again (revealed cards stay revealed)
+    // new settings/packs: look at everything again. revealed cards stay revealed, you already chose violence
     recheckAll() {
       this.sigs = new WeakMap();
       this.scanAll(true);
@@ -249,20 +249,20 @@
       try {
         f = this.fieldsOf(el);
       } catch (e) {
-        if (!this.generic) el.setAttribute('data-ss', 'ok'); // never leave a card invisible because we tripped
+        if (!this.generic) el.setAttribute('data-ss', 'ok'); // we tripped. never leave a card invisible because of our mess
         return;
       }
       const sig = hash([f.text, (f.channels || []).join('|'), f.community || '', (f.categories || []).join('|'), f.live ? 1 : 0].join('\u0001'));
       const state = el.getAttribute('data-ss');
       if (this.sigs.get(el) === sig && (state || this.generic)) {
-        if (state === 'blocked' && !el.querySelector(':scope > ss-shield')) this.sigs.delete(el), this.check(el); // site nuked our overlay
+        if (state === 'blocked' && !el.querySelector(':scope > ss-shield')) this.sigs.delete(el), this.check(el); // site nuked our overlay. rude. put it back
         return;
       }
       this.sigs.set(el, sig);
       const res = this.generic ? this.matcher.matchStrong(f.text) : this.matcher.match(f);
       if (!res) return this.clear(el);
       // you already said yes to this post. remembered per post (its permalink), not per DOM node or
-      // exact text, because X re-creates posts and bumps like counts constantly. that re-blurred stuff
+      // exact text, because X re-creates posts and bumps like counts nonstop. that re-blurred stuff
       if (this.revealed.has(this.identity(el, f, res))) return this.reveal(el);
       this.block(el, res, f);
     }
@@ -288,7 +288,7 @@
       const lines = res.overlayText || SS.packs.DEFAULT_OVERLAY;
       SS.shield.attach(el, {
         // NOT keyed on the card's text: a like count ticking up mid-hold rebuilt the overlay and ate
-        // your hold (the "hold it twice" bug). only a different verdict or look rebuilds it now
+        // your hold (the "hold it twice" bug, rip). only a different verdict or look rebuilds it now
         key: [res.pack, res.reason, (res.terms || []).join(','), this.settings.revealMode, why || '', lines.join('|')].join('#'),
         lines,
         why,
@@ -318,7 +318,7 @@
       this.countSoon();
     }
 
-    // blurred cards shouldn't be tab-able/clickable underneath the overlay either
+    // blurred cards shouldn't be tab-able/clickable under the overlay either. no sneaking
     inert(el, on) {
       for (const child of el.children) {
         if (child.tagName === 'SS-SHIELD') continue;
@@ -369,7 +369,7 @@
         if (this.site.blockPage && this.site.blockPage(url)) document.documentElement.setAttribute('data-ss-pagecheck', '');
         if (this.site.page && this.site.page.kind && this.site.page.kind(url)) SS.stream.hold();
       } catch (err) {
-        /* weird urls. ignore */
+        /* weird urls. not dealing with that */
       }
     }
 
@@ -419,7 +419,7 @@
               }
             }
           } catch (e) {
-            /* bad selector, skip */
+            /* bad selector, skip it, whatever */
           }
         }
         return out;
@@ -483,7 +483,7 @@
         if (!this.holdSince) this.holdSince = Date.now();
         if (Date.now() - this.holdSince < HOLD_MAX_MS) {
           SS.stream.hold();
-          clearTimeout(this.holdTimer); // one retry timer, not a new one per call (they used to breed)
+          clearTimeout(this.holdTimer); // ONE retry timer, not a new one per call. they used to breed like rabbits
           this.holdTimer = setTimeout(() => this.checkPage(), 250);
           return;
         }
@@ -548,7 +548,7 @@
       if (history.length > 1) {
         history.back();
         setTimeout(() => {
-          if (SS.shield.wallUp) location.href = home; // back didn't go anywhere useful
+          if (SS.shield.wallUp) location.href = home; // back didn't go anywhere useful, so just go home
         }, 900);
       } else {
         location.href = home;
@@ -603,7 +603,7 @@
         if (this.queue.size) this.schedule();
       }
       if (this.wallKey && !SS.shield.wallStillThere()) {
-        this.wallKey = null; // site removed our wall. checkPage puts it back
+        this.wallKey = null; // site removed our wall. nice try. checkPage puts it back
         this.checkPage();
       }
       this.countSoon();

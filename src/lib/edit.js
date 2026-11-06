@@ -21,7 +21,7 @@
       ps.diffs[clean.id] = P.makeDiff(base, clean);
     } else {
       const { pack } = P.validatePack(clean);
-      pack.id = clean.id; // keep the id we already gave it, validate only cleans it
+      pack.id = clean.id; // keep the id we already gave it, validate only cleans it. don't let it rename stuff
       ps.custom[pack.id] = pack;
     }
     if (!ps.order.includes(clean.id)) ps.order.push(clean.id);
@@ -110,7 +110,7 @@
         v.id = id;
         clean.custom[id] = v;
       } catch (e) {
-        /* skip the broken one, keep the rest */
+        /* skip the broken one, keep the rest. no drama */
       }
     }
     await SS.store.saveSettings({ ...SS.store.DEFAULT_SETTINGS, ...obj.settings });

@@ -4,7 +4,7 @@
 // (main.js un-hides everything if it turns out we're off).
 (function () {
   const SS = globalThis.SpoilerShield;
-  if (!SS || SS.early) return; // double injection guard (popout chat windows etc)
+  if (!SS || SS.early) return; // don't run twice. popout chat windows LOVE injecting us twice
 
   const site = SS.sites.pick(location) || null;
   const generic = SS.sites.byId('generic');
@@ -13,17 +13,17 @@
   style.id = 'ss-early';
   const rules = [];
   if (site) {
-    // one rule per selector: if a browser chokes on one selector it only loses that one
+    // one rule per selector: if a browser chokes on one it only loses that one, not the whole lot
     for (const [sel] of site.items) rules.push(`${sel}:not([data-ss]){opacity:0!important;pointer-events:none!important}`);
     // while a video/stream page is being checked, its title + player area stay invisible too.
-    // otherwise you'd read "GTA 6 whatever" in the title for 30ms before the warning lands
+    // otherwise you'd read "GTA 6 whatever" in the title for 30ms before the warning lands. and then you're spoiled. great
     for (const sel of (site.page && site.page.holdCss) || []) rules.push(`html[data-ss-hold] ${sel}{visibility:hidden!important}`);
     if (site.css) rules.push(site.css);
   }
   style.textContent = rules.join('\n');
   (document.head || document.documentElement).appendChild(style);
 
-  // whole-page candidates (r/whatever, twitch category pages): blank the page until we know
+  // whole-page candidates (r/whatever, twitch category pages): blank the page until we know. sorry not sorry
   const pageCandidate = !!(site && site.blockPage && site.blockPage(location, null));
   if (pageCandidate) document.documentElement.setAttribute('data-ss-pagecheck', '');
 

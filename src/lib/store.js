@@ -47,7 +47,7 @@
         await a.storage.sync.get(K.settings);
         return { area: a.storage.sync, name: 'sync' };
       } catch (e) {
-        /* sync exists but is grumpy. local it is */
+        /* sync exists but is grumpy today. local it is */
       }
     }
     return { area: local, name: 'local' };
@@ -59,7 +59,7 @@
     let json = '';
     for (let i = 0; i < n; i++) {
       const part = all[K.packs + ':' + i];
-      if (typeof part !== 'string') return null; // half-written. treat as missing rather than crash
+      if (typeof part !== 'string') return null; // half-written. treat as missing instead of crashing, we're not doing that
       json += part;
     }
     try {
@@ -97,7 +97,7 @@
       return name;
     } catch (e) {
       if (name !== 'sync') throw e;
-      // sync full / quota / write-rate limit. copy EVERYTHING to local and stay there
+      // sync full / quota / write-rate limit. fine. copy EVERYTHING to local and stay there forever
       const all = await area.get(null);
       const local = api().storage.local;
       const copy = {};
@@ -166,7 +166,7 @@
     a.storage.onChanged.addListener((changes) => {
       if (!Object.keys(changes).some((k) => k.startsWith('ss:') && k !== K.stats)) return;
       clearTimeout(t);
-      t = setTimeout(cb, 60); // chunked writes fire several events, wait for the dust to settle
+      t = setTimeout(cb, 60); // chunked writes fire a bunch of events, wait for the dust to settle
     });
   }
 

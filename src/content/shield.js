@@ -57,7 +57,7 @@
     @container (max-height: 16px) { .l0 { display: none; } }
   `;
 
-  // events that must die at the overlay: no hover previews, no link clicks, no "open video" underneath
+  // events that die at the overlay, period: no hover previews, no link clicks, no "open video" underneath
   const SWALLOW = ['click', 'dblclick', 'auxclick', 'mousedown', 'mouseup', 'pointerdown', 'pointerup', 'touchstart',
     'touchend', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'pointerover', 'pointerout', 'pointerenter',
     'pointerleave', 'mousemove', 'pointermove', 'contextmenu', 'keydown', 'keyup', 'focusin', 'wheel'];
@@ -75,7 +75,7 @@
     }
   }
 
-  // hold-to-reveal or click+confirm on a button. returns nothing, calls done() when it's for real
+  // hold-to-reveal or click+confirm on a button. returns nothing, calls done() once you REALLY mean it
   function wireReveal(btn, confirmBox, mode, done) {
     const label = btn.querySelector('.label');
     if (mode === 'confirm') {
@@ -124,7 +124,7 @@
       start(e);
     });
     // no 'blur' / 'pointerleave' here anymore: sites move focus around on mousedown, and a small wobble
-    // off the button shouldn't cancel. letting go (anywhere) is what cancels
+    // off the button shouldn't cancel. letting go (anywhere) is what cancels. took me way too long to figure out
     for (const t of ['pointerup', 'pointercancel']) btn.addEventListener(t, stop);
     btn.addEventListener('keydown', (e) => {
       if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) {
@@ -199,7 +199,7 @@
   function detach(el) {
     const host = el.querySelector(':scope > ss-shield');
     if (host) host.remove();
-    document.documentElement.removeAttribute('data-ss-hover'); // pointerleave never fires on a removed node
+    document.documentElement.removeAttribute('data-ss-hover'); // pointerleave never fires on a removed node. thanks browsers
   }
 
   // ---- full-screen wall (stream warnings, blocked subreddits/categories) ----
@@ -308,7 +308,7 @@
     wallHost = null;
   }
 
-  // react apps sometimes nuke stuff appended to <html>. main.js calls this on a timer to put it back
+  // react apps sometimes nuke stuff we stick on <html>. main.js calls this on a timer to put it back. we're stubborn
   function wallStillThere() {
     return !wallHost || wallHost.isConnected;
   }

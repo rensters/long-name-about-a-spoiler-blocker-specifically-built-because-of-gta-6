@@ -49,7 +49,7 @@ if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalT
   api.tabs.onRemoved.addListener((tabId) => counts.delete(tabId));
   api.tabs.onUpdated.addListener((tabId, info) => {
     if (info.status !== 'loading') return;
-    counts.delete(tabId); // fresh page, fresh count. the content script reports its own number in a sec
+    counts.delete(tabId); // fresh page, fresh count. the content script will tell us its number in a sec, relax
     paintBadge(tabId);
   });
 
@@ -91,15 +91,15 @@ if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalT
   }
 
   function notify(id, title, message) {
-    if (!api.notifications) return; // firefox android, some kiwi-likes
+    if (!api.notifications) return; // firefox android + some kiwi-likes just don't have this. sad
     try {
       api.notifications.create(id, { type: 'basic', iconUrl: api.runtime.getURL('icons/icon-128.png'), title, message });
     } catch (e) {
-      /* notifications blocked by the OS. the popup shows the same warning anyway */
+      /* OS said no to notifications. eh, the popup shows the same warning anyway */
     }
   }
 
-  // once a day: "switches off in N days" and "switched off today" (only ever for a date YOU set)
+  // once a day: "switches off in N days" + "switched off today". only ever for a date YOU set, i'm not making one up for you
   async function checkExpiry() {
     const st = await SS.store.loadState();
     const today = SS.packs.today();

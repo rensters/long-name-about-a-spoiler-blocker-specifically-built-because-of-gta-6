@@ -36,7 +36,7 @@
     return list.find((s) => s.id === id) || null;
   }
 
-  // drop selectors the current browser can't parse (one bad :has() would nuke a whole selector list)
+  // drop selectors this browser can't parse. one bad :has() nukes a whole selector list, ask me how i know
   function validSelectors(sels) {
     const frag = typeof document !== 'undefined' ? document.createDocumentFragment() : null;
     return (sels || []).filter((s) => {

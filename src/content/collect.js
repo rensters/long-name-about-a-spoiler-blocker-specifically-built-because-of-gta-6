@@ -6,7 +6,7 @@
   const SS = globalThis.SpoilerShield;
   const { WALL } = SS.text;
 
-  // tags that don't start a new "block" of text
+  // tags that DON'T start a new "block" of text. yes i typed all of these by hand
   const INLINE = new Set(['A', 'ABBR', 'B', 'BDI', 'BDO', 'CITE', 'CODE', 'DATA', 'DFN', 'EM', 'FONT', 'I', 'KBD', 'MARK',
     'Q', 'S', 'SAMP', 'SMALL', 'SPAN', 'STRONG', 'SUB', 'SUP', 'TIME', 'U', 'VAR', 'WBR']);
   const SKIP = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'SS-SHIELD', 'SVG', 'svg', 'CANVAS', 'VIDEO', 'AUDIO', 'IFRAME']);
@@ -19,7 +19,7 @@
     return el || stop;
   }
 
-  // text of a subtree with walls between blocks. skipSel = subtrees to ignore (comments inside posts...)
+  // text of a subtree with walls between blocks. skipSel = subtrees we pretend don't exist (comments inside posts...)
   function textOf(root, skipSel) {
     if (!root) return '';
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
@@ -42,7 +42,7 @@
       if (out) {
         if (block !== lastBlock) out += WALL;
         // <span>@user</span><span>gta 6</span> renders with a gap but the text has none. without this
-        // it reads "@usergta 6" and the word boundary fails. (found by a test, which is what tests are for)
+        // it reads "@usergta 6" and the word boundary fails. (a test caught this. see, tests are good. sometimes)
         else if (parent !== lastParent && !/\s$/.test(out) && !/^\s/.test(n.nodeValue)) out += ' ';
       }
       out += n.nodeValue;
@@ -115,7 +115,7 @@
     }
   }
 
-  // everything the matcher wants for one card
+  // hey matcher, here's everything you want for one card. happy?
   function fields(el, site) {
     const f = {
       text: textOf(el, site.skipText) + WALL + attrText(el, site.attrs),

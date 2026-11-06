@@ -12,7 +12,7 @@
     id: 'youtube',
     name: 'YouTube',
     home: 'https://www.youtube.com/',
-    hosts: /^(www\.|m\.)?youtube\.com$/, // not music.youtube.com, that's a different beast
+    hosts: /^(www\.|m\.)?youtube\.com$/, // not music.youtube.com, that's a whole different beast and i'm not going there
     frames: true, // the live chat lives in an iframe at /live_chat
     onNavigateEvent: 'yt-navigate-finish', // youtube's own "i finished a SPA navigation" event
 
@@ -105,7 +105,7 @@
       kind(loc) {
         if (!/^(www\.|m\.)?youtube\.com$/.test(loc.hostname)) return null;
         if (loc.pathname === '/watch' || loc.pathname.startsWith('/live/')) return 'video';
-        return null; // shorts get the card treatment instead, a full-screen wall per swipe would be insane
+        return null; // shorts get the card treatment. a full-screen wall per swipe would be actually insane
       },
       title: [
         'ytd-watch-metadata h1 yt-formatted-string',
@@ -163,7 +163,7 @@
     },
 
     // the inline hover preview is ONE floating player for the whole page. the overlay already eats the
-    // hover, but if youtube triggers it anyway, nuke it while the mouse is on any blurred card
+    // hover, but if youtube triggers it anyway (it will), nuke it while the mouse is on any blurred card
     css: 'html[data-ss-hover] ytd-video-preview, html[data-ss-hover] #video-preview{display:none!important}',
   });
 })();

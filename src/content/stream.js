@@ -24,7 +24,7 @@
       if (!media.paused) media.pause();
       media.muted = true;
     } catch (e) {
-      /* some players proxy these and throw. the play listener will get it next time */
+      /* some players proxy these and throw. eh, the play listener gets it next time */
     }
   }
 
@@ -48,7 +48,7 @@
   }
 
   // put things back the way we found them. resume=true only after a real user gesture (the reveal hold),
-  // otherwise autoplay policies would eat the play() call anyway
+  // otherwise autoplay policies eat the play() call anyway, so why bother
   function restore(resume) {
     for (const m of allMedia()) {
       if (blockedCard(m)) continue;

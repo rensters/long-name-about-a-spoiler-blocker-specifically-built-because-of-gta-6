@@ -7,7 +7,7 @@
   const LIST_FIELDS = ['allow', 'allowChannels', 'blockedCommunities', 'blockedCategories', 'blockedChannels', 'watchlist', 'contextIgnores'];
 
   let state = null;
-  let unlocked = false; // per tab. closing the tab locks it again
+  let unlocked = false; // per tab. close the tab and it locks again, no cheating
   let editing = null;
   let testMatcher = null;
 
@@ -48,7 +48,7 @@
     m.className = 'msg' + (kind ? ' ' + kind : '');
   }
 
-  // every change goes through here. locked = nope
+  // every change goes through here. locked = nope, not happening
   function guard() {
     if (!locked()) return true;
     $('lockgate').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -224,7 +224,7 @@
         const id = P.slug(obj.id || obj.name);
         if (state.builtins[id]) replace = confirm(`This file is a version of the built-in "${state.builtins[id].name}" pack.\n\nOK = replace your ${state.builtins[id].name} pack with it\nCancel = import it as a separate copy`);
       } catch (err) {
-        /* importPack will complain properly */
+        /* importPack will complain about it properly, not my job here */
       }
       const { pack, warnings } = await SS.edit.importPack(state, text, replace);
       await load();
@@ -344,7 +344,7 @@
     $('show-matched').checked = !!s.showMatched;
     $('pv-btn').textContent = s.revealMode === 'confirm' ? 'Reveal…' : 'Hold to reveal';
 
-    // spoiler text editor. don't stomp on the textarea while you're mid-typing
+    // spoiler text editor. don't stomp on the textarea while you're mid-typing, that's just mean
     const sel = $('ov-pack');
     const keep = sel.value;
     sel.innerHTML = '';
@@ -433,7 +433,7 @@
     if (a !== b) return say('lock-msg', "They don't match.", 'bad');
     if (!guard()) return;
     await SS.store.patchSettings({ lock: { on: true, phrase: a } });
-    unlocked = true; // you literally just typed it
+    unlocked = true; // you literally just typed it, i believe you
     $('lock-1').value = '';
     $('lock-2').value = '';
     await load();

@@ -174,7 +174,7 @@
     return p;
   }
 
-  // ---- validation (imports + anything typed by a human, so: trust nothing) ----
+  // ---- validation (imports + anything typed by a human, so: trust nothing. not even me) ----
   const DATE = /^\d{4}-\d{2}-\d{2}$/;
   const MAX_TERMS = 6000;
   const MAX_LEN = 300;
@@ -297,7 +297,7 @@
     return out;
   }
 
-  // local calendar date, not UTC. expiring at 7pm the day before because of timezones would be a crime
+  // local calendar date, not UTC. expiring at 7pm the day before because of timezones would be a literal crime
   function today(now) {
     const d = now ? new Date(now) : new Date();
     const pad = (n) => String(n).padStart(2, '0');

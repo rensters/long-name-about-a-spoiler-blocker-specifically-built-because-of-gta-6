@@ -19,7 +19,7 @@
   const INSIDE_WORD = SEP + '{0,3}'; // "Dre'Quan" / "DreQuan", "Vice-Dale" / "Vice Dale"
   const BETWEEN_LETTERS = SEP + '{0,2}'; // only for short words: "G.T.A." "G T A"
 
-  // leetspeak per letter. i and l are deliberately cross-wired because "GTAVl" with a lowercase L is a thing
+  // leetspeak per letter. i and l are cross-wired ON PURPOSE because "GTAVl" with a lowercase L is a thing people do
   const LEET = { a: 'a4@', b: 'b8', e: 'e3', g: 'g9', i: 'i1!|l', l: 'l1|i', o: 'o0', s: 's5$', t: 't7+', z: 'z2' };
 
   const NUM_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
@@ -42,7 +42,7 @@
     return escLit(ch);
   }
 
-  // 6 -> (6|vi|six). single-letter romans (v, x) are skipped on purpose, "GTA V" is a different game
+  // 6 -> (6|vi|six). single-letter romans (v, x) are skipped on purpose, "GTA V" is a different game and i'm not blocking it
   function numeralValue(run, kind) {
     if (kind === 'N') {
       if (!/^\d+$/.test(run)) return null;
@@ -81,7 +81,7 @@
 
   const boundaryKind = (ch) => (NO_BOUNDARY.test(ch) ? 'X' : IS_DIGIT.test(ch) ? 'N' : IS_LETTER.test(ch) ? 'L' : 'P');
 
-  // the actual compiler. returns a regex source string, or null if the term is garbage (empty, only emoji, ...)
+  // hey, here's the actual compiler. please don't. returns a regex source string, or null if the term is garbage (empty, only emoji, ...)
   function compileTerm(raw, strict) {
     const norm = normalize(raw).trim();
     if (!norm) return null;
@@ -131,7 +131,7 @@
         });
       });
     });
-    // collapse doubled separators that the punctuation dance above can leave behind
+    // collapse doubled separators the punctuation dance above leaves lying around
     const clean = [];
     for (const p of pieces) {
       if (p.sep && (!clean.length || clean[clean.length - 1].sep)) continue;
@@ -148,7 +148,7 @@
     };
 
     // the start boundary is NOT baked in here. compileList puts one lookbehind in front of the whole
-    // alternation instead of 400 copies of it, which made the scanner ~5x faster. "bounded" says
+    // alternation instead of 400 copies of it, which made the scanner ~5x faster (yeah, really). "bounded" says
     // whether this term wants it (CJK / punctuation-first terms don't)
     let src = '';
     clean.forEach((p, i) => {
@@ -221,7 +221,7 @@
     return -1;
   };
 
-  // leetspeak has a dark side: "9 7 4 6" is technically "G T A 6". so a match has to contain at least
+  // leetspeak has a dark side: "9 7 4 6" is technically "G T A 6" lmao. so a match has to contain at least
   // half the letters the term has. "GT4 6" passes (2 of 3), a phone number doesn't (0 of 3)
   const lettersIn = (s) => {
     let n = 0;
@@ -238,7 +238,7 @@
       while ((m = re.exec(text))) {
         const e = part.list[whichGroup(m)];
         if (lettersIn(m[0]) * 2 < e.letters) {
-          re.lastIndex = m.index + 1; // fake match, try again one char later
+          re.lastIndex = m.index + 1; // fake match, nope, try again one char later
           continue;
         }
         if (!m[0]) re.lastIndex++;
@@ -261,7 +261,7 @@
     const errors = [];
     const strong = compileList(flat(pack.strong).map((e) => ({ ...e, tier: 'strong' })));
     // contextIgnores: weak groups that context words DON'T pair with. "Jason" + "review" is just some
-    // guy named jason reviewing pizza; "GTA" + "review" is the thing we're hiding
+    // guy named jason reviewing pizza (hi jason); "GTA" + "review" is the thing we're hiding
     const ignore = new Set((pack.contextIgnores || []).map((g) => String(g).trim().toLowerCase()));
     const wc = compileList([
       ...flat(pack.weak).map((e) => ({ ...e, tier: 'weak', anchor: !ignore.has(e.group.trim().toLowerCase()) })),
@@ -393,7 +393,7 @@
       return null;
     }
 
-    // generic-site mode: only strong terms count, random blogs don't get the weak-combo treatment
+    // generic-site mode: only strong terms count. random blogs don't get the weak-combo treatment, they didn't earn it
     matchStrong(text) {
       if (!this.packs.length || !text) return null;
       const key = 'S\u0002' + text;

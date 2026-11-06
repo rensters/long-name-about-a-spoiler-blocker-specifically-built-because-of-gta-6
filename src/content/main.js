@@ -13,7 +13,7 @@
   const host = location.hostname;
   const topFrame = window.top === window;
 
-  // stream/video pages: no picture, no sound from the very first frame until we know what it is
+  // stream/video pages: no picture, no sound from frame one until we know what it is. not even a peek
   if (site && site.page && site.page.kind && site.page.kind(location)) SS.stream.hold();
 
   // whatever happens (storage dead, exception, cosmic ray, my code), never ever leave a page blank
@@ -32,7 +32,7 @@
   }
 
   async function apply() {
-    if (SS.dead()) return off(); // extension got reloaded, this copy of us is a ghost
+    if (SS.dead()) return off(); // extension got reloaded, this copy of us is a ghost. boo
     let state;
     try {
       state = await SS.store.loadState();

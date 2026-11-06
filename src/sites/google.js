@@ -1,7 +1,7 @@
 // Google Search + Google News (+ the Discover-ish stuff that shows up on google.com mobile web).
 // checked 2026-10-16: every result block is a direct child of #rso. web results are .MjjYud, the
 // carousels (Videos, Top stories, Short videos, People also ask, AI Overview) are .ULSxyf and friends.
-// we blur at block level: if one video in the carousel is GTA VI, the carousel goes. tough love.
+// we blur at block level: if one video in the carousel is GTA VI, the whole carousel goes. tough love, sorry.
 (function () {
   const SS = globalThis.SpoilerShield;
 

@@ -38,7 +38,7 @@
     try {
       return (await SS.api.tabs.sendMessage(tab.id, { type: 'ss:status' }, { frameId: 0 })) || null;
     } catch (e) {
-      return null; // chrome:// pages, the web store, PDFs... content scripts aren't allowed there
+      return null; // chrome:// pages, the web store, PDFs... content scripts aren't allowed there. not my fault
     }
   }
 
@@ -135,7 +135,7 @@
 
   $('enabled').addEventListener('change', (e) => {
     if (e.target.checked) return save({ enabled: true });
-    e.target.checked = true; // stays on until the phrase checks out
+    e.target.checked = true; // nope, stays on until the phrase checks out
     gated('Locked. Type your phrase to switch the spoiler blocker off everywhere.', () => save({ enabled: false }));
   });
 
