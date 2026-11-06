@@ -8,7 +8,7 @@ test('popup: master switch off un-blurs open tabs, on again re-blurs', async ({ 
   await popup.goto(`chrome-extension://${extensionId}/src/popup/popup.html`);
   await expect(popup.locator('#enabled')).toBeChecked();
   await popup.locator('.top .switch').click();
-  await expect(popup.locator('#state')).toContainText('Off everywhere');
+  await expect(popup.locator('#state')).toContainText('off everywhere');
   await expect(site.locator('#s1')).not.toHaveAttribute('data-ss', 'blocked');
   await expect(site.locator('ss-shield')).toHaveCount(0);
   await popup.locator('.top .switch').click();
@@ -20,7 +20,7 @@ test('popup: pause for 10 minutes', async ({ context, sw, extensionId }) => {
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/src/popup/popup.html`);
   await popup.locator('#pause').click();
-  await expect(popup.locator('#pause')).toContainText('Resume now');
+  await expect(popup.locator('#pause')).toContainText('unpause');
   await expect(site.locator('ss-shield')).toHaveCount(0);
   const until = await sw.evaluate(async () => (await chrome.storage.sync.get('ss:settings'))['ss:settings'].pausedUntil);
   expect(until - Date.now()).toBeGreaterThan(9 * 60 * 1000);
@@ -35,7 +35,7 @@ test('popup: quick add keyword reaches open tabs right away', async ({ context, 
   await popup.goto(`chrome-extension://${extensionId}/src/popup/popup.html`);
   await popup.locator('#term').fill('minecraft hardcore');
   await popup.locator('#add button[type="submit"]').click();
-  await expect(popup.locator('#add-msg')).toContainText('Added');
+  await expect(popup.locator('#add-msg')).toContainText('added');
   await expect(site.locator('#c1')).toHaveAttribute('data-ss', 'blocked');
 });
 

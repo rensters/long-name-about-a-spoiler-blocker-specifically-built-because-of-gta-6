@@ -79,7 +79,7 @@
   function wireReveal(btn, confirmBox, mode, done) {
     const label = btn.querySelector('.label');
     if (mode === 'confirm') {
-      label.textContent = btn.dataset.confirmLabel || 'Reveal…';
+      label.textContent = btn.dataset.confirmLabel || 'show me…';
       btn.addEventListener('click', () => {
         btn.hidden = true;
         confirmBox.hidden = false;
@@ -93,7 +93,7 @@
       });
       return;
     }
-    label.textContent = btn.dataset.holdLabel || 'Hold to reveal';
+    label.textContent = btn.dataset.holdLabel || 'hold to peek';
     let timer = null;
     const start = (e) => {
       if (timer) return;
@@ -163,7 +163,7 @@
     const confirmBox = document.createElement('div');
     confirmBox.className = 'confirm';
     confirmBox.hidden = true;
-    confirmBox.innerHTML = '<span>Sure?</span><button type="button" class="yes"><span class="label">Yes, reveal</span></button><button type="button" class="no"><span class="label">Nope</span></button>';
+    confirmBox.innerHTML = '<span>u sure??</span><button type="button" class="yes"><span class="label">yeah, show me</span></button><button type="button" class="no"><span class="label">nah</span></button>';
     wireReveal(btn, confirmBox, opts.mode, opts.onReveal);
     return [btn, confirmBox];
   }
@@ -181,7 +181,7 @@
     const wrap = document.createElement('div');
     wrap.className = 'wrap';
     wrap.setAttribute('role', 'note');
-    wrap.setAttribute('aria-label', 'Hidden by the spoiler blocker');
+    wrap.setAttribute('aria-label', "hidden so you don't get spoiled");
     wrap.appendChild(buildLines(opts.lines));
     if (opts.why) {
       const why = document.createElement('div');
@@ -255,7 +255,7 @@
     wall.className = 'wall';
     wall.setAttribute('role', 'alertdialog');
     wall.setAttribute('aria-modal', 'true');
-    wall.setAttribute('aria-label', opts.title || 'Spoiler warning');
+    wall.setAttribute('aria-label', opts.title || 'hey, spoiler warning');
     const card = document.createElement('div');
     card.className = 'card';
     const badge = document.createElement('div');
@@ -275,12 +275,12 @@
     out.type = 'button';
     out.className = 'out';
     out.innerHTML = '<span class="label"></span>';
-    out.querySelector('.label').textContent = opts.outLabel || 'Get me out of here';
+    out.querySelector('.label').textContent = opts.outLabel || 'get me outta here';
     out.addEventListener('click', () => opts.onOut && opts.onOut());
     const [btn, confirmBox] = revealControls({
       mode: opts.mode,
-      holdLabel: opts.holdLabel || 'Hold to watch anyway',
-      confirmLabel: opts.confirmLabel || 'Watch anyway…',
+      holdLabel: opts.holdLabel || 'hold to watch anyway',
+      confirmLabel: opts.confirmLabel || 'watch anyway…',
       onReveal: () => {
         hideWall();
         opts.onReveal && opts.onReveal();

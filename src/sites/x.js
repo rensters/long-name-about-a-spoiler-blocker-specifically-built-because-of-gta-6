@@ -45,7 +45,7 @@
 
     blockPage(loc) {
       const m = /^\/hashtag\/([^/?#]+)/.exec(loc.pathname);
-      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'Blocked hashtag' };
+      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'nope, blocked hashtag' };
       return null;
     },
   });

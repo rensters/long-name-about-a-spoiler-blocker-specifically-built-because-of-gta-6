@@ -205,7 +205,7 @@
 
   $('new-pack').addEventListener('click', async () => {
     if (!guard()) return;
-    const name = prompt('Name for the new pack (a game, a show, a team, whatever):', '');
+    const name = prompt('name your new pack (a game, a show, a team, whatever):', '');
     if (!name || !name.trim()) return;
     const p = await SS.edit.createPack(state, name.trim());
     await load();
@@ -222,15 +222,15 @@
       try {
         const obj = JSON.parse(text);
         const id = P.slug(obj.id || obj.name);
-        if (state.builtins[id]) replace = confirm(`This file is a version of the built-in "${state.builtins[id].name}" pack.\n\nOK = replace your ${state.builtins[id].name} pack with it\nCancel = import it as a separate copy`);
+        if (state.builtins[id]) replace = confirm(`hey, this file is a version of the built-in "${state.builtins[id].name}" pack.\n\nOK = replace your ${state.builtins[id].name} pack with it\nCancel = import it as a separate copy instead`);
       } catch (err) {
         /* importPack will complain about it properly, not my job here */
       }
       const { pack, warnings } = await SS.edit.importPack(state, text, replace);
       await load();
-      alert(`Imported "${pack.name}".` + (warnings.length ? `\n\nHeads up:\n- ${warnings.join('\n- ')}` : ''));
+      alert(`imported "${pack.name}". nice.` + (warnings.length ? `\n\nheads up tho:\n- ${warnings.join('\n- ')}` : ''));
     } catch (err) {
-      alert('Import failed: ' + (err.message || err));
+      alert('import failed, oops: ' + (err.message || err));
     }
   });
 
@@ -294,7 +294,7 @@
 
   $('ed-reset').addEventListener('click', async () => {
     if (!guard()) return;
-    if (!confirm('Throw away all your changes to this pack and go back to the shipped version?')) return;
+    if (!confirm('throw away ALL your changes to this pack and go back to the version it shipped with? no undo.')) return;
     await SS.edit.resetPack(state, editing);
     await load();
     openEditor(editing);
@@ -303,7 +303,7 @@
 
   $('ed-delete').addEventListener('click', async () => {
     if (!guard()) return;
-    if (!confirm('Delete this pack for good? (Export it first if you might want it back.)')) return;
+    if (!confirm('delete this pack for good? like gone gone. (export it first if you might want it back.)')) return;
     await SS.edit.deletePack(state, editing);
     await load();
     closeEditor();
@@ -342,7 +342,7 @@
     $('preview').style.setProperty('--pv-blur', s.blurPx + 'px');
     for (const r of document.querySelectorAll('input[name="reveal"]')) r.checked = r.value === s.revealMode;
     $('show-matched').checked = !!s.showMatched;
-    $('pv-btn').textContent = s.revealMode === 'confirm' ? 'Reveal…' : 'Hold to reveal';
+    $('pv-btn').textContent = s.revealMode === 'confirm' ? 'show me…' : 'hold to peek';
 
     // spoiler text editor. don't stomp on the textarea while you're mid-typing, that's just mean
     const sel = $('ov-pack');
@@ -442,7 +442,7 @@
 
   $('lock-remove').addEventListener('click', async () => {
     if (!guard()) return;
-    if (!confirm('Remove the lock? Anyone (including weak-moment you) can switch things off again.')) return;
+    if (!confirm('remove the lock? then anyone (including weak-moment you) can switch things off again. just saying.')) return;
     await SS.store.patchSettings({ lock: { on: false, phrase: '' } });
     await load();
     say('lock-msg', 'Lock removed.', 'ok');
@@ -490,14 +490,14 @@
     const file = e.target.files[0];
     e.target.value = '';
     if (!file || !guard()) return;
-    if (!confirm('Replace ALL your settings and packs with this backup?')) return;
+    if (!confirm('replace ALL your settings and packs with this backup? your current ones get overwritten.')) return;
     try {
       await SS.edit.importAll(await file.text());
       unlocked = false;
       await load();
       say('backup-msg', 'Restored.', 'ok');
     } catch (err) {
-      say('backup-msg', 'Import failed: ' + (err.message || err), 'bad');
+      say('backup-msg', 'import failed, oops: ' + (err.message || err), 'bad');
     }
   });
 

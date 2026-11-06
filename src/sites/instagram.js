@@ -39,9 +39,9 @@
 
     blockPage(loc) {
       let m = /^\/explore\/tags\/([^/?#]+)/.exec(loc.pathname);
-      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'Blocked hashtag' };
+      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'nope, blocked hashtag' };
       m = /^\/([A-Za-z0-9._]{1,30})\/?$/.exec(loc.pathname);
-      if (m && !NOT_USERS.has(m[1].toLowerCase())) return { kind: 'channel', value: '@' + m[1], label: 'Blocked account' };
+      if (m && !NOT_USERS.has(m[1].toLowerCase())) return { kind: 'channel', value: '@' + m[1], label: 'nope, blocked account' };
       return null;
     },
   });

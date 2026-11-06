@@ -59,7 +59,7 @@
     blockPage(loc) {
       const m = /^\/r\/([^/?#]+)/.exec(loc.pathname);
       if (!m) return null;
-      return { kind: 'community', value: decodeURIComponent(m[1]), label: 'Blocked subreddit' };
+      return { kind: 'community', value: decodeURIComponent(m[1]), label: 'nope, blocked subreddit' };
     },
   });
 })();

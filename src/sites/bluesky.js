@@ -30,9 +30,9 @@
 
     blockPage(loc) {
       let m = /^\/hashtag\/([^/?#]+)/.exec(loc.pathname);
-      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'Blocked hashtag' };
+      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'nope, blocked hashtag' };
       m = /^\/profile\/([^/?#]+)\/?$/.exec(loc.pathname);
-      if (m) return { kind: 'channel', value: '@' + decodeURIComponent(m[1]), label: 'Blocked account' };
+      if (m) return { kind: 'channel', value: '@' + decodeURIComponent(m[1]), label: 'nope, blocked account' };
       return null;
     },
   });

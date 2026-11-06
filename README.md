@@ -188,7 +188,7 @@ do this after installing, and again whenever a site redesigns (so, constantly). 
 
 - [ ] **YouTube home + search** (search "gta 6", bravely): every GTA VI card is blurred from the first frame (no flash while it loads), other cards are normal. hovering a blurred card plays no preview. clicking it opens nothing.
 - [ ] **YouTube watch page sidebar + end screen + Shorts shelf**: GTA VI recommendations blurred.
-- [ ] **YouTube video page of a GTA VI video**: full-screen warning, no sound, video paused. "Get me out of here" goes back. holding "watch anyway" for 1s plays it.
+- [ ] **YouTube video page of a GTA VI video**: full-screen warning, no sound, video paused. "get me outta here" goes back. holding "hold to watch anyway" for 1s plays it.
 - [ ] **YouTube live stream** (any big GTA live): warning before playback, live chat collapsed. on any other live stream, chat messages mentioning GTA VI are blurred.
 - [ ] **reveal**: a quick tap/click does nothing; a 1s hold reveals only that card. switch to *click + confirm* in settings and try again.
 - [ ] **infinite scroll**: scroll the YouTube home / Reddit / X feed for a while. new cards keep getting checked and the page never freezes.

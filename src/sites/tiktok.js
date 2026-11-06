@@ -55,11 +55,11 @@
 
     blockPage(loc) {
       let m = /^\/tag\/([^/?#]+)/.exec(loc.pathname);
-      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'Blocked hashtag' };
+      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'nope, blocked hashtag' };
       m = /^\/discover\/([^/?#]+)/.exec(loc.pathname); // tiktok's SEO pages: /discover/gta-6-trailer
-      if (m) return { kind: 'text', value: decodeURIComponent(m[1]).replace(/-/g, ' '), label: 'Blocked topic' };
+      if (m) return { kind: 'text', value: decodeURIComponent(m[1]).replace(/-/g, ' '), label: 'nope, blocked topic' };
       m = /^\/(@[^/?#]+)\/?$/.exec(loc.pathname);
-      if (m) return { kind: 'channel', value: decodeURIComponent(m[1]), label: 'Blocked account' };
+      if (m) return { kind: 'channel', value: decodeURIComponent(m[1]), label: 'nope, blocked account' };
       return null;
     },
   });

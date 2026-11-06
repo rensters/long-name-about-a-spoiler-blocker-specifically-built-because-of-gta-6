@@ -35,9 +35,9 @@
 
     blockPage(loc) {
       let m = /^\/hashtag\/([^/?#]+)/.exec(loc.pathname);
-      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'Blocked hashtag' };
+      if (m) return { kind: 'text', value: '#' + decodeURIComponent(m[1]), label: 'nope, blocked hashtag' };
       m = /^\/gaming\/([^/?#]+)/.exec(loc.pathname);
-      if (m && m[1] !== 'feed') return { kind: 'channel', value: decodeURIComponent(m[1]), label: 'Blocked gaming page' };
+      if (m && m[1] !== 'feed') return { kind: 'channel', value: decodeURIComponent(m[1]), label: 'nope, blocked gaming page' };
       return null;
     },
   });

@@ -22,7 +22,7 @@
 
     blockPage(loc) {
       const m = /^\/(@[^/?#]+)\/?$/.exec(loc.pathname);
-      if (m) return { kind: 'channel', value: decodeURIComponent(m[1]), label: 'Blocked account' };
+      if (m) return { kind: 'channel', value: decodeURIComponent(m[1]), label: 'nope, blocked account' };
       return null;
     },
   });

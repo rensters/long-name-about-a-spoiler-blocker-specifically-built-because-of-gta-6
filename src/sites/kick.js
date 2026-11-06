@@ -73,7 +73,7 @@
     blockPage(loc) {
       const m = /^\/category\/([^/?#]+)/.exec(loc.pathname);
       if (!m) return null;
-      return { kind: 'category', value: decodeURIComponent(m[1]).replace(/-/g, ' '), label: 'Blocked category' };
+      return { kind: 'category', value: decodeURIComponent(m[1]).replace(/-/g, ' '), label: 'nope, blocked category' };
     },
   });
 })();

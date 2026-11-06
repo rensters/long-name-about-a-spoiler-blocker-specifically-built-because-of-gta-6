@@ -461,7 +461,7 @@
             channels: bp.kind === 'channel' ? [bp.value] : [],
           });
         if (res) {
-          this.wall('page', res, { badge: bp.label || 'Blocked page', why: (bp.label || 'Blocked page') + ': ' + bp.value });
+          this.wall('page', res, { badge: bp.label || 'nope zone', why: (bp.label || 'nope zone') + ': ' + bp.value });
           document.documentElement.removeAttribute('data-ss-pagecheck');
           return;
         }
@@ -496,7 +496,7 @@
       }
       this.chat(!!res && (info.live || kind === 'stream'));
       if (res) {
-        this.wall('stream', res, { badge: info.live ? 'Live stream' : 'Video', live: info.live });
+        this.wall('stream', res, { badge: info.live ? 'live stream, careful' : 'sus video', live: info.live });
       } else {
         if (this.wallKey && this.wallKey.startsWith('stream|')) this.dropWall();
         SS.stream.unhold(true);
@@ -513,18 +513,18 @@
       if (this.wallKey === key && SS.shield.wallUp && SS.shield.wallStillThere()) return;
       this.wallKey = key;
       SS.stream.lock();
-      const packWhy = res.reason === 'strict' ? 'Strict streams mode: this is a gaming livestream.' : `This matched your ${res.packName || 'spoiler'} pack.`;
+      const packWhy = res.reason === 'strict' ? "strict streams mode is on and this is a gaming stream. could be GTA. could be anything. not risking it." : `this smells like your ${res.packName || 'spoiler'} pack. so, no.`;
       const why = this.settings.showMatched ? packWhy + ' ' + describe(res) : packWhy;
       SS.shield.showWall({
         badge: opts.badge,
-        title: 'Spoiler warning',
+        title: 'hey, spoiler warning',
         lines: res.overlayText || SS.packs.DEFAULT_OVERLAY,
         why: type === 'page' && this.settings.showMatched ? opts.why : why,
         mode: this.settings.revealMode,
-        holdLabel: type === 'page' ? 'Hold to show anyway' : 'Hold to watch anyway',
-        confirmLabel: type === 'page' ? 'Show anyway…' : 'Watch anyway…',
-        outLabel: 'Get me out of here',
-        small: type === 'stream' ? 'The player is paused and muted until you decide.' : null,
+        holdLabel: type === 'page' ? 'hold to go in anyway' : 'hold to watch anyway',
+        confirmLabel: type === 'page' ? 'go in anyway…' : 'watch anyway…',
+        outLabel: 'get me outta here',
+        small: type === 'stream' ? "the video's paused and muted until you decide. take your time. (leaving is also an option. a good one.)" : null,
         onOut: () => this.getOut(),
         onReveal: () => {
           this.acked.add(key);
@@ -576,7 +576,7 @@
           if (ours && box.getAttribute('data-ss') === 'revealed') continue;
           box.setAttribute('data-ss-chat', '1');
           if (box.getAttribute('data-ss') !== 'blocked') {
-            this.block(box, { reason: 'chat', terms: [], overlayText: ['Chat hidden.', "hey, not a good idea, like seriously, don't unblock this"] }, null);
+            this.block(box, { reason: 'chat', terms: [], overlayText: ["chat's hidden.", "hey, not a good idea, like seriously, don't unblock this"] }, null);
           }
         } else if (ours) {
           box.removeAttribute('data-ss-chat');

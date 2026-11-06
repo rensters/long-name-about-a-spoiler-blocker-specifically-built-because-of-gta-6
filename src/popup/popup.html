@@ -11,7 +11,7 @@
     <header class="top">
       <img src="../../icons/icon-32.png" alt="" width="24" height="24" />
       <h1>i can't afford a PS5 but i also wish to not get spoiled</h1>
-      <label class="switch" title="Turn everything on/off">
+      <label class="switch" title="turn everything on/off (keep it on pls)">
         <input type="checkbox" id="enabled" />
         <span class="track"></span>
       </label>
@@ -21,13 +21,13 @@
 
     <section class="count-box">
       <div class="count" id="count">–</div>
-      <div class="count-label" id="count-label">things blurred on this page</div>
+      <div class="count-label" id="count-label">things blurred on this page, you're welcome</div>
     </section>
 
     <div class="row">
-      <button type="button" id="pause" class="btn">Pause 10 min</button>
+      <button type="button" id="pause" class="btn">pause 10 min</button>
       <label class="site-toggle">
-        <span id="site-name">This site</span>
+        <span id="site-name">this site</span>
         <span class="switch small">
           <input type="checkbox" id="site" />
           <span class="track"></span>
@@ -36,15 +36,15 @@
     </div>
 
     <form id="add" class="add" autocomplete="off">
-      <label for="term" class="label">Quick add a keyword</label>
+      <label for="term" class="label">new spoiler word just dropped? add it</label>
       <div class="add-row">
-        <input id="term" type="text" placeholder="e.g. a new character name" maxlength="300" />
-        <button type="submit" class="btn primary">Add</button>
+        <input id="term" type="text" placeholder="like a new character name or whatever" maxlength="300" />
+        <button type="submit" class="btn primary">add</button>
       </div>
       <div class="add-row small-row">
         <select id="tier" aria-label="How strong">
-          <option value="strong">strong: always blurs</option>
-          <option value="weak">weak: needs a second clue</option>
+          <option value="strong">strong: blurs on sight</option>
+          <option value="weak">weak: needs a buddy word</option>
         </select>
         <select id="pack" aria-label="Which pack"></select>
       </div>
@@ -52,18 +52,18 @@
     </form>
 
     <div id="lockbox" class="lockbox" hidden>
-      <p id="lock-why">Locked. Type your phrase to do that.</p>
+      <p id="lock-why">locked. type your phrase to do that. (are you SURE though?)</p>
       <div class="add-row">
         <input id="phrase" type="password" autocomplete="off" placeholder="your lock phrase" />
-        <button type="button" id="phrase-go" class="btn primary">OK</button>
+        <button type="button" id="phrase-go" class="btn primary">ok</button>
       </div>
-      <button type="button" id="phrase-cancel" class="link">never mind, keep it on</button>
+      <button type="button" id="phrase-cancel" class="link">never mind, keep me safe</button>
     </div>
 
     <div id="banners"></div>
 
     <footer>
-      <button type="button" id="settings" class="link">Settings</button>
+      <button type="button" id="settings" class="link">settings</button>
       <span id="storage" class="muted"></span>
     </footer>
 

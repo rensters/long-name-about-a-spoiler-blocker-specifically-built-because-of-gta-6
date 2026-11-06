@@ -111,11 +111,11 @@ if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalT
       const key = p.id + '@' + p.expires;
       if (reminded[key] === today) continue;
       if (left !== null && left <= 0 && left > -2) {
-        notify('ss-expired-' + p.id, `${p.name} blocking is off now`, `You set it to switch off on ${p.expires}. Enjoy! (Change the date in the extension settings if that was a mistake.)`);
+        notify('ss-expired-' + p.id, `${p.name} blocking is off now. go nuts`, `you set it to switch off on ${p.expires}, so here we are. enjoy! (if that was a mistake, change the date in settings. quickly.)`);
         reminded[key] = today;
         changed = true;
       } else if (SS.packs.expiringSoon(p) !== null) {
-        notify('ss-soon-' + p.id, `${p.name} blocking switches off in ${left} day${left === 1 ? '' : 's'}`, `On ${p.expires}, the date you picked. Open settings to push it back if it's not out on PC yet.`);
+        notify('ss-soon-' + p.id, `heads up: ${p.name} blocking switches off in ${left} day${left === 1 ? '' : 's'}`, `on ${p.expires}, the date you picked. not out on PC yet? push it back in settings.`);
         reminded[key] = today;
         changed = true;
       }

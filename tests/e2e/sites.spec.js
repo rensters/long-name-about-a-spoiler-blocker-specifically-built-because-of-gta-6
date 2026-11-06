@@ -22,7 +22,7 @@ test.describe('Reddit', () => {
     const page = await context.newPage();
     await page.goto('https://www.reddit.com/r/GTA6/');
     await expect(page.locator('ss-wall')).toHaveCount(1);
-    expect(await page.locator('ss-wall').evaluate((h) => h.shadowRoot.textContent)).toContain('Blocked subreddit');
+    expect(await page.locator('ss-wall').evaluate((h) => h.shadowRoot.textContent)).toContain('nope, blocked subreddit');
     await page.goto('https://www.reddit.com/r/aww/');
     await page.waitForTimeout(800);
     await expect(page.locator('ss-wall')).toHaveCount(0);
@@ -57,7 +57,7 @@ test.describe('Twitch', () => {
     const page = await context.newPage();
     await page.goto('https://www.twitch.tv/directory/category/grand-theft-auto-vi');
     await expect(page.locator('ss-wall')).toHaveCount(1);
-    expect(await page.locator('ss-wall').evaluate((h) => h.shadowRoot.textContent)).toContain('Blocked category');
+    expect(await page.locator('ss-wall').evaluate((h) => h.shadowRoot.textContent)).toContain('nope, blocked category');
   });
 
   test('clean stream plays, chat spoilers blurred, category switches to GTA VI mid-stream -> warning', async ({ context, sw }) => {
@@ -91,7 +91,7 @@ test.describe('Twitch', () => {
     const page = await context.newPage();
     await page.goto('https://www.twitch.tv/chillstreamer');
     await expect(page.locator('ss-wall')).toHaveCount(1);
-    expect(await page.locator('ss-wall').evaluate((h) => h.shadowRoot.textContent)).toContain('Strict streams');
+    expect(await page.locator('ss-wall').evaluate((h) => h.shadowRoot.textContent)).toContain('strict streams mode is on');
   });
 });
 

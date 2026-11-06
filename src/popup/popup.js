@@ -58,23 +58,23 @@
     $('enabled').checked = !!s.enabled;
     const st = $('state');
     st.classList.toggle('off', !s.enabled || paused || !!siteOff || !live.length);
-    if (!s.enabled) st.textContent = "Off everywhere. You're raw-dogging the internet.";
-    else if (paused) st.textContent = `Paused for ${mmss(s.pausedUntil - Date.now())} more.`;
-    else if (!live.length) st.textContent = 'No active packs. Nothing to block.';
-    else if (siteOff) st.textContent = 'Off on this site.';
-    else st.textContent = 'Blocking: ' + live.map((p) => p.name).join(', ');
+    if (!s.enabled) st.textContent = "off everywhere. you're raw-dogging the internet. good luck out there";
+    else if (paused) st.textContent = `paused for ${mmss(s.pausedUntil - Date.now())} more. living dangerously huh`;
+    else if (!live.length) st.textContent = "no packs are on, so i'm blocking nothing. just vibing";
+    else if (siteOff) st.textContent = "off on this site. hope you know what you're doing";
+    else st.textContent = 'blocking: ' + live.map((p) => p.name).join(', ');
 
     $('count').textContent = status ? String(status.count) : '–';
     $('count-label').textContent = status
-      ? status.count === 1 ? 'thing blurred on this page' : 'things blurred on this page'
-      : "can't run on this page (browser or store pages)";
+      ? status.count === 1 ? "thing blurred on this page, you're welcome" : "things blurred on this page, you're welcome"
+      : "can't run here, browser + store pages won't let me";
 
-    $('pause').textContent = paused ? `Resume now (${mmss(s.pausedUntil - Date.now())})` : 'Pause 10 min';
+    $('pause').textContent = paused ? `unpause (${mmss(s.pausedUntil - Date.now())})` : 'pause 10 min';
     $('pause').disabled = !s.enabled;
 
     $('site').checked = !siteOff;
     $('site').disabled = !host;
-    $('site-name').textContent = host ? host.replace(/^www\./, '') : 'This site';
+    $('site-name').textContent = host ? host.replace(/^www\./, '') : 'this site';
 
     const sel = $('pack');
     const keep = sel.value;
@@ -90,11 +90,11 @@
       if (left === null) continue;
       const b = document.createElement('div');
       b.className = 'banner';
-      b.textContent = `${p.name} switches off in ${left} day${left === 1 ? '' : 's'} (${p.expires}). Push it back in settings if the PC version isn't out yet.`;
+      b.textContent = `${p.name} blocking switches off in ${left} day${left === 1 ? '' : 's'} (${p.expires}). if the PC version still isn't out, push it back in settings. rockstar pls`;
       banners.appendChild(b);
     }
 
-    $('storage').textContent = state.area === 'sync' ? 'settings sync with your browser' : 'settings saved on this device only';
+    $('storage').textContent = state.area === 'sync' ? 'settings sync with your browser, neat' : 'settings only live on this device';
   }
 
   // lock gate: runs fn now, or asks for the phrase first
@@ -115,7 +115,7 @@
 
   $('phrase-go').addEventListener('click', async () => {
     if (!SS.store.checkLock(state.settings, $('phrase').value)) {
-      $('lock-why').textContent = 'Nope, wrong phrase. Stay strong.';
+      $('lock-why').textContent = 'nope, wrong phrase. stay strong, you got this';
       $('phrase').select();
       return;
     }
@@ -136,12 +136,12 @@
   $('enabled').addEventListener('change', (e) => {
     if (e.target.checked) return save({ enabled: true });
     e.target.checked = true; // nope, stays on until the phrase checks out
-    gated('Locked. Type your phrase to switch the spoiler blocker off everywhere.', () => save({ enabled: false }));
+    gated('locked. type your phrase to turn it off everywhere. (bad idea btw)', () => save({ enabled: false }));
   });
 
   $('pause').addEventListener('click', () => {
     if (state.settings.pausedUntil > Date.now()) return save({ pausedUntil: 0 });
-    gated('Locked. Type your phrase to pause for 10 minutes.', () => save({ pausedUntil: Date.now() + PAUSE_MS }));
+    gated('locked. type your phrase to pause for 10 min. (why tho)', () => save({ pausedUntil: Date.now() + PAUSE_MS }));
   });
 
   $('site').addEventListener('change', (e) => {
@@ -149,7 +149,7 @@
     const off = state.settings.hostsOff.filter((h) => h !== host);
     if (e.target.checked) return save({ hostsOff: off });
     e.target.checked = true;
-    gated(`Locked. Type your phrase to switch it off on ${host}.`, () => save({ hostsOff: [...off, host] }));
+    gated(`locked. type your phrase to turn it off on ${host}. (risky)`, () => save({ hostsOff: [...off, host] }));
   });
 
   $('add').addEventListener('submit', async (e) => {
@@ -161,14 +161,14 @@
       const r = await SS.edit.addTerm(state, $('pack').value, $('tier').value, term);
       if (r === 'added') {
         msg.className = 'msg ok';
-        msg.textContent = `Added "${term}". Open tabs pick it up right away.`;
+        msg.textContent = `added "${term}". open tabs already got the memo.`;
         $('term').value = '';
       } else if (r === 'exists') {
         msg.className = 'msg';
-        msg.textContent = 'Already in there.';
+        msg.textContent = "already in there, you're good.";
       } else if (r.startsWith('other-tier:')) {
         msg.className = 'msg';
-        msg.textContent = `Already in there as ${r.split(':')[1]}. Move it in settings if you want.`;
+        msg.textContent = `already in there as ${r.split(':')[1]}. move it in settings if you want.`;
       }
       await refresh();
     } catch (err) {
