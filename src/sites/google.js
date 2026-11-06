@@ -3,7 +3,7 @@
 // carousels (Videos, Top stories, Short videos, People also ask, AI Overview) are .ULSxyf and friends.
 // we blur at block level: if one video in the carousel is GTA VI, the whole carousel goes. tough love, sorry.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'google',

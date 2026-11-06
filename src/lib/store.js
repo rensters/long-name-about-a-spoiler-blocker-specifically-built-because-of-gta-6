@@ -3,7 +3,7 @@
 // so: big stuff gets chopped into chunks, and if sync says no for any reason we quietly fall back to
 // local and remember that we did.
 (function (root) {
-  const SS = (root.SpoilerShield = root.SpoilerShield || {});
+  const SS = (root.NoSpoil = root.NoSpoil || {});
 
   const K = {
     settings: 'ss:settings',

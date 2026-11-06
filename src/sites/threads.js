@@ -1,7 +1,7 @@
 // Threads (threads.com, the old threads.net still redirects). checked 2026-10-16: every post is a
 // div[data-pressable-container]. that's it, that's the whole site
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'threads',

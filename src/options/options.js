@@ -1,7 +1,7 @@
 // hey, why are you looking at this? it's the settings page. big file, boring file. everything saves through SS.store / SS.edit and every open
 // tab picks the change up live through storage.onChanged, no reloads needed.
 (async function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   const P = SS.packs;
   const $ = (id) => document.getElementById(id);
   const LIST_FIELDS = ['allow', 'allowChannels', 'blockedCommunities', 'blockedCategories', 'blockedChannels', 'watchlist', 'contextIgnores'];

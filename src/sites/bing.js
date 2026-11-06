@@ -1,7 +1,7 @@
 // Bing (web, news, videos). checked 2026-10-16. bing hasn't really changed its markup since forever,
 // li.b_algo is older than some of the people reading this
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'bing',

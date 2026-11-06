@@ -2,7 +2,7 @@
 // pack (so when i update gta6.json with new names after launch, your edits survive AND you get the
 // new names), import/export, validation, expiry dates.
 (function (root) {
-  const SS = (root.SpoilerShield = root.SpoilerShield || {});
+  const SS = (root.NoSpoil = root.NoSpoil || {});
   const { normalize } = SS.text;
 
   const TIERS = ['strong', 'weak', 'context'];

@@ -3,7 +3,7 @@
 // someone at google gets bored, so if something slips through, this is the file. look at the card in
 // devtools, find its tag name, add it to `items`. that's usually the whole fix.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   // "LIVE" / "watching" in a few languages, for when youtube only gives us text
   const LIVE_WORDS = /\b(watching( now)?|started streaming|live now|premieres?( in)?|waiting|scheduled for|assistindo|viendo|zuschauer|regardent|spettatori|смотрят)\b/i;

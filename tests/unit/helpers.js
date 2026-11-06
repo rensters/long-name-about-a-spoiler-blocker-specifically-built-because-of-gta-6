@@ -9,7 +9,7 @@ function loadLib() {
     const p = path.join(ROOT, 'src', 'lib', f);
     if (fs.existsSync(p)) require(p);
   }
-  return globalThis.SpoilerShield;
+  return globalThis.NoSpoil;
 }
 
 function loadPack(name) {

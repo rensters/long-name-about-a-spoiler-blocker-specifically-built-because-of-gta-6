@@ -3,7 +3,7 @@
 // second when you pause them, so we don't just pause once: we sit on the 'play' event (capture phase,
 // installed at document_start before the site's own scripts even exist) and slap it back down. every. time.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   const state = {
     hold: false, // checking, no ui

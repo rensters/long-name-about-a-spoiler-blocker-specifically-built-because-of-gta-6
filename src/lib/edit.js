@@ -1,7 +1,7 @@
 // hey there. shared "change a pack" helpers for the popup + settings page. built-in packs get saved as a diff
 // on top of the json file, your own packs are saved whole.
 (function (root) {
-  const SS = root.SpoilerShield;
+  const SS = root.NoSpoil;
   const P = SS.packs;
   const clone = (x) => JSON.parse(JSON.stringify(x));
 
@@ -117,5 +117,5 @@
     await SS.store.savePackState(clean);
   }
 
-  root.SpoilerShield.edit = { savePack, addTerm, setField, deletePack, resetPack, createPack, importPack, exportAll, importAll, uniqueId };
+  root.NoSpoil.edit = { savePack, addTerm, setField, deletePack, resetPack, createPack, importPack, exportAll, importAll, uniqueId };
 })(globalThis);

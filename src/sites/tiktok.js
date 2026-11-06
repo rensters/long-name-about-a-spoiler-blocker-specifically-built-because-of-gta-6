@@ -2,7 +2,7 @@
 // unlike the class names (DivItemContainer-sc-1a2b3c, lol). the For You feed autoplays, so a blurred
 // video also gets paused + muted by stream.js.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'tiktok',

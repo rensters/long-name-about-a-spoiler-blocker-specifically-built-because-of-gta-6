@@ -18,7 +18,7 @@
 //   css: '...',                               extra css for this site (e.g. kill hover previews)
 // }
 (function (root) {
-  const SS = (root.SpoilerShield = root.SpoilerShield || {});
+  const SS = (root.NoSpoil = root.NoSpoil || {});
   const list = [];
 
   function register(def) {

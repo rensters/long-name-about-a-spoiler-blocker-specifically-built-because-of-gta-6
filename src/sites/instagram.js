@@ -2,7 +2,7 @@
 // built rather than a fresh look. the useful trick: grid tiles put the whole caption in the <img alt>,
 // so even tiny thumbnails on explore/profile pages carry the text we need.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   const NOT_USERS = new Set(['p', 'reel', 'reels', 'explore', 'stories', 'direct', 'accounts', 'about', 'legal', 'tv', 'web']);
 

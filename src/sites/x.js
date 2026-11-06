@@ -3,7 +3,7 @@
 // <article>, never the cell wrapper, because the list measures the wrappers to know where to put
 // things and an invisible-but-same-size article doesn't upset it.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'x',

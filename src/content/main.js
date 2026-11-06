@@ -4,7 +4,7 @@
 //   2. load settings + packs from storage (async, a few ms)
 //   3. off/paused/site disabled? un-hide everything and go home. otherwise start the engine
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   if (!SS || !SS.early || SS.booted) return;
   SS.booted = true;
 

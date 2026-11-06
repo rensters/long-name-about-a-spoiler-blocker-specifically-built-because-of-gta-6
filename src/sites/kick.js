@@ -2,7 +2,7 @@
 // care about. chat is a virtual list of [data-index] rows, absolutely positioned. hiding those with
 // opacity is fine, the list still measures them.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   const NOT_CHANNELS = new Set(['category', 'categories', 'browse', 'following', 'search', 'video', 'clips', 'terms-of-service',
     'privacy-policy', 'dmca-policy', 'community-guidelines', 'help', 'dashboard', 'settings', 'subscriptions', 'events', 'drops',

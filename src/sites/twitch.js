@@ -3,7 +3,7 @@
 // streams IN the GTA VI category stay blurred even if the title is "chill vibes :)" because the
 // category is on the card. category directory pages get the full block screen.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   // twitch top-level paths that aren't channels
   const NOT_CHANNELS = new Set(['directory', 'videos', 'settings', 'p', 'search', 'downloads', 'jobs', 'turbo', 'prime',

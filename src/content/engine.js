@@ -8,7 +8,7 @@
 //    callback, which runs before the next paint. no flash.
 //  - everything is time-boxed so a 400-card page doesn't freeze the tab
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   const { WALL, hash } = SS.text;
 
   const BUDGET_MS = 8; // per mutation batch, then we punt the rest to idle time. don't crank this up, the tab will cry

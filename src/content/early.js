@@ -3,7 +3,7 @@
 // is async so we don't even know if the extension is on yet. hide first, ask questions later
 // (main.js un-hides everything if it turns out we're off).
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   if (!SS || SS.early) return; // don't run twice. popout chat windows LOVE injecting us twice
 
   const site = SS.sites.pick(location) || null;

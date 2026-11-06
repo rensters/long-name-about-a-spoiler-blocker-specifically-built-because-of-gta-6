@@ -3,7 +3,7 @@
 // revealing needs a deliberate move: hold the button for a second, or click + confirm. scrolling past
 // with your thumb on a phone should never reveal anything. that was literally the whole point
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   const HOLD_MS = 1000;
 
   const SHIELD_CSS = `

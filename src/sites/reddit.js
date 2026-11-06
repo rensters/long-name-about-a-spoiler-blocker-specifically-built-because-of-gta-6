@@ -2,7 +2,7 @@
 // new reddit is nice to us: posts carry their title/subreddit/author as attributes, so even if the
 // light DOM changes we can still read who/where/what straight off the element.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'reddit',

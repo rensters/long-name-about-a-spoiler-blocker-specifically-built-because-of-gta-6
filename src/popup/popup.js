@@ -1,7 +1,7 @@
 // hey, this is the toolbar popup. anything that makes protection WEAKER (off, pause, site off) goes through the lock
 // phrase if you set one. adding keywords makes it stronger, so that never asks.
 (async function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   const $ = (id) => document.getElementById(id);
   const PAUSE_MS = 10 * 60 * 1000;
 

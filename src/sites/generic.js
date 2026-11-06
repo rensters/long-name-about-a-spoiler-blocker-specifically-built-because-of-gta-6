@@ -5,6 +5,6 @@
 // heads up: there's no hide-before-check here (we don't know what a "card" is on a random site),
 // so on slow pages a headline could show for a frame before it gets blurred. supported sites never do.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   SS.sites.register({ id: 'generic', name: 'Other sites (generic)', hosts: null, items: [] });
 })();

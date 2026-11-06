@@ -3,7 +3,7 @@
 // next to "6M views" must NOT turn into "GTA 6M views" (ask me how i know). so text from different blocks
 // gets a wall char between it (see normalize.js), text inside one block (<b>GTA</b> 6) stays glued.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   const { WALL } = SS.text;
 
   // tags that DON'T start a new "block" of text. yes i typed all of these by hand

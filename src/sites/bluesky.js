@@ -2,7 +2,7 @@
 // is everywhere, and bless them, the post testid literally contains the author's handle:
 // data-testid="feedItem-by-bsky.app"
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'bluesky',

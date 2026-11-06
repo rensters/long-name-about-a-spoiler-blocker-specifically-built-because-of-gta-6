@@ -1,7 +1,7 @@
 // Discord web app. class names are hashed (message_ab12cd), but message rows keep id="chat-messages-..."
 // and the sidebar uses data-list-item-id, which discord's own keyboard nav depends on. those stay.
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'discord',

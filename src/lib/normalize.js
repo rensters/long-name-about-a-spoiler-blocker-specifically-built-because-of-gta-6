@@ -3,7 +3,7 @@
 // all come out the other side as plain lowercase boring text. terms go through the exact same
 // function, so whatever we mangle, we mangle on both sides and it still lines up.
 (function (root) {
-  const SS = (root.SpoilerShield = root.SpoilerShield || {});
+  const SS = (root.NoSpoil = root.NoSpoil || {});
 
   // the "don't let a match jump across this" character. the scanner glues separate blocks of a card
   // (title / channel / view count) together with it, so "...GTA" + "6M views" can't turn into "GTA 6".

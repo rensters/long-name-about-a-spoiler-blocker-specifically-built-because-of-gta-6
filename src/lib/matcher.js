@@ -10,7 +10,7 @@
 //
 // this file took like 6 rewrites. the regex compiler below is held together with tape and prayers. why are you still reading
 (function (root) {
-  const SS = (root.SpoilerShield = root.SpoilerShield || {});
+  const SS = (root.NoSpoil = root.NoSpoil || {});
   const { normalize, squash, WALL } = SS.text;
 
   // a separator is anything that isn't a letter, a digit or our wall char. emoji, dots, dashes, #, all of it

@@ -2,7 +2,7 @@
 // can't easily rename without breaking screen readers: role="article", aria-posinset, aria-labels.
 // comments are role="article" too, with an aria-label starting "Comment by ...".
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
 
   SS.sites.register({
     id: 'facebook',

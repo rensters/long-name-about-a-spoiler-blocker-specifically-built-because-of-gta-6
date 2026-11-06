@@ -2,12 +2,12 @@
 // the pause timer and the "your GTA VI pack switches off in 3 days" pings. chromium runs it as a service worker
 // (it naps whenever it wants, so NOTHING important lives in memory, don't even try), firefox runs it as an
 // event page via "scripts" in the manifest. same file both ways. you're welcome
-if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalThis.SpoilerShield.store)) {
+if (typeof importScripts === 'function' && !(globalThis.NoSpoil && globalThis.NoSpoil.store)) {
   importScripts('lib/shim.js', 'lib/normalize.js', 'lib/packs.js', 'lib/store.js');
 }
 
 (function () {
-  const SS = globalThis.SpoilerShield;
+  const SS = globalThis.NoSpoil;
   const api = SS.api;
   const action = api.action || api.browserAction;
   const DAILY = 'ss:daily';
