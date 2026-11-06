@@ -11,9 +11,7 @@ test('feed: spoilers blurred, clean cards visible, nothing flashes', async ({ co
   }
   for (const id of CLEAN) await expect(page.locator('#' + id), id).toHaveAttribute('data-ss', 'ok');
   const overlay = await page.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent);
-  expect(overlay).toContain("Hey, it's the thing you prevented from showing up.");
-  expect(overlay).toContain('Not today, spoiling shitbag.');
-  expect(overlay).toContain('The Endgame Incident will never happen again!');
+  expect(overlay).toContain("hey, it's the thing you wanted blurred");
   // blurred for real: children get a blur filter
   const filter = await page.locator('#s1 > #content').evaluate((n) => getComputedStyle(n).filter);
   expect(filter).toContain('blur(24px)');
@@ -90,7 +88,7 @@ test('watch page: GTA video gets the full-screen warning, player paused + muted 
     expect(await page.evaluate(() => [document.getElementById('v').paused, document.getElementById('v').muted])).toEqual([true, true]);
   }
   const wallText = await page.locator('ss-wall').evaluate((h) => h.shadowRoot.textContent);
-  expect(wallText).toContain('Not today, spoiling shitbag.');
+  expect(wallText).toContain("hey, it's the thing you wanted blurred");
   // the warning itself must not spoil: no title, no matched term (show-matched is off). the pack's
   // own name ("GTA VI") is fine, you named it
   expect(wallText).not.toContain('trailer analysis');

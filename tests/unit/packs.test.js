@@ -126,3 +126,17 @@ test('expiry is your date, local calendar, with a reminder window', () => {
   assert.equal(P.isLive({ active: true, expires: null }, now), true, 'no date = never expires');
   assert.equal(P.isLive({ active: false }, now), false);
 });
+
+test('old default blur text migrates to the new one, custom text stays', () => {
+  const OLD = ["Hey, it's the thing you prevented from showing up.", 'Not today, spoiling shitbag.', 'The Endgame Incident will never happen again!'];
+  const NEW = ["hey, it's the thing you wanted blurred"];
+  const oldBase = { ...gta, overlayText: OLD.slice() };
+  const custom = { ...P.blankPack('Mine'), id: 'mine', overlayText: OLD.slice() };
+  const mine2 = { ...P.blankPack('Mine2'), id: 'mine2', overlayText: ['my own words'] };
+  const eff = P.effectivePacks({ gta6: oldBase }, { diffs: { gta6: { set: { overlayText: OLD.slice() } } }, custom: { mine: custom, mine2 } });
+  assert.deepEqual(eff.find((p) => p.id === 'gta6').overlayText, NEW);
+  assert.deepEqual(eff.find((p) => p.id === 'mine').overlayText, NEW);
+  assert.deepEqual(eff.find((p) => p.id === 'mine2').overlayText, ['my own words']);
+  assert.deepEqual(gta.overlayText, NEW);
+  assert.deepEqual(P.DEFAULT_OVERLAY, NEW);
+});

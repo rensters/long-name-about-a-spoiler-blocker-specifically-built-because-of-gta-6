@@ -10,9 +10,7 @@ without touching code, because topics are just JSON packs. go wild.
 
 every blurred thing gets this slapped on top of it:
 
-> Hey, it's the thing you prevented from showing up.
-> Not today, spoiling shitbag.
-> The Endgame Incident will never happen again!
+> hey, it's the thing you wanted blurred
 
 endgame was spoiled to me, it will never fucking happen again
 

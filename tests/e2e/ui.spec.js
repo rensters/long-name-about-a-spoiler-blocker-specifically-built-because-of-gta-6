@@ -107,12 +107,12 @@ test('settings: change the spoiler text, open tabs show it right away', async ({
   const site = await openSite(context, 'https://www.youtube.com/');
   const opts = await context.newPage();
   await opts.goto(`chrome-extension://${extensionId}/src/options/options.html`);
-  await expect(opts.locator('#ov-text')).toHaveValue(/Not today, spoiling shitbag\./);
+  await expect(opts.locator('#ov-text')).toHaveValue(/hey, it's the thing you wanted blurred/);
   await opts.locator('#ov-text').fill('nope, not for you\nwait for the PC version');
   await expect(opts.locator('#pv-lines')).toContainText('nope, not for you'); // live preview
   await opts.locator('#ov-save').click();
   await expect(opts.locator('#ov-msg')).toContainText('Saved');
   await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain('wait for the PC version');
   await opts.locator('#ov-reset').click();
-  await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain('Not today, spoiling shitbag.');
+  await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain("hey, it's the thing you wanted blurred");
 });

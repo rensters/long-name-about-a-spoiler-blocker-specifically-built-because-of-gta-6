@@ -9,11 +9,18 @@
   const LISTS = ['allow', 'allowChannels', 'blockedCommunities', 'blockedCategories', 'blockedChannels', 'watchlist', 'contextIgnores'];
   const SCALARS = ['name', 'description', 'active', 'expires', 'remindDaysBefore', 'overlayText'];
   const ADDED_GROUP = 'Added by you';
-  const DEFAULT_OVERLAY = [
-    "Hey, it's the thing you prevented from showing up.",
-    'Not today, spoiling shitbag.',
-    'The Endgame Incident will never happen again!',
-  ];
+  const DEFAULT_OVERLAY = ["hey, it's the thing you wanted blurred"];
+  // the old default. if your saved stuff still says exactly this, you never customized it, so it
+  // quietly becomes the new one. anything you actually typed yourself stays put, i'm not touching that
+  const OLD_DEFAULT_OVERLAYS = [
+    ["Hey, it's the thing you prevented from showing up.", 'Not today, spoiling shitbag.', 'The Endgame Incident will never happen again!'],
+  ].map((x) => JSON.stringify(x));
+  function migrateOverlay(p) {
+    if (p && Array.isArray(p.overlayText) && OLD_DEFAULT_OVERLAYS.includes(JSON.stringify(p.overlayText))) {
+      p.overlayText = DEFAULT_OVERLAY.slice();
+    }
+    return p;
+  }
 
   const keyOf = (term) => normalize(term).replace(/\s+/g, ' ').trim();
   const clone = (x) => JSON.parse(JSON.stringify(x));
@@ -216,6 +223,7 @@
       overlayText: cleanStrings(input.overlayText, warn, 'overlayText').slice(0, 5),
     };
     if (!p.overlayText.length) p.overlayText = DEFAULT_OVERLAY.slice();
+    migrateOverlay(p); // old backups with the old default text get the new one too
     if (input.expires && !p.expires) warn.push(`expires "${input.expires}" isn't YYYY-MM-DD, ignored`);
     let total = 0;
     for (const k of TIERS) {
@@ -278,13 +286,13 @@
     const out = [];
     for (const [id, base] of Object.entries(builtins || {})) {
       if (!base || typeof base !== 'object') continue;
-      const p = applyDiff(base, (s.diffs || {})[id]);
+      const p = migrateOverlay(applyDiff(base, (s.diffs || {})[id]));
       p.builtin = true;
       out.push(p);
     }
     for (const [id, pack] of Object.entries(s.custom || {})) {
       if (out.some((p) => p.id === id)) continue;
-      out.push({ ...clone(pack), builtin: false });
+      out.push(migrateOverlay({ ...clone(pack), builtin: false }));
     }
     // your order first; anything you never ordered goes after it, switched-on packs before switched-off
     // ones, then by name. (storage hands keys back alphabetically, so "example-f1" would beat "gta6")
