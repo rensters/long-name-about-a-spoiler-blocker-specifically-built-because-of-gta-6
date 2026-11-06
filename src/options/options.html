@@ -13,187 +13,187 @@
         <img src="../../icons/icon-48.png" alt="" width="40" height="40" />
         <div class="head-text">
           <h1>i can't afford a PS5 but i also wish to not get spoiled</h1>
-          <p class="muted">Blurs the stuff you're not ready for. Runs entirely in your browser: no servers, no tracking, no phoning home.</p>
+          <p class="muted">hey, this is where you tweak stuff. it blurs whatever you're not ready for, all inside your browser. no servers, no tracking, no phoning home. i don't want your data lol</p>
         </div>
-        <span id="lockstate" class="pill" hidden>locked</span>
+        <span id="lockstate" class="pill" hidden>locked 🔒</span>
       </header>
 
       <div id="banners" class="banners"></div>
 
       <section id="lockgate" class="card lockgate" hidden>
-        <h2>Settings are locked</h2>
-        <p>You (past you) locked this so present you can't cave. Type the phrase to change anything.</p>
+        <h2>settings are locked, sorry not sorry</h2>
+        <p>past you locked this so present you can't cave. type the phrase if you really need to change something. (do you though?)</p>
         <div class="row">
-          <input id="unlock-phrase" type="password" autocomplete="off" placeholder="lock phrase" />
-          <button id="unlock-go" type="button" class="btn primary">Unlock</button>
+          <input id="unlock-phrase" type="password" autocomplete="off" placeholder="the lock phrase" />
+          <button id="unlock-go" type="button" class="btn primary">unlock</button>
         </div>
         <p id="unlock-msg" class="msg" role="status"></p>
       </section>
 
       <nav class="tabs" aria-label="Sections">
-        <a href="#packs">Packs</a>
-        <a href="#sites">Sites</a>
-        <a href="#look">Look &amp; feel</a>
-        <a href="#streams">Streams</a>
-        <a href="#lock">Lock</a>
-        <a href="#test">Test</a>
-        <a href="#backup">Backup</a>
+        <a href="#packs">packs</a>
+        <a href="#sites">sites</a>
+        <a href="#look">look &amp; feel</a>
+        <a href="#streams">streams</a>
+        <a href="#lock">lock</a>
+        <a href="#test">test</a>
+        <a href="#backup">backup</a>
       </nav>
 
       <section id="packs" class="card lockable">
         <div class="section-head">
-          <h2>Topic packs</h2>
+          <h2>topic packs</h2>
           <div class="actions">
-            <button id="new-pack" type="button" class="btn">New pack</button>
-            <label class="btn file-btn">Import pack<input id="import-pack" type="file" accept=".json,application/json" hidden /></label>
+            <button id="new-pack" type="button" class="btn">new pack</button>
+            <label class="btn file-btn">import pack<input id="import-pack" type="file" accept=".json,application/json" hidden /></label>
           </div>
         </div>
-        <p class="muted">A pack is everything about one topic: words, subreddits, channels, streamers, its own overlay text and an optional switch-off date. Several can be on at once.</p>
+        <p class="muted">a pack is everything about one topic: words, subreddits, channels, streamers, its own blur text and an optional switch-off date. you can have a bunch on at once, go crazy.</p>
         <div id="pack-list" class="pack-list"></div>
       </section>
 
       <section id="editor" class="card lockable" hidden>
         <div class="section-head">
-          <h2 id="editor-title">Edit pack</h2>
+          <h2 id="editor-title">edit pack</h2>
           <div class="actions">
-            <button id="ed-cancel" type="button" class="btn">Cancel</button>
-            <button id="ed-save" type="button" class="btn primary">Save pack</button>
+            <button id="ed-cancel" type="button" class="btn">nvm</button>
+            <button id="ed-save" type="button" class="btn primary">save pack</button>
           </div>
         </div>
         <p id="ed-msg" class="msg" role="status"></p>
 
         <div class="grid two">
-          <label class="field">Name<input id="ed-name" type="text" maxlength="80" /></label>
-          <label class="field">Description<input id="ed-desc" type="text" maxlength="1000" /></label>
+          <label class="field">name<input id="ed-name" type="text" maxlength="80" /></label>
+          <label class="field">description (optional, nobody's grading this)<input id="ed-desc" type="text" maxlength="1000" /></label>
         </div>
 
-        <label class="field">Overlay text <span class="hint">one line per line, up to 5. small cards only show the first line</span>
+        <label class="field">blur text <span class="hint">one line per line, up to 5. small cards only show the first line, so make it count</span>
           <textarea id="ed-overlay" rows="3" spellcheck="false"></textarea>
         </label>
 
         <details open class="tiers-help">
-          <summary>How strong / weak / context work</summary>
-          <p><b>Strong</b> blurs on sight. <b>Weak</b> needs a second clue in the same post: a strong term, or a different weak or context term. <b>Context</b> words ("trailer", "ending", "leak") never blur alone and never pair with each other. They only count as that second clue.</p>
-          <p>Case, accents, leetspeak (GT4), dots and emoji between letters (G.T.A., GTA🔥6), hashtags, camelCase and 6 = VI = six are all handled for you. Start a line with <code>// </code> to make a group heading.</p>
+          <summary>wait, how do strong / weak / context work?</summary>
+          <p><b>strong</b> blurs on sight, no questions asked. <b>weak</b> needs a buddy in the same post: a strong term, or a different weak or context term. <b>context</b> words ("trailer", "ending", "leak") never blur alone and never pair with each other. they only count as that buddy.</p>
+          <p>case, accents, leetspeak (GT4), dots and emoji between letters (G.T.A., GTA🔥6), hashtags, camelCase and 6 = VI = six are all handled for you, i already suffered for that. start a line with <code>// </code> to make a group heading.</p>
         </details>
 
         <div class="grid three">
-          <label class="field">Strong<textarea id="ed-strong" rows="16" spellcheck="false"></textarea></label>
-          <label class="field">Weak<textarea id="ed-weak" rows="16" spellcheck="false"></textarea></label>
-          <label class="field">Context<textarea id="ed-context" rows="16" spellcheck="false"></textarea></label>
+          <label class="field">strong<textarea id="ed-strong" rows="16" spellcheck="false"></textarea></label>
+          <label class="field">weak<textarea id="ed-weak" rows="16" spellcheck="false"></textarea></label>
+          <label class="field">context<textarea id="ed-context" rows="16" spellcheck="false"></textarea></label>
         </div>
 
-        <label class="field">Regex (power users) <span class="hint"><code>/pattern/flags</code>, put <code>weak </code> or <code>context </code> in front to change the tier. runs on lowercased, accent-stripped text</span>
+        <label class="field">regex (nerds only) <span class="hint"><code>/pattern/flags</code>, put <code>weak </code> or <code>context </code> in front to change the tier. runs on lowercased, accent-stripped text. good luck</span>
           <textarea id="ed-regex" rows="4" spellcheck="false"></textarea>
         </label>
 
         <div class="grid three">
-          <label class="field">Allow (cut out before matching) <span class="hint">"Jason Momoa", "GTA V"</span><textarea id="ed-allow" rows="7" spellcheck="false"></textarea></label>
-          <label class="field">Never blur these channels / accounts<textarea id="ed-allowChannels" rows="7" spellcheck="false"></textarea></label>
-          <label class="field">Blocked subreddits <span class="hint">full-page block, without r/</span><textarea id="ed-blockedCommunities" rows="7" spellcheck="false"></textarea></label>
-          <label class="field">Blocked categories <span class="hint">Twitch / Kick / YouTube game</span><textarea id="ed-blockedCategories" rows="7" spellcheck="false"></textarea></label>
-          <label class="field">Always-blur channels / accounts<textarea id="ed-blockedChannels" rows="7" spellcheck="false"></textarea></label>
-          <label class="field">Streamer watchlist <span class="hint">full-screen warning on any of their live streams</span><textarea id="ed-watchlist" rows="7" spellcheck="false"></textarea></label>
+          <label class="field">allow (cut out before matching) <span class="hint">"Jason Momoa", "GTA V"</span><textarea id="ed-allow" rows="7" spellcheck="false"></textarea></label>
+          <label class="field">never blur these channels / accounts (trusted ones)<textarea id="ed-allowChannels" rows="7" spellcheck="false"></textarea></label>
+          <label class="field">blocked subreddits <span class="hint">full-page block, no r/ needed</span><textarea id="ed-blockedCommunities" rows="7" spellcheck="false"></textarea></label>
+          <label class="field">blocked categories <span class="hint">twitch / kick / youtube game</span><textarea id="ed-blockedCategories" rows="7" spellcheck="false"></textarea></label>
+          <label class="field">always-blur channels / accounts (the spoiler goblins)<textarea id="ed-blockedChannels" rows="7" spellcheck="false"></textarea></label>
+          <label class="field">streamer watchlist <span class="hint">full-screen warning on any of their live streams, no matter the title</span><textarea id="ed-watchlist" rows="7" spellcheck="false"></textarea></label>
         </div>
 
-        <label class="field">Weak groups that context words ignore <span class="hint">one group name per line. "Jason" + "review" is some random Jason; "GTA" + "review" is the thing. names in these groups still pair with other weak terms</span>
+        <label class="field">weak groups that context words ignore <span class="hint">one group name per line. "Jason" + "review" is just some random jason (hi jason); "GTA" + "review" is the thing. names in these groups still pair with other weak terms</span>
           <textarea id="ed-contextIgnores" rows="2" spellcheck="false"></textarea>
         </label>
 
         <div class="editor-foot">
-          <button id="ed-export" type="button" class="btn">Export this pack</button>
-          <button id="ed-reset" type="button" class="btn">Reset to built-in</button>
-          <button id="ed-delete" type="button" class="btn danger">Delete pack</button>
+          <button id="ed-export" type="button" class="btn">export this pack</button>
+          <button id="ed-reset" type="button" class="btn">reset to built-in</button>
+          <button id="ed-delete" type="button" class="btn danger">delete pack</button>
         </div>
       </section>
 
       <section id="sites" class="card lockable">
-        <h2>Sites</h2>
-        <p class="muted">Each site has its own selector file in <code>src/sites/</code>. Turn any of them off here; turn off single websites from the popup.</p>
+        <h2>sites</h2>
+        <p class="muted">each site has its own selector file in <code>src/sites/</code> (hey, why are you looking at that). turn any of them off here; turn off single websites from the popup.</p>
         <div id="site-list" class="site-list"></div>
-        <h3>Switched off from the popup</h3>
+        <h3>switched off from the popup (living dangerously)</h3>
         <div id="hosts-off" class="hosts-off"></div>
       </section>
 
       <section id="look" class="card lockable">
-        <h2>Look &amp; feel</h2>
+        <h2>look &amp; feel</h2>
         <div class="look-grid">
           <div class="look-controls">
             <div class="field">
-              <label for="ov-text">Spoiler text (what shows on every blurred thing)</label>
+              <label for="ov-text">blur text (what shows up on every blurred thing)</label>
               <div class="row">
-                <span class="muted">for pack</span>
+                <span class="muted">for this pack:</span>
                 <select id="ov-pack" aria-label="Which pack's text"></select>
               </div>
               <textarea id="ov-text" rows="4" spellcheck="false"></textarea>
-              <span class="hint">one line per line, up to 5. tiny cards (chat, sidebars) only show the first line</span>
+              <span class="hint">one line per line, up to 5. tiny cards (chat, sidebars) only show the first line, so make it count</span>
               <div class="row">
-                <button id="ov-save" type="button" class="btn primary">Save text</button>
-                <button id="ov-reset" type="button" class="btn">Back to the original</button>
+                <button id="ov-save" type="button" class="btn primary">save text</button>
+                <button id="ov-reset" type="button" class="btn">back to the original</button>
               </div>
               <p id="ov-msg" class="msg" role="status"></p>
             </div>
-            <label class="field">Blur strength <span id="blur-val" class="muted"></span>
+            <label class="field">blur strength (how blurry is blurry) <span id="blur-val" class="muted"></span>
               <input id="blur" type="range" min="8" max="40" step="1" />
             </label>
             <fieldset class="field">
-              <legend>Reveal a blurred thing by…</legend>
-              <label class="radio"><input type="radio" name="reveal" value="hold" /> holding the button for 1 second</label>
-              <label class="radio"><input type="radio" name="reveal" value="confirm" /> clicking, then confirming</label>
+              <legend>to reveal a blurred thing, you have to…</legend>
+              <label class="radio"><input type="radio" name="reveal" value="hold" /> hold the button for 1 second</label>
+              <label class="radio"><input type="radio" name="reveal" value="confirm" /> click, then confirm (u sure??)</label>
             </fieldset>
-            <label class="check"><input id="show-matched" type="checkbox" /> Show which keyword matched <span class="hint">off by default: the keyword itself can be the spoiler</span></label>
+            <label class="check"><input id="show-matched" type="checkbox" /> show which keyword matched <span class="hint">off by default, because the keyword itself can be the spoiler. think about it</span></label>
           </div>
           <div class="preview-wrap">
             <div class="preview" id="preview">
               <div class="pv-thumb"></div>
-              <div class="pv-text"><b>A video title you shouldn't read</b><br /><span>Some Channel · 1.2M views</span></div>
+              <div class="pv-text"><b>a video title you really shouldn't read</b><br /><span>some channel · 1.2M views</span></div>
               <div class="pv-shield">
                 <div id="pv-lines"></div>
                 <span class="pv-btn" id="pv-btn">hold to peek</span>
               </div>
             </div>
-            <p class="hint">live preview, updates as you type</p>
+            <p class="hint">live preview, updates as you type. neat right</p>
           </div>
         </div>
       </section>
 
       <section id="streams" class="card lockable">
-        <h2>Livestreams</h2>
-        <label class="check"><input id="strict" type="checkbox" /> <b>Strict streams:</b> full-screen warning before <i>any</i> gaming livestream plays, matched or not</label>
-        <label class="check"><input id="collapse-chat" type="checkbox" /> Collapse live chat on flagged streams (watchlist, blocked category, matched title)</label>
-        <p class="muted">Chat messages that match your keywords get blurred on every stream either way. Streamer watchlists live inside each pack.</p>
+        <h2>livestreams</h2>
+        <label class="check"><input id="strict" type="checkbox" /> <b>strict streams:</b> full-screen warning before <i>any</i> gaming livestream plays, matched or not. paranoid mode</label>
+        <label class="check"><input id="collapse-chat" type="checkbox" /> collapse live chat on flagged streams (watchlist, blocked category, matched title). chat is chaos</label>
+        <p class="muted">chat messages that match your keywords get blurred on every stream either way. streamer watchlists live inside each pack.</p>
       </section>
 
       <section id="lock" class="card lockable">
-        <h2>Lock</h2>
-        <p class="muted">For weak moments. Once it's on, switching the shield off, pausing it, turning sites off or changing any setting needs you to type the phrase. Make it long and annoying.</p>
+        <h2>lock</h2>
+        <p class="muted">for weak moments. you know the ones. once it's on, switching the blocker off, pausing it, turning sites off or changing any setting needs you to type the phrase. make it long and annoying, future you will hate it (that's the point).</p>
         <div id="lock-off-box">
           <div class="grid two">
-            <label class="field">Lock phrase<input id="lock-1" type="text" autocomplete="off" placeholder="i accept that i will be spoiled and it is my own fault" /></label>
-            <label class="field">Type it again<input id="lock-2" type="text" autocomplete="off" /></label>
+            <label class="field">lock phrase<input id="lock-1" type="text" autocomplete="off" placeholder="i accept that i will be spoiled and it is my own fault" /></label>
+            <label class="field">type it again (yes again)<input id="lock-2" type="text" autocomplete="off" /></label>
           </div>
-          <button id="lock-on" type="button" class="btn primary">Turn on the lock</button>
+          <button id="lock-on" type="button" class="btn primary">lock it</button>
         </div>
         <div id="lock-on-box" hidden>
-          <p>The lock is <b>on</b>. You unlocked it for this tab, so you can change things right now.</p>
-          <button id="lock-remove" type="button" class="btn danger">Remove the lock</button>
+          <p>the lock is <b>on</b>. you unlocked it for this tab, so you can change stuff right now. behave.</p>
+          <button id="lock-remove" type="button" class="btn danger">remove the lock</button>
         </div>
         <p id="lock-msg" class="msg" role="status"></p>
       </section>
 
       <section id="test" class="card">
-        <h2>Test a sentence</h2>
-        <p class="muted">Something got through? Paste its title here and see exactly what the matcher thinks. Safe to use while locked.</p>
-        <textarea id="test-text" rows="3" spellcheck="false" placeholder="paste a title, a tweet, a channel name…"></textarea>
+        <h2>test a sentence</h2>
+        <p class="muted">something got through? ugh, sorry. paste its title here and see exactly what the matcher thinks. safe to use while locked.</p>
+        <textarea id="test-text" rows="3" spellcheck="false" placeholder="paste a title, a tweet, a channel name, whatever…"></textarea>
         <div id="test-out" class="test-out"></div>
       </section>
 
       <section id="backup" class="card lockable">
-        <h2>Backup</h2>
-        <p class="muted">One JSON file with every setting and every pack edit. Good for moving to another browser that doesn't share your sync account (Firefox ↔ Brave, phone ↔ PC).</p>
+        <h2>backup</h2>
+        <p class="muted">one JSON file with every setting and every pack edit. handy for moving to another browser that doesn't share your sync account (firefox ↔ brave, phone ↔ PC).</p>
         <div class="row">
-          <button id="export-all" type="button" class="btn">Export everything</button>
-          <label class="btn file-btn">Import everything<input id="import-all" type="file" accept=".json,application/json" hidden /></label>
+          <button id="export-all" type="button" class="btn">export everything</button>
+          <label class="btn file-btn">import everything<input id="import-all" type="file" accept=".json,application/json" hidden /></label>
         </div>
         <p id="backup-msg" class="msg" role="status"></p>
         <p class="muted small" id="storage-info"></p>

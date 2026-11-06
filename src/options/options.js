@@ -53,7 +53,7 @@
     if (!locked()) return true;
     $('lockgate').scrollIntoView({ behavior: 'smooth', block: 'center' });
     $('unlock-phrase').focus();
-    say('unlock-msg', 'Locked. Phrase first.', 'bad');
+    say('unlock-msg', 'locked. phrase first, buddy.', 'bad');
     render();
     return false;
   }
@@ -88,7 +88,7 @@
     document.body.classList.toggle('locked', locked());
     $('lockgate').hidden = !locked();
     $('lockstate').hidden = !on;
-    $('lockstate').textContent = locked() ? 'locked' : 'unlocked (this tab)';
+    $('lockstate').textContent = locked() ? 'locked 🔒' : 'unlocked (this tab only)';
   }
 
   $('unlock-go').addEventListener('click', () => {
@@ -98,7 +98,7 @@
       say('unlock-msg', '');
       render();
     } else {
-      say('unlock-msg', "Wrong phrase. Maybe that's a sign.", 'bad');
+      say('unlock-msg', "wrong phrase. maybe that's a sign.", 'bad');
     }
   });
   $('unlock-phrase').addEventListener('keydown', (e) => {
@@ -110,21 +110,21 @@
     const box = $('banners');
     box.innerHTML = '';
     const add = (text, kind, button) => box.append(el('div', { class: 'banner' + (kind ? ' ' + kind : '') }, el('span', { text }), button || null));
-    if (state.area !== 'sync') add('Browser sync isn\'t available (or it filled up), so settings are saved on this device only. Use Backup to move them around.');
-    if (!state.livePacks.length) add('No pack is active right now, so nothing is being blocked.', 'bad');
+    if (state.area !== 'sync') add('browser sync isn\'t available (or it filled up), so settings only live on this device. use backup to move them around.');
+    if (!state.livePacks.length) add("no pack is on right now, so i'm blocking nothing. you're exposed.", 'bad');
     for (const p of state.packs) {
       const left = P.expiringSoon(p);
       if (left !== null) {
         add(
-          `${p.name} switches off in ${left} day${left === 1 ? '' : 's'} (${p.expires}), the date you set.`,
+          `heads up: ${p.name} blocking switches off in ${left} day${left === 1 ? '' : 's'} (${p.expires}), the date you set.`,
           '',
-          el('button', { class: 'btn', type: 'button', text: 'Push back a week', onclick: () => bump(p, 7) }),
+          el('button', { class: 'btn', type: 'button', text: 'push it back a week', onclick: () => bump(p, 7) }),
         );
       } else if (p.active !== false && p.expires && !P.isLive(p)) {
         add(
-          `${p.name} switched off on ${p.expires}, the date you set.`,
+          `${p.name} blocking switched off on ${p.expires}, the date you set. hope it's out on PC.`,
           '',
-          el('button', { class: 'btn', type: 'button', text: 'Keep blocking (+7 days)', onclick: () => bump(p, 7, true) }),
+          el('button', { class: 'btn', type: 'button', text: 'nope, keep blocking (+7 days)', onclick: () => bump(p, 7, true) }),
         );
       }
     }
@@ -192,11 +192,11 @@
         }, 'pack on/off'),
         el('div', {}, el('span', { class: 'pack-name', text: p.name }), ...tags),
         el('div', { class: 'actions' },
-          el('button', { class: 'btn', type: 'button', text: 'Edit', onclick: () => openEditor(p.id) }),
-          el('button', { class: 'btn', type: 'button', text: 'Export', onclick: () => download(`${p.id}.json`, P.exportPack(p)) })),
+          el('button', { class: 'btn', type: 'button', text: 'edit', onclick: () => openEditor(p.id) }),
+          el('button', { class: 'btn', type: 'button', text: 'export', onclick: () => download(`${p.id}.json`, P.exportPack(p)) })),
         el('div', { class: 'pack-meta', text: counts(p) }),
         el('div', { class: 'pack-expiry' },
-          el('span', { class: 'muted', text: 'Switch off on' }), date,
+          el('span', { class: 'muted', text: 'switch off on' }), date,
           el('span', { class: 'muted', text: 'remind me' }), remind, el('span', { class: 'muted', text: 'days before' }), clear),
       );
       list.append(card);
@@ -240,7 +240,7 @@
     if (!p) return;
     editing = id;
     $('editor').hidden = false;
-    $('editor-title').textContent = `Edit: ${p.name}`;
+    $('editor-title').textContent = `editing: ${p.name}`;
     $('ed-name').value = p.name || '';
     $('ed-desc').value = p.description || '';
     $('ed-overlay').value = (p.overlayText || []).join('\n');
@@ -249,7 +249,7 @@
     for (const k of LIST_FIELDS) $('ed-' + k).value = (p[k] || []).join('\n');
     $('ed-reset').hidden = !p.builtin;
     $('ed-delete').hidden = !!p.builtin;
-    say('ed-msg', p.builtin ? 'Built-in pack: your changes are stored on top of it, so future updates to the pack still reach you.' : '');
+    say('ed-msg', p.builtin ? 'built-in pack: your changes sit on top of it, so when i update the pack you still get the new stuff.' : '');
     $('editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -266,7 +266,7 @@
     const p = state.packs.find((x) => x.id === editing);
     if (!p) return closeEditor();
     const rx = P.regexFromLines($('ed-regex').value);
-    if (rx.bad.length) return say('ed-msg', 'These regex lines are broken, fix or remove them: ' + rx.bad.join(' | '), 'bad');
+    if (rx.bad.length) return say('ed-msg', 'these regex lines are broken, fix or yeet them: ' + rx.bad.join(' | '), 'bad');
     const overlay = $('ed-overlay').value.split(/\r?\n/).map((s) => s.trim()).filter(Boolean).slice(0, 5);
     const edited = {
       ...JSON.parse(JSON.stringify(p)),
@@ -281,9 +281,9 @@
       await SS.edit.savePack(state, edited);
       await load();
       openEditor(edited.id);
-      say('ed-msg', 'Saved. Open tabs already updated.', 'ok');
+      say('ed-msg', 'saved. open tabs already got the memo.', 'ok');
     } catch (err) {
-      say('ed-msg', 'Save failed: ' + (err.message || err), 'bad');
+      say('ed-msg', 'save failed, oops: ' + (err.message || err), 'bad');
     }
   });
 
@@ -298,7 +298,7 @@
     await SS.edit.resetPack(state, editing);
     await load();
     openEditor(editing);
-    say('ed-msg', 'Back to the built-in version.', 'ok');
+    say('ed-msg', 'back to the built-in version. fresh start.', 'ok');
   });
 
   $('ed-delete').addEventListener('click', async () => {
@@ -327,10 +327,10 @@
     }
     const off = $('hosts-off');
     off.innerHTML = '';
-    if (!state.settings.hostsOff.length) off.append(el('span', { class: 'muted', text: 'none' }));
+    if (!state.settings.hostsOff.length) off.append(el('span', { class: 'muted', text: 'none, good job' }));
     for (const h of state.settings.hostsOff) {
       off.append(el('span', { class: 'host-chip' }, el('span', { text: h }),
-        el('button', { class: 'link', type: 'button', text: 'turn back on', onclick: () => patch({ hostsOff: state.settings.hostsOff.filter((x) => x !== h) }) })));
+        el('button', { class: 'link', type: 'button', text: 'turn back on (pls)', onclick: () => patch({ hostsOff: state.settings.hostsOff.filter((x) => x !== h) }) })));
     }
   }
 
@@ -386,11 +386,11 @@
     const p = ovPack();
     if (!p) return;
     const lines = ovLines();
-    if (!lines.length) return say('ov-msg', 'Needs at least one line. Even "no." works.', 'bad');
+    if (!lines.length) return say('ov-msg', 'needs at least one line. even "no." works.', 'bad');
     await SS.edit.setField(state, p.id, { overlayText: lines });
     ovDirty = false;
     await load();
-    say('ov-msg', 'Saved. Every open tab shows the new text right away.', 'ok');
+    say('ov-msg', 'saved. every open tab shows the new text right away.', 'ok');
   });
   $('ov-reset').addEventListener('click', async () => {
     if (!guard()) return;
@@ -400,7 +400,7 @@
     await SS.edit.setField(state, p.id, { overlayText: original.slice() });
     ovDirty = false;
     await load();
-    say('ov-msg', 'Back to the original text.', 'ok');
+    say('ov-msg', 'back to the original text.', 'ok');
   });
 
   $('blur').addEventListener('input', () => {
@@ -429,15 +429,15 @@
   $('lock-on').addEventListener('click', async () => {
     const a = $('lock-1').value.trim();
     const b = $('lock-2').value.trim();
-    if (a.length < 8) return say('lock-msg', 'Make it at least 8 characters. The more annoying to type, the better.', 'bad');
-    if (a !== b) return say('lock-msg', "They don't match.", 'bad');
+    if (a.length < 8) return say('lock-msg', 'make it at least 8 characters. the more annoying to type, the better.', 'bad');
+    if (a !== b) return say('lock-msg', "they don't match. typo? suspicious.", 'bad');
     if (!guard()) return;
     await SS.store.patchSettings({ lock: { on: true, phrase: a } });
     unlocked = true; // you literally just typed it, i believe you
     $('lock-1').value = '';
     $('lock-2').value = '';
     await load();
-    say('lock-msg', 'Locked in. Next time you open this page (or try to pause from the popup) you\'ll need that phrase.', 'ok');
+    say('lock-msg', 'locked in. next time you open this page (or try to pause from the popup) you\'ll need that phrase. good luck, future you.', 'ok');
   });
 
   $('lock-remove').addEventListener('click', async () => {
@@ -445,7 +445,7 @@
     if (!confirm('remove the lock? then anyone (including weak-moment you) can switch things off again. just saying.')) return;
     await SS.store.patchSettings({ lock: { on: false, phrase: '' } });
     await load();
-    say('lock-msg', 'Lock removed.', 'ok');
+    say('lock-msg', 'lock removed. be strong.', 'ok');
   });
 
   // ---------------- test box ----------------
@@ -460,12 +460,12 @@
     const out = $('test-out');
     out.innerHTML = '';
     if (!text.trim()) return;
-    if (!state.livePacks.length) return out.append(el('div', { class: 'verdict', text: 'No active packs, so nothing would be blurred.' }));
+    if (!state.livePacks.length) return out.append(el('div', { class: 'verdict', text: 'no packs are on, so nothing would get blurred.' }));
     testMatcher = testMatcher || new SS.Matcher(state.livePacks);
     for (const r of testMatcher.explain(text)) {
-      const why = r.why ? (r.why.tier === 'strong' ? 'strong match' : 'weak + second clue') + ': ' + r.why.terms.join(' + ') : 'not enough clues';
+      const why = r.why ? (r.why.tier === 'strong' ? 'strong match' : 'weak + a buddy word') + ': ' + r.why.terms.join(' + ') : 'not enough clues, so it lives';
       const rows = [
-        el('div', {}, el('b', { class: r.blur ? 'yes' : 'no', text: r.blur ? 'Would blur' : 'Would NOT blur' }), ` with ${r.name} (${why})`),
+        el('div', {}, el('b', { class: r.blur ? 'yes' : 'no', text: r.blur ? 'would blur' : 'would NOT blur' }), ` with ${r.name} (${why})`),
       ];
       const line = (label, arr) => arr && arr.length ? el('div', {}, el('span', { class: 'muted', text: label + ': ' }), arr.join(', ')) : null;
       rows.push(line('strong found', r.strong), line('weak found', r.weak), line('context found', r.context), line('cut out by allow list', r.allowed));
@@ -477,13 +477,13 @@
   // ---------------- backup ----------------
   function renderBackupInfo() {
     $('storage-info').textContent = state.area === 'sync'
-      ? 'Right now your settings live in browser sync storage, so they follow you to other copies of this browser you\'re signed into.'
-      : 'Right now your settings live in local storage on this device only.';
+      ? 'right now your settings live in browser sync storage, so they follow you to other copies of this browser you\'re signed into. neat.'
+      : 'right now your settings only live in local storage on this device.';
   }
 
   $('export-all').addEventListener('click', () => {
     download(`no-spoilers-backup-${P.today()}.json`, SS.edit.exportAll(state));
-    say('backup-msg', 'Downloaded.', 'ok');
+    say('backup-msg', 'downloaded. keep it somewhere safe.', 'ok');
   });
 
   $('import-all').addEventListener('change', async (e) => {
@@ -495,7 +495,7 @@
       await SS.edit.importAll(await file.text());
       unlocked = false;
       await load();
-      say('backup-msg', 'Restored.', 'ok');
+      say('backup-msg', 'restored. welcome back.', 'ok');
     } catch (err) {
       say('backup-msg', 'import failed, oops: ' + (err.message || err), 'bad');
     }

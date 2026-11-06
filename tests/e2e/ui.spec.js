@@ -74,17 +74,17 @@ test('settings: edit the pack, test box explains matches, expiry date saves', as
   await expect(opts.locator('.pack').first()).toContainText('GTA VI');
 
   await opts.locator('#test-text').fill('Jason and Lucia in the new trailer');
-  await expect(opts.locator('#test-out')).toContainText('Would blur');
+  await expect(opts.locator('#test-out')).toContainText('would blur');
   await opts.locator('#test-text').fill('my friend Raul');
-  await expect(opts.locator('#test-out')).toContainText('Would NOT blur');
+  await expect(opts.locator('#test-out')).toContainText('would NOT blur');
 
-  await opts.locator('.pack').first().getByRole('button', { name: 'Edit' }).click();
+  await opts.locator('.pack').first().getByRole('button', { name: 'edit' }).click();
   const strong = opts.locator('#ed-strong');
   await strong.fill((await strong.inputValue()) + '\n// Added by you\nZebra Unicorn Quest');
   await opts.locator('#ed-save').click();
-  await expect(opts.locator('#ed-msg')).toContainText('Saved');
+  await expect(opts.locator('#ed-msg')).toContainText('saved');
   await opts.locator('#test-text').fill('zebra unicorn quest gameplay');
-  await expect(opts.locator('#test-out')).toContainText('Would blur');
+  await expect(opts.locator('#test-out')).toContainText('would blur');
   const diff = await sw.evaluate(async () => {
     const all = await chrome.storage.sync.get(null);
     let json = '';
@@ -111,7 +111,7 @@ test('settings: change the spoiler text, open tabs show it right away', async ({
   await opts.locator('#ov-text').fill('nope, not for you\nwait for the PC version');
   await expect(opts.locator('#pv-lines')).toContainText('nope, not for you'); // live preview
   await opts.locator('#ov-save').click();
-  await expect(opts.locator('#ov-msg')).toContainText('Saved');
+  await expect(opts.locator('#ov-msg')).toContainText('saved');
   await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain('wait for the PC version');
   await opts.locator('#ov-reset').click();
   await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain("hey, it's the thing you wanted blurred");
