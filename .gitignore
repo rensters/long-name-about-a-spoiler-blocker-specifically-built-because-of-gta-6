@@ -4,3 +4,6 @@ playwright-report/
 dist/
 .web-ext-artifacts/
 *.log
+.env
+.env.*
+.cache/

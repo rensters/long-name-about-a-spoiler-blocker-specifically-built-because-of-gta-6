@@ -181,7 +181,7 @@
     const wrap = document.createElement('div');
     wrap.className = 'wrap';
     wrap.setAttribute('role', 'note');
-    wrap.setAttribute('aria-label', 'Hidden by Spoiler Shield');
+    wrap.setAttribute('aria-label', 'Hidden by the spoiler blocker');
     wrap.appendChild(buildLines(opts.lines));
     if (opts.why) {
       const why = document.createElement('div');
@@ -261,7 +261,7 @@
     const badge = document.createElement('div');
     badge.className = 'badge';
     badge.innerHTML = '<span class="dot"></span><span class="t"></span>';
-    badge.querySelector('.t').textContent = opts.badge || 'Spoiler Shield';
+    badge.querySelector('.t').textContent = opts.badge || 'no spoilers';
     card.append(badge, buildLines(opts.lines));
     if (opts.why) {
       const why = document.createElement('div');

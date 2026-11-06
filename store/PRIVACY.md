@@ -1,6 +1,6 @@
-# Spoiler Shield privacy policy
+# Privacy policy: i can't afford a PS5 but i also wish to not get spoiled
 
-Spoiler Shield does not collect, send, sell or share any data. At all.
+This extension does not collect, send, sell or share any data. At all.
 
 - Everything runs inside your browser. The extension makes no network requests of its own: no servers, no analytics, no crash reports, no remote keyword lists, no update checks.
 - It reads the text of the pages you visit (titles, posts, channel names, image descriptions) only to decide, on your device, whether to blur something. That text is never stored or sent anywhere.

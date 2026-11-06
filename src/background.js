@@ -22,7 +22,7 @@ if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalT
         const p = await (await fetch(api.runtime.getURL('packs/' + file))).json();
         if (p && p.id) packs[p.id] = p;
       } catch (e) {
-        console.warn('[spoiler shield] couldn\'t load pack', file, e); // a broken json shouldn't take the others down
+        console.warn('[no spoilers] couldn\'t load pack', file, e); // a broken json shouldn't take the others down
       }
     }
     const version = api.runtime.getManifest().version;
@@ -111,7 +111,7 @@ if (typeof importScripts === 'function' && !(globalThis.SpoilerShield && globalT
       const key = p.id + '@' + p.expires;
       if (reminded[key] === today) continue;
       if (left !== null && left <= 0 && left > -2) {
-        notify('ss-expired-' + p.id, `${p.name} blocking is off now`, `You set it to switch off on ${p.expires}. Enjoy! (Change the date in Spoiler Shield settings if that was a mistake.)`);
+        notify('ss-expired-' + p.id, `${p.name} blocking is off now`, `You set it to switch off on ${p.expires}. Enjoy! (Change the date in the extension settings if that was a mistake.)`);
         reminded[key] = today;
         changed = true;
       } else if (SS.packs.expiringSoon(p) !== null) {

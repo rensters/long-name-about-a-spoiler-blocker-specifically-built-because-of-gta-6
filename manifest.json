@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Spoiler Shield",
-  "short_name": "Spoiler Shield",
+  "name": "i can't afford a PS5 but i also wish to not get spoiled",
+  "short_name": "no spoilers",
   "version": "1.0.0",
   "description": "Blurs GTA VI (or any topic you pick) all over YouTube, Reddit, X, Twitch and more until you're ready. Runs 100% locally.",
   "icons": {
@@ -11,7 +11,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "Spoiler Shield",
+    "default_title": "i can't afford a PS5 but i also wish to not get spoiled",
     "default_popup": "src/popup/popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",
@@ -25,17 +25,36 @@
   },
   "background": {
     "service_worker": "src/background.js",
-    "scripts": ["src/lib/shim.js", "src/lib/normalize.js", "src/lib/packs.js", "src/lib/store.js", "src/background.js"]
+    "scripts": [
+      "src/lib/shim.js",
+      "src/lib/normalize.js",
+      "src/lib/packs.js",
+      "src/lib/store.js",
+      "src/background.js"
+    ]
   },
-  "permissions": ["storage", "alarms", "notifications"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "exclude_matches": ["*://www.youtube.com/live_chat*", "*://www.youtube.com/live_chat_replay*"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "exclude_matches": [
+        "*://www.youtube.com/live_chat*",
+        "*://www.youtube.com/live_chat_replay*"
+      ],
       "run_at": "document_start",
       "all_frames": false,
-      "css": ["src/content/page.css"],
+      "css": [
+        "src/content/page.css"
+      ],
       "js": [
         "src/lib/shim.js",
         "src/lib/normalize.js",
@@ -66,10 +85,15 @@
       ]
     },
     {
-      "matches": ["*://www.youtube.com/live_chat*", "*://www.youtube.com/live_chat_replay*"],
+      "matches": [
+        "*://www.youtube.com/live_chat*",
+        "*://www.youtube.com/live_chat_replay*"
+      ],
       "run_at": "document_start",
       "all_frames": true,
-      "css": ["src/content/page.css"],
+      "css": [
+        "src/content/page.css"
+      ],
       "js": [
         "src/lib/shim.js",
         "src/lib/normalize.js",
@@ -92,7 +116,9 @@
       "id": "{74e0e5b7-0625-4926-87a0-0d238402457d}",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
-        "required": ["none"]
+        "required": [
+          "none"
+        ]
       }
     },
     "gecko_android": {

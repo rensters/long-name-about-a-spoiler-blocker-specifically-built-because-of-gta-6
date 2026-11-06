@@ -92,7 +92,7 @@
 
   function exportAll(state) {
     return JSON.stringify(
-      { exportedFrom: 'Spoiler Shield', exportedAt: new Date().toISOString(), settings: state.settings, packState: state.packState },
+      { exportedFrom: "i can't afford a PS5 but i also wish to not get spoiled", exportedAt: new Date().toISOString(), settings: state.settings, packState: state.packState },
       null,
       2,
     );
@@ -100,7 +100,7 @@
 
   async function importAll(json) {
     const obj = JSON.parse(json);
-    if (!obj || typeof obj !== 'object' || !obj.packState || !obj.settings) throw new Error("that's not a Spoiler Shield backup");
+    if (!obj || typeof obj !== 'object' || !obj.packState || !obj.settings) throw new Error("that's not a backup from this extension");
     const ps = obj.packState;
     const clean = { diffs: {}, custom: {}, order: Array.isArray(ps.order) ? ps.order.filter((x) => typeof x === 'string') : [] };
     for (const [id, d] of Object.entries(ps.diffs || {})) if (d && typeof d === 'object') clean.diffs[id] = d;

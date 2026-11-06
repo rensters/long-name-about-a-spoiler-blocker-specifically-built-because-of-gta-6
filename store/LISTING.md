@@ -1,7 +1,7 @@
 # Store listing kit
 
 Everything to paste into the Chrome Web Store and Firefox Add-ons (AMO) forms.
-Build the zips first: `npm run package`, which writes `dist/spoiler-shield-chrome-1.0.0.zip` and `dist/spoiler-shield-firefox-1.0.0.zip`.
+Build the zips first: `npm run package`, which writes `dist/i-cant-afford-a-ps5-but-i-also-wish-to-not-get-spoiled-chrome-1.0.0.zip` and `dist/i-cant-afford-a-ps5-but-i-also-wish-to-not-get-spoiled-firefox-1.0.0.zip`.
 
 ---
 
@@ -19,7 +19,9 @@ Your name isn't in any shipped file: no author field, a public-domain license (U
 
 ## Shared text
 
-**Name:** Spoiler Shield
+**Name (both stores):** no spoil gta 6 pls
+
+The full name, "i can't afford a PS5 but i also wish to not get spoiled", shows inside the popup and settings page. The store builds use the short one (Firefox caps names at 45 characters, and Chrome now matches).
 
 **Short description** (Chrome max 132 chars, AMO "summary" max 250):
 
@@ -29,7 +31,7 @@ Your name isn't in any shipped file: no author field, a public-domain license (U
 
 **Description:**
 
-> Not ready for spoilers? Spoiler Shield blurs them before you ever see them.
+> Not ready for spoilers? This blurs them before you ever see them.
 >
 > It ships with a GTA VI pack for everyone waiting on the PC version, and you can make packs for any game, show, movie or sports result.
 >
@@ -87,8 +89,10 @@ Your name isn't in any shipped file: no author field, a public-domain license (U
 
 ## Firefox AMO
 
+Listing name: **no spoil gta 6 pls** (set in `tools/build.js`).
+
 1. addons.mozilla.org → *Developer Hub* → *Submit a New Add-on* → **On this site** (listed).
-2. Upload `dist/spoiler-shield-firefox-1.0.0.zip`. Compatibility: Firefox **and** Firefox for Android.
+2. Upload `dist/i-cant-afford-a-ps5-but-i-also-wish-to-not-get-spoiled-firefox-1.0.0.zip`. Compatibility: Firefox **and** Firefox for Android.
 3. "Do you need to submit source code?" **No**: the code isn't minified or bundled.
 4. Paste the shared text above. License: **The Unlicense**. Privacy policy: paste `store/PRIVACY.md`.
 5. Screenshots: the same 5 PNGs.
@@ -103,7 +107,7 @@ Your name isn't in any shipped file: no author field, a public-domain license (U
 - **"shitbag" in the default overlay text.** Most likely fine (it's mild and it's UI, not the listing). If a review complains, change the default second line in `packs/gta6.json` and in `src/lib/packs.js` (`DEFAULT_OVERLAY`) and resubmit. You can always set your own text back in settings.
 - **GTA VI in the description.** Describing what it works with is fine; the listing says it's not affiliated with Rockstar. Don't add Rockstar logos or game art to the images.
 - **"Access to all sites" means a longer Chrome review**, often a few days, sometimes 2-3 weeks. Normal for this kind of extension.
-- **Name clash:** there may already be an extension called "Spoiler Shield". That isn't against the rules, but if the store objects, something like "Spoiler Shield: Hide Game Spoilers" works.
+- **"gta 6" in the name:** reviewers sometimes push back on another company's trademark in an extension's name. If either store objects, swap it for something like "no spoil pls" in `tools/build.js` and resubmit.
 
 ## Updating later
 

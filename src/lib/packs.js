@@ -331,7 +331,7 @@
   function exportPack(pack) {
     const p = clone(pack);
     delete p.builtin;
-    p.exportedFrom = 'Spoiler Shield';
+    p.exportedFrom = "i can't afford a PS5 but i also wish to not get spoiled";
     p.exportedAt = new Date().toISOString();
     return JSON.stringify(p, null, 2);
   }

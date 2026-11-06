@@ -1,4 +1,4 @@
-# Spoiler Shield
+# i can't afford a PS5 but i also wish to not get spoiled
 
 Blurs every bit of **GTA VI** on the internet until *you* are ready (i.e. the PC release, rumored Q1 2027),
 then gets out of the way on the date you pick. Swap the topic to any game, show, movie or sports result
@@ -53,7 +53,7 @@ Brave note: Brave's own Shields don't interfere. If you use Brave's "Block scrip
 
 3. You get a signed `.xpi` in `web-ext-artifacts/`. Drag it into Firefox, or open it with *about:addons → ⚙ → Install Add-on From File*.
 
-Then in `about:addons` → Spoiler Shield → **Permissions**, make sure *"Access your data for all websites"* is on. Firefox sometimes leaves that off for extensions you install yourself, and without it nothing gets blurred.
+Then in `about:addons` → this extension → **Permissions**, make sure *"Access your data for all websites"* is on. Firefox sometimes leaves that off for extensions you install yourself, and without it nothing gets blurred.
 
 (Firefox Developer Edition / Nightly can also run it unsigned: set `xpinstall.signatures.required` to `false` in `about:config`.)
 
@@ -69,7 +69,7 @@ Heads-up: Mozilla has moved this option around. It's always in Nightly and Beta;
 
 Some Android browsers can load Chrome extensions from a file in developer mode. The list changes a lot: Kiwi stopped development in January 2025 (old installs still work), and Lemur, Quetta and Mises have offered "install from .zip/.crx" at various points. Check that yours still does.
 
-1. On your PC: `npm install && npm run package`. You get `dist/spoiler-shield-chrome-1.0.0.zip`.
+1. On your PC: `npm install && npm run package`. You get `dist/i-cant-afford-a-ps5-but-i-also-wish-to-not-get-spoiled-chrome-1.0.0.zip`.
 2. Copy the zip to the phone.
 3. In the browser: open its extensions page (often `chrome://extensions`), enable **Developer mode**, use **+ (from .zip/.crx/.user.js)** and pick the zip.
 
@@ -82,18 +82,18 @@ Safari can run this as a **Safari Web Extension**, but it has to be wrapped in a
 1. On a Mac with Xcode installed:
 
    ```bash
-   xcrun safari-web-extension-converter /path/to/spoiler-shield --app-name "Spoiler Shield" --bundle-identifier com.yourname.spoilershield --swift --copy-resources
+   xcrun safari-web-extension-converter /path/to/this-folder --app-name "no spoilers" --bundle-identifier com.yourname.nospoilers --swift --copy-resources
    ```
 
    It generates an Xcode project and opens it. Ignore warnings about `browser_specific_settings`; Safari just skips that key.
 2. In Xcode, pick the **iOS** target, set *Signing & Capabilities → Team* to your Apple ID, plug in your iPhone and hit **Run**.
    With a free Apple ID the app expires after 7 days (just re-run). A paid developer account gets you a year, or TestFlight.
-3. On the iPhone: *Settings → Apps → Safari → Extensions → Spoiler Shield*, switch it on and set **All Websites → Allow**.
+3. On the iPhone: *Settings → Apps → Safari → Extensions → no spoilers*, switch it on and set **All Websites → Allow**.
 4. Same project, macOS target, if you want it in desktop Safari too.
 
 ### The limitation nobody can fix
 
-**The official YouTube, Reddit, X, TikTok, Twitch, Instagram, Facebook, Kick and Discord *apps* can't be filtered by any extension.** Extensions only live inside browsers. On your phone, use those sites in a browser that runs Spoiler Shield (Firefox for Android, or Safari with the iOS wrapper), and maybe log out of / offload the apps until the PC release. Same goes for notifications pushed by those apps, smart TVs, consoles, and your friend who "just has to tell you one thing".
+**The official YouTube, Reddit, X, TikTok, Twitch, Instagram, Facebook, Kick and Discord *apps* can't be filtered by any extension.** Extensions only live inside browsers. On your phone, use those sites in a browser that runs this extension (Firefox for Android, or Safari with the iOS wrapper), and maybe log out of / offload the apps until the PC release. Same goes for notifications pushed by those apps, smart TVs, consoles, and your friend who "just has to tell you one thing".
 
 ---
 
@@ -166,7 +166,7 @@ npm test                   # unit tests: matcher, packs, storage, source-file sa
 npx playwright install chromium
 npm run test:e2e           # end-to-end in Chromium with the real extension loaded
 npm run lint:firefox       # mozilla's linter (0 errors; 1 expected warning about service_worker)
-npm run package            # dist/spoiler-shield-{chrome,firefox}-<version>.zip, store-ready (see store/LISTING.md)
+npm run package            # dist/i-cant-afford-a-ps5-but-i-also-wish-to-not-get-spoiled-{chrome,firefox}-<version>.zip, store-ready (see store/LISTING.md)
 npm run icons              # re-render icons/*.png from icons/icon.svg
 ```
 

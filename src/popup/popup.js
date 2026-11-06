@@ -136,7 +136,7 @@
   $('enabled').addEventListener('change', (e) => {
     if (e.target.checked) return save({ enabled: true });
     e.target.checked = true; // stays on until the phrase checks out
-    gated('Locked. Type your phrase to switch Spoiler Shield off everywhere.', () => save({ enabled: false }));
+    gated('Locked. Type your phrase to switch the spoiler blocker off everywhere.', () => save({ enabled: false }));
   });
 
   $('pause').addEventListener('click', () => {

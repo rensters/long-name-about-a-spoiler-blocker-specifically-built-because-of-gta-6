@@ -482,7 +482,7 @@
   }
 
   $('export-all').addEventListener('click', () => {
-    download(`spoiler-shield-backup-${P.today()}.json`, SS.edit.exportAll(state));
+    download(`no-spoilers-backup-${P.today()}.json`, SS.edit.exportAll(state));
     say('backup-msg', 'Downloaded.', 'ok');
   });
 
