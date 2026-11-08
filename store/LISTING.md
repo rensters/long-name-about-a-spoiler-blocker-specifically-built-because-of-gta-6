@@ -13,7 +13,6 @@ Your name isn't in any shipped file: no author field, a public-domain license (U
 - [ ] **Chrome Web Store**: register with that email, pick a pseudonym as the publisher name, and declare yourself a **non-trader**. Traders have to publish a real address; non-traders don't. The $5 one-time fee goes through Google Payments, and that payment name isn't shown on the listing.
 - [ ] **Firefox AMO**: sign up with the same email (Firefox account) and set a pseudonym as the display name. The email stays private, and AMO is free.
 - [ ] **Support link**: don't use your real email. Options: the store's own support tab (Chrome has one built in), or the new email.
-- [ ] **Never push this folder's git history** anywhere public as-is: the commits carry your name and email. If you want it on GitHub later, I'll make a clean history under the pseudonym first.
 
 ---
 
