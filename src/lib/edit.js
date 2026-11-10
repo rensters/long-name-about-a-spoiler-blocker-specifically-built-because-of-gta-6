@@ -92,7 +92,7 @@
 
   function exportAll(state) {
     return JSON.stringify(
-      { exportedFrom: "i can't afford a PS5 but i also wish to not get spoiled", exportedAt: new Date().toISOString(), settings: state.settings, packState: state.packState },
+      { exportedFrom: "spoilerphobia", exportedAt: new Date().toISOString(), settings: state.settings, packState: state.packState },
       null,
       2,
     );

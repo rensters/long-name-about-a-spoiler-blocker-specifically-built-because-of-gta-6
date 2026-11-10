@@ -10,7 +10,7 @@ const { execFileSync } = require('node:child_process');
 const ROOT = path.join(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const SHIP = ['manifest.json', 'UNLICENSE', 'src', 'packs', 'icons'];
-const STORE_NAME = 'no spoil gta 6 pls'; // what both stores show. the full name lives in the UI + README
+const STORE_NAME = 'spoilerphobia'; // what both stores show. same as everywhere else now, look at us being consistent
 const SKIP = new Set(['icon-256.png', 'source']); // source art, not needed at runtime
 
 function copy(from, to) {
@@ -32,7 +32,7 @@ const targets = {
   },
   firefox(m) {
     m.background = { scripts: m.background.scripts };
-    // firefox caps names at 45 chars and my full name is 55, so the stores get the short one. rude
+    // firefox caps names at 45 chars. spoilerphobia is 13. we good
     m.name = STORE_NAME;
     m.action.default_title = STORE_NAME;
     return m;

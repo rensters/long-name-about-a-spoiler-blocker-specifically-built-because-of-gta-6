@@ -1,4 +1,4 @@
-# Privacy policy: i can't afford a PS5 but i also wish to not get spoiled
+# Privacy policy: spoilerphobia
 
 This extension does not collect, send, sell or share any data. At all.
 

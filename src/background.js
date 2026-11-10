@@ -22,7 +22,7 @@ if (typeof importScripts === 'function' && !(globalThis.NoSpoil && globalThis.No
         const p = await (await fetch(api.runtime.getURL('packs/' + file))).json();
         if (p && p.id) packs[p.id] = p;
       } catch (e) {
-        console.warn('[no spoilers] couldn\'t load pack', file, e); // a broken json shouldn't take the others down
+        console.warn('[spoilerphobia] couldn\'t load pack', file, e); // a broken json shouldn't take the others down
       }
     }
     const version = api.runtime.getManifest().version;

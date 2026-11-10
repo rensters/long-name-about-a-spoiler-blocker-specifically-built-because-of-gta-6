@@ -261,7 +261,7 @@
     const badge = document.createElement('div');
     badge.className = 'badge';
     badge.innerHTML = '<span class="dot"></span><span class="t"></span>';
-    badge.querySelector('.t').textContent = opts.badge || 'no spoilers';
+    badge.querySelector('.t').textContent = opts.badge || 'spoilerphobia';
     card.append(badge, buildLines(opts.lines));
     if (opts.why) {
       const why = document.createElement('div');
