@@ -1,7 +1,7 @@
 {
   "id": "gta6",
   "name": "GTA VI",
-  "version": "2026.10.27",
+  "version": "2026.11.19",
   "description": "Everything Grand Theft Auto VI: titles in 20+ languages, characters, Leonida places, businesses, radio, cars, trailers, leaks, studio people, communities and streamers. Researched 2026-10-16 (launch trailer is out, console launch Nov 19 2026). Groups marked (check) are the ones I wasn't sure about.",
   "active": true,
   "expires": null,
@@ -70,7 +70,9 @@
       "GTA kuusi",
       "GTA altı",
       "GTA enam",
-      "GTA sáu"
+      "GTA sáu",
+      "ГТА VI",
+      "グランド・セフト・オートVI"
     ],
     "Other languages (check)": [
       "GTA seks"
@@ -105,14 +107,17 @@
       "Ekanfinaka",
       "Tisha-Wocka",
       "Lummox County",
-      "LeonidaGov"
+      "LeonidaGov",
+      "Leonida Everglades",
+      "VC Port"
     ],
     "Businesses, gangs and radio": [
       "Only Raw Records",
       "PTT Youngin$",
       "Cocoteo FM",
       "AfroBank FM",
-      "Chamber 106.6"
+      "Chamber 106.6",
+      "Only Raw"
     ],
     "Marketing": [
       "Vice City, USA",
@@ -127,6 +132,40 @@
     ],
     "Leaks (check)": [
       "Arion Kurtaj"
+    ],
+    "Spellings (launch day)": [
+      "gta6",
+      "gta-6",
+      "g t a 6",
+      "g.t.a 6",
+      "gta 6️⃣",
+      "ＧＴＡ６",
+      "gta Ⅵ",
+      "gtavl",
+      "gtav1"
+    ],
+    "Hashtags (launch day)": [
+      "#GTA6Launch",
+      "#GTA6Live",
+      "#GTA6Gameplay",
+      "#GrandTheftAutoVI",
+      "#JasonAndLucia"
+    ],
+    "Post-launch (not spoilers, just everywhere)": [
+      "GTA 6 bugs",
+      "GTA 6 glitch",
+      "GTA 6 patch",
+      "GTA 6 update",
+      "GTA 6 cheats",
+      "GTA 6 Online",
+      "GTA VI Online",
+      "GTA Online 2",
+      "GTA 6 multiplayer",
+      "GTA 6 RP",
+      "GTA 6 ending explained",
+      "GTA 6 ending reaction",
+      "GTA 6 vs GTA 5",
+      "GTA 6 vs RDR2"
     ]
   },
   "weak": {
@@ -206,7 +245,8 @@
       "바이스 시티",
       "Вайс-Сити",
       "Вайс Сити",
-      "فايس سيتي"
+      "فايس سيتي",
+      "Little Haiti"
     ],
     "Places (check)": [
       "Ocean Beach",
@@ -485,7 +525,16 @@
       "Brute Stockade",
       "Jacksheepe Excavator",
       "Pegassi GranForma",
-      "GranForma"
+      "GranForma",
+      "Truffade Thrax",
+      "Speeder 700 GT",
+      "Nagasaki Sea Sparrow",
+      "Maibatsu Sanchez",
+      "Brimstone Golfer",
+      "Lapwing Mallard",
+      "Vapid Stanier G2",
+      "Nagasaki Carbon RS",
+      "Maibatsu Boomazoom"
     ],
     "GTA-universe brands": [
       "Ammu-Nation",
@@ -521,6 +570,79 @@
     "GTA-universe brands (check)": [
       "Vapid",
       "Little Morgan"
+    ],
+    "Stream phrases": [
+      "full playthrough",
+      "blind playthrough",
+      "first time playing",
+      "day 1",
+      "part 1",
+      "no commentary",
+      "100%",
+      "launch stream",
+      "marathon",
+      "subathon"
+    ],
+    "Stream phrases (other languages)": [
+      "en vivo",
+      "en directo",
+      "directo",
+      "jugando",
+      "gameplay español",
+      "historia completa",
+      "pasándome",
+      "me paso",
+      "primera vez",
+      "misión",
+      "atraco",
+      "ao vivo",
+      "zerando",
+      "zerei",
+      "jogando",
+      "gameplay português",
+      "história completa",
+      "primeira vez",
+      "missão",
+      "assalto",
+      "main gta 6",
+      "langsung",
+      "tamat",
+      "lengkap",
+      "bahasa indonesia",
+      "en direct",
+      "lets play",
+      "deutsch",
+      "komplett",
+      "in diretta"
+    ],
+    "Post-launch talk": [
+      "Update 1.002",
+      "1.002.001",
+      "30fps",
+      "60fps mode",
+      "performance mode",
+      "PS5 Pro enhanced",
+      "17 million",
+      "biggest launch",
+      "fastest-selling",
+      "sales record",
+      "peak viewers",
+      "Photo Studio",
+      "photo mode",
+      "honor rank",
+      "safehouse",
+      "heist",
+      "money glitch",
+      "100% completion",
+      "trophy guide",
+      "platinum",
+      "all collectibles",
+      "guide",
+      "best cars",
+      "I finished",
+      "beat GTA 6",
+      "final heist",
+      "GOTY"
     ]
   },
   "contextIgnores": [
@@ -539,6 +661,18 @@
       "flags": "u",
       "tier": "strong",
       "why": "links to the official GTA VI site in link previews"
+    },
+    {
+      "pattern": "(?:gta|grand theft auto)[\\s\\S]{0,60}criminal profiles?|criminal profiles?[\\s\\S]{0,60}(?:gta|grand theft auto)",
+      "flags": "u",
+      "tier": "strong",
+      "why": "\"criminal profile\" only counts when GTA is in the same card"
+    },
+    {
+      "pattern": "(?<![\\p{L}\\p{N}])(?:gta|grand theft auto)(?:[^\\p{L}\\p{N}\\u2063]{0,3}(?:6|vi|six))?[^\\p{L}\\p{N}\\u2063]{1,4}spoilers?(?!\\p{L})|(?<!\\p{L})spoilers?[^\\p{L}\\p{N}\\u2063]{1,4}(?:gta|grand theft auto)(?![\\p{L}])",
+      "flags": "u",
+      "tier": "strong",
+      "why": "\"spoilers\" right next to any GTA. gta v spoilers get cut out by the allow list first"
     }
   ],
   "allow": [
@@ -595,7 +729,9 @@
     "Leonida",
     "ViceCity",
     "RockstarGames",
-    "gtaonline"
+    "gtaonline",
+    "GTA6memes",
+    "GTAVIOnline"
   ],
   "blockedCategories": [
     "Grand Theft Auto VI",
@@ -653,5 +789,44 @@
     "fps_shaka",
     "Fanum",
     "Duke Dennis"
+  ],
+  "launchWatchlist": [
+    "IlloJuan",
+    "Windah Basudara",
+    "alanzoka",
+    "PAULINHO O LOKO",
+    "rraenee",
+    "LOUD Coringa",
+    "TGG",
+    "Gameplayrj",
+    "hype",
+    "Rubius",
+    "Mythpat",
+    "TheGrefg",
+    "Kai Cenat",
+    "IShowSpeed",
+    "xQc",
+    "Ludwig",
+    "Adin Ross",
+    "Eddie Craven",
+    "ohnepixel"
+  ],
+  "launchWatchlistUntil": "2027-01-15",
+  "blockedUrls": [
+    "powerpyx.com/gta-6*",
+    "beebom.com/gta-6*",
+    "games.gg/grand-theft-auto-vi*",
+    "keengamer.com/*gta-6*",
+    "outputlag.com/guides/gta-6*",
+    "mobalytics.gg/*gta-6*",
+    "techwiser.com/gta-6*",
+    "gta6lfg.com",
+    "leonidaverse.com",
+    "gta6questvault.com",
+    "gtavispot.com",
+    "gtabase.com",
+    "gtaintel.com",
+    "gtaboom.com",
+    "gta.fandom.com/wiki/*VI*"
   ]
 }

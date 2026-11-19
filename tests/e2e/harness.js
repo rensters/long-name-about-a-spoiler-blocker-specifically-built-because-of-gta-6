@@ -22,6 +22,9 @@ const ROUTES = [
   [/^https:\/\/www\.twitch\.tv\/xqc/, () => ({ file: 'twitch-channel.html', vars: { LOGIN: 'xqc', NAME: 'xQc', TITLE: 'just chatting, reacting to stuff', GAME: 'Just Chatting', SLUG: 'just-chatting' } })],
   [/^https:\/\/www\.twitch\.tv\/chillstreamer/, () => ({ file: 'twitch-channel.html', vars: { LOGIN: 'chillstreamer', NAME: 'ChillStreamer', TITLE: 'chill vibes, day 40 of hardcore', GAME: 'Minecraft', SLUG: 'minecraft' } })],
   [/^https:\/\/example\.org\//, () => ({ file: 'generic.html' })],
+  [/^https:\/\/kick\.com\//, () => ({ file: 'kick-home.html' })],
+  [/^https:\/\/(www\.)?powerpyx\.com\//, () => ({ file: 'generic.html' })],
+  [/^https:\/\/gta\.fandom\.com\//, () => ({ file: 'generic.html' })],
 ];
 
 function fill(html, vars) {

@@ -10,10 +10,15 @@
 (function () {
   const SS = globalThis.NoSpoil;
   const { WALL, hash } = SS.text;
+  const { closestDeep, badgeKind } = SS.collect;
 
   const BUDGET_MS = 8; // per mutation batch, then we punt the rest to idle time. don't crank this up, the tab will cry
   const HOLD_MAX_MS = 6000; // longest we'll hold a player while the page makes up its mind about what it is
   const NAV_SETTLE_MS = 3000; // after a SPA navigation, wait up to this long for the old title to go away
+  const TEXT_WAIT_MS = 1500; // a card with no title yet stays hidden this long, waiting for the title to show up
+  const READY_LETTERS = 5; // "has a title" = at least this many letters that aren't the channel name
+  // attributes worth re-checking a card over. SPAs recycle cards and sometimes ONLY swap these
+  const OBSERVE = { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['title', 'aria-label', 'alt', 'src', 'href'] };
   const idle = globalThis.requestIdleCallback
     ? (cb) => requestIdleCallback(cb, { timeout: 90 })
     : (cb) => setTimeout(() => cb({ timeRemaining: () => 8, didTimeout: true }), 16);
@@ -37,6 +42,7 @@
       case 'watchlist': return `on your watchlist: ${t}`;
       case 'strict': return 'strict streams mode: gaming livestream';
       case 'chat': return 'live chat on a flagged stream';
+      case 'url': return `blocked page ${t}`;
       default: return t;
     }
   };
@@ -45,7 +51,12 @@
     constructor(site) {
       this.site = site || null;
       this.generic = !site;
-      this.itemSel = site ? SS.sites.validSelectors(site.items.map((i) => i[0])).join(',') : '';
+      this.itemSel = site ? SS.sites.validSelectors(site.items.map((i) => i[0]).concat('[data-ss-card]')).join(',') : '';
+      this.cardSel = this.itemSel || '[data-ss-card]'; // generic mode only knows the cards it found by badge
+      this.roots = new Set(); // open shadow roots we're watching
+      this.firstSeen = new WeakMap(); // card -> when we first saw it without a title
+      this.waiting = new Set();
+      this.ticks = 0;
       this.queue = new Set();
       this.scheduled = false;
       this.running = false;
@@ -74,8 +85,12 @@
       if (this.running) return;
       this.running = true;
       this.observer = new MutationObserver(this.onMut);
-      this.observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+      this.observer.observe(document.documentElement, OBSERVE);
+      for (const sr of this.roots) this.observer.observe(sr, OBSERVE); // restart after a pause
+      if (!this.generic) SS.stream.setCardSel(this.itemSel);
+      this.adoptShadows(document.documentElement);
       this.scanAll();
+      SS.early.stopWatch(); // our own observer has it from here
       this.checkPage();
       this.timers.push(setInterval(() => this.watchdog(), 1500));
       this.timers.push(setInterval(() => this.urlTick(), 400));
@@ -101,7 +116,9 @@
       if (this.pageShow) window.removeEventListener('pageshow', this.pageShow);
       if (this.siteNav) document.removeEventListener(this.site.onNavigateEvent, this.siteNav);
       this.queue.clear();
-      for (const el of document.querySelectorAll('[data-ss]')) {
+      this.waiting.clear();
+      SS.stream.setCardSel('');
+      for (const el of this.everywhere('[data-ss]')) {
         SS.shield.detach(el);
         this.inert(el, false);
         el.removeAttribute('data-ss');
@@ -133,8 +150,58 @@
     itemOf(node) {
       const el = node && (node.nodeType === 1 ? node : node.parentElement);
       if (!el || !el.closest) return null;
-      if (this.generic) return this.genericBlock(el);
-      return el.closest(this.itemSel);
+      if (this.generic) return el.closest('[data-ss-card]') || this.genericBlock(el);
+      return closestDeep(el, this.itemSel);
+    }
+
+    // querySelectorAll on the page AND inside every shadow root we know about
+    everywhere(sel) {
+      const out = Array.from(document.querySelectorAll(sel));
+      for (const sr of this.roots) {
+        if (!sr.host || !sr.host.isConnected) {
+          this.roots.delete(sr);
+          continue;
+        }
+        out.push(...sr.querySelectorAll(sel));
+      }
+      return out;
+    }
+
+    // ---------- shadow roots ----------
+
+    adoptShadows(node) {
+      if (!node) return;
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT);
+      let el = node.nodeType === 1 ? node : walker.nextNode();
+      let i = 0;
+      while (el && i++ < 30000) {
+        const sr = el.shadowRoot;
+        if (sr && !this.roots.has(sr) && el.tagName !== 'SS-SHIELD' && el.tagName !== 'SS-WALL') this.adoptRoot(sr);
+        el = walker.nextNode();
+      }
+    }
+
+    adoptRoot(sr) {
+      this.roots.add(sr);
+      try {
+        const st = document.createElement('style');
+        st.setAttribute('data-ss-style', '');
+        st.textContent = SS.early.shadowCss();
+        sr.appendChild(st);
+      } catch (e) {
+        /* some shadow roots are weird. shrug */
+      }
+      if (this.observer) this.observer.observe(sr, OBSERVE);
+      this.adoptShadows(sr);
+      const set = new Set();
+      this.collectFrom(sr, set);
+      for (const el of set) this.queue.add(el);
+      if (this.queue.size) this.schedule();
+    }
+
+    // ---------- the fallback: LIVE badges nobody told us about (the real code is in collect.js) ----------
+    findCards(root, into) {
+      SS.collect.findCards(root, this.cardSel, into);
     }
 
     genericBlock(el) {
@@ -145,6 +212,9 @@
     }
 
     collectFrom(node, into) {
+      if (node.nodeType === 1 && node.shadowRoot && !this.roots.has(node.shadowRoot)) this.adoptShadows(node);
+      else if (node.nodeType === 1 && node.firstElementChild) this.adoptShadows(node);
+      this.findCards(node, into);
       if (this.generic) {
         const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
         let n;
@@ -163,7 +233,8 @@
       if (!this.itemSel) return;
       if (node.matches && node.matches(this.itemSel)) into.add(node);
       if (node.querySelectorAll) for (const el of node.querySelectorAll(this.itemSel)) into.add(el);
-      const parent = node.parentElement && node.parentElement.closest(this.itemSel);
+      const up = node.parentElement || (node.host ? node.host : null);
+      const parent = up && closestDeep(up, this.itemSel);
       if (parent) into.add(parent);
     }
 
@@ -173,8 +244,10 @@
       if (this.generic) {
         if (document.body) this.collectFrom(document.body, set);
       } else if (this.itemSel) {
-        for (const el of document.querySelectorAll(this.itemSel)) set.add(el);
+        for (const el of this.everywhere(this.itemSel)) set.add(el);
       }
+      if (document.documentElement) this.findCards(document.documentElement, set);
+      for (const sr of this.roots) this.findCards(sr, set);
       for (const el of set) this.queue.add(el);
       if (force) for (const el of set) this.sigs.delete(el);
       this.flush(performance.now());
@@ -201,6 +274,11 @@
             if (it) touched.add(it);
           }
         } else if (m.type === 'characterData') {
+          const it = this.itemOf(m.target);
+          if (it) touched.add(it);
+          else this.findCards(m.target, touched); // a "3K watching" that just showed up
+        } else if (m.type === 'attributes') {
+          // recycled card got a new title="" / alt / thumbnail src / link. look again
           const it = this.itemOf(m.target);
           if (it) touched.add(it);
         }
@@ -245,6 +323,15 @@
 
     check(el) {
       if (!el || !el.isConnected || !this.matcher || this.ours(el)) return;
+      if (el.hasAttribute('data-ss-card') && SS.collect.badgeCount(el) > 1) {
+        el.removeAttribute('data-ss-card');
+        if (el.getAttribute('data-ss') === 'blocked') this.clear(el);
+        el.removeAttribute('data-ss');
+        const set = new Set();
+        SS.collect.findCards(el, this.cardSel, set);
+        for (const c of set) if (c !== el) this.check(c);
+        return;
+      }
       let f;
       try {
         f = this.fieldsOf(el);
@@ -252,7 +339,7 @@
         if (!this.generic) el.setAttribute('data-ss', 'ok'); // we tripped. never leave a card invisible because of our mess
         return;
       }
-      const sig = hash([f.text, (f.channels || []).join('|'), f.community || '', (f.categories || []).join('|'), f.live ? 1 : 0].join('\u0001'));
+      const sig = hash([f.text, (f.channels || []).join('|'), f.community || '', (f.categories || []).join('|'), f.live ? 1 : 0, f.video ? 1 : 0].join('\u0001'));
       const state = el.getAttribute('data-ss');
       if (this.sigs.get(el) === sig && (state || this.generic)) {
         if (state === 'blocked' && !el.querySelector(':scope > ss-shield')) this.sigs.delete(el), this.check(el); // site nuked our overlay. rude. put it back
@@ -260,7 +347,11 @@
       }
       this.sigs.set(el, sig);
       const res = this.generic ? this.matcher.matchStrong(f.text) : this.matcher.match(f);
-      if (!res) return this.clear(el);
+      if (!res) {
+        if (this.waitForText(el, f)) return; // no title yet. stay hidden, look again when it shows up
+        return this.clear(el);
+      }
+      this.firstSeen.delete(el);
       // you already said yes to this post. remembered per post (its permalink), not per DOM node or
       // exact text, because X re-creates posts and bumps like counts nonstop. that re-blurred stuff
       if (this.revealed.has(this.identity(el, f, res))) return this.reveal(el);
@@ -302,13 +393,44 @@
       SS.stream.pauseInside(el);
     }
 
+    // video-ish cards that don't have a title yet (lazy loading, or a recycled card mid-swap) don't get
+    // waved through as "ok". they stay hidden until the title lands, or TEXT_WAIT_MS passes, whichever first
+    waitForText(el, f) {
+      const site = this.site;
+      if (this.generic || !site || !site.video) return false;
+      if ((site.quickSel && el.matches(site.quickSel)) || (site.talkSel && el.matches(site.talkSel))) return false;
+      let t = f.text || '';
+      for (const c of f.channels || []) if (c) t = t.split(c).join(' ');
+      if ((t.match(/\p{L}/gu) || []).length >= READY_LETTERS) {
+        this.firstSeen.delete(el);
+        return false;
+      }
+      const now = Date.now();
+      if (!this.firstSeen.has(el)) this.firstSeen.set(el, now);
+      if (now - this.firstSeen.get(el) >= TEXT_WAIT_MS) return false; // waited long enough. it's probably just untitled
+      if (el.getAttribute('data-ss') === 'ok') el.removeAttribute('data-ss'); // it WAS fine, now it's blank again: hide it
+      this.sigs.delete(el);
+      this.waiting.add(el);
+      if (!this.waitTimer) {
+        this.waitTimer = setTimeout(() => {
+          this.waitTimer = null;
+          const els = Array.from(this.waiting);
+          this.waiting.clear();
+          for (const e of els) this.check(e);
+        }, 250);
+      }
+      return true;
+    }
+
     clear(el) {
-      if (el.getAttribute('data-ss') === 'blocked') {
+      const was = el.getAttribute('data-ss');
+      if (was === 'blocked') {
         SS.shield.detach(el);
         this.inert(el, false);
       }
       if (this.generic) el.removeAttribute('data-ss');
       else el.setAttribute('data-ss', 'ok');
+      if (was !== 'ok') SS.stream.releaseInside(el);
     }
 
     reveal(el) {
@@ -340,7 +462,7 @@
     }
 
     get count() {
-      return document.querySelectorAll('[data-ss="blocked"]').length + (SS.shield.wallUp ? 1 : 0);
+      return this.everywhere('[data-ss="blocked"]').length + (SS.shield.wallUp ? 1 : 0);
     }
 
     report(force) {
@@ -384,7 +506,7 @@
       SS.shield.hideWall();
       SS.stream.unlock(false);
       if (this.site && this.site.page && this.site.page.kind && this.site.page.kind(location)) SS.stream.hold();
-      if (this.site && this.site.blockPage && this.site.blockPage(location)) document.documentElement.setAttribute('data-ss-pagecheck', '');
+      if ((this.site && this.site.blockPage && this.site.blockPage(location)) || SS.sites.slugHit(location, this.site)) document.documentElement.setAttribute('data-ss-pagecheck', '');
       this.checkPage();
       this.scanAll();
     }
@@ -440,11 +562,32 @@
         });
       const extra = p.extraText ? p.extraText() : '';
       const text = [title, ...channelText, ...categories, document.title, ...meta, extra].filter(Boolean).join(WALL);
-      return { text, channels, categories, live, ready: !!title, title };
+      return { text, channels, categories, live, video: !!this.site.video, ready: !!title, title };
+    }
+
+    // whole page blocked by its url: the pack's blocked url list (guide/wiki sites), or a gta-6 slug
+    urlBlock() {
+      const hit = this.matcher.urlHit(location);
+      if (hit) return hit;
+      if (this.site && this.site.blockPage && this.site.blockPage(location)) return null; // the site's own page block goes first, it has a better label
+      const slug = SS.sites.slugHit(location, this.site);
+      if (!slug) return null;
+      const m = this.matcher.matchStrong(slug);
+      return m ? { ...m, reason: 'url', terms: [slug] } : null;
     }
 
     checkPage() {
-      if (!this.running || !this.matcher || !this.site) {
+      if (!this.running || !this.matcher) {
+        document.documentElement.removeAttribute('data-ss-pagecheck');
+        return;
+      }
+      const ub = this.urlBlock();
+      if (ub) {
+        this.wall('page', ub, { badge: 'nope, blocked page', why: 'nope, blocked page: ' + ub.terms.join(', ') });
+        document.documentElement.removeAttribute('data-ss-pagecheck');
+        return;
+      }
+      if (!this.site) {
         document.documentElement.removeAttribute('data-ss-pagecheck');
         return;
       }
@@ -544,7 +687,7 @@
     }
 
     getOut() {
-      const home = (this.site && this.site.home) || '/';
+      const home = (this.site && this.site.home) || 'about:blank'; // generic blocked page: "/" is still the blocked site lol
       if (history.length > 1) {
         history.back();
         setTimeout(() => {
@@ -591,9 +734,11 @@
 
     watchdog() {
       if (!this.running) return;
+      // shadow roots that got attached after their element showed up. every other tick is plenty
+      if (++this.ticks % 2 === 0 && document.documentElement) this.adoptShadows(document.documentElement);
       if (!this.generic && this.itemSel) {
         // cards we somehow never saw (shouldn't happen, but sites are "creative". looking at you youtube)
-        for (const el of document.querySelectorAll(this.itemSel)) {
+        for (const el of this.everywhere(this.itemSel)) {
           if (!el.hasAttribute('data-ss')) this.queue.add(el);
           else if (el.getAttribute('data-ss') === 'blocked' && !el.querySelector(':scope > ss-shield')) {
             this.sigs.delete(el);

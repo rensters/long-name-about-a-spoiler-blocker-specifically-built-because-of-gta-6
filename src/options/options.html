@@ -82,6 +82,7 @@
           <label class="field">weak<textarea id="ed-weak" rows="16" spellcheck="false"></textarea></label>
           <label class="field">context<textarea id="ed-context" rows="16" spellcheck="false"></textarea></label>
         </div>
+        <div id="ed-hidden" class="hidden-terms" hidden></div>
 
         <label class="field">regex (nerds only) <span class="hint"><code>/pattern/flags</code>, put <code>weak </code> or <code>context </code> in front to change the tier. runs on lowercased, accent-stripped text. good luck</span>
           <textarea id="ed-regex" rows="4" spellcheck="false"></textarea>
@@ -94,6 +95,9 @@
           <label class="field">blocked categories <span class="hint">twitch / kick / youtube game</span><textarea id="ed-blockedCategories" rows="7" spellcheck="false"></textarea></label>
           <label class="field">always-blur channels / accounts (the spoiler goblins)<textarea id="ed-blockedChannels" rows="7" spellcheck="false"></textarea></label>
           <label class="field">streamer watchlist <span class="hint">full-screen warning on any of their live streams, no matter the title</span><textarea id="ed-watchlist" rows="7" spellcheck="false"></textarea></label>
+          <label class="field">launch week watchlist <span class="hint">same as the watchlist, but it switches itself off on the date below. launch hype doesn't last forever (right??)</span><textarea id="ed-launchWatchlist" rows="7" spellcheck="false"></textarea>
+            <span class="hint">switches off on <input id="ed-launchWatchlistUntil" type="date" aria-label="launch watchlist switch-off date" /></span></label>
+          <label class="field">blocked pages <span class="hint">full-page block for guide / wiki sites. like <code>powerpyx.com/gta-6*</code>, * = anything</span><textarea id="ed-blockedUrls" rows="7" spellcheck="false"></textarea></label>
         </div>
 
         <label class="field">weak groups that context words ignore <span class="hint">one group name per line. "Jason" + "review" is just some random jason (hi jason); "GTA" + "review" is the thing. names in these groups still pair with other weak terms</span>
@@ -210,6 +214,7 @@
     <script src="../lib/packs.js"></script>
     <script src="../lib/store.js"></script>
     <script src="../lib/edit.js"></script>
+    <script src="../content/shield.js"></script>
     <script src="../sites/_registry.js"></script>
     <script src="../sites/youtube.js"></script>
     <script src="../sites/reddit.js"></script>

@@ -1,6 +1,6 @@
 {
   "name": "spoilerphobia",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Browser extension that blurs GTA VI (or any topic) across social media. No build step: load the folder unpacked.",
   "scripts": {

@@ -11,8 +11,15 @@
     saved: new WeakMap(), // media -> { muted, wasPlaying }
   };
 
-  const blockedCard = (media) => !!(media.closest && media.closest('[data-ss="blocked"]'));
-  const shouldStop = (media) => state.hold || state.lock || blockedCard(media);
+  const blockedCard = (media) => !!SS.collect.closestDeep(media, '[data-ss="blocked"]');
+  // cards we haven't checked yet are invisible, but their autoplay previews could still be yelling at you. no
+  let cardSel = '';
+  const uncheckedCard = (media) => {
+    if (!cardSel) return false;
+    const c = SS.collect.closestDeep(media, cardSel);
+    return !!c && !c.hasAttribute('data-ss');
+  };
+  const shouldStop = (media) => state.hold || state.lock || blockedCard(media) || uncheckedCard(media);
 
   function remember(media) {
     if (!state.saved.has(media)) state.saved.set(media, { muted: media.muted, wasPlaying: !media.paused });
@@ -95,6 +102,27 @@
     },
     pauseInside(el) {
       for (const m of el.querySelectorAll('video, audio')) squash(m);
+    },
+    // a card turned out fine: give its player back (muted state and all). autoplay rules decide the rest
+    releaseInside(el) {
+      if (state.hold || state.lock) return;
+      for (const m of el.querySelectorAll('video, audio')) {
+        const s = state.saved.get(m);
+        if (!s) continue;
+        state.saved.delete(m);
+        try {
+          m.muted = s.muted;
+          if (s.wasPlaying) {
+            const p = m.play();
+            if (p && p.catch) p.catch(() => {});
+          }
+        } catch (e) {
+          /* eh */
+        }
+      }
+    },
+    setCardSel(sel) {
+      cardSel = sel || '';
     },
     squashAll,
   };

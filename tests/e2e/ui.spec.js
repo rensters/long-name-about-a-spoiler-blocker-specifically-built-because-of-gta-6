@@ -116,3 +116,37 @@ test('settings: change the spoiler text, open tabs show it right away', async ({
   await opts.locator('#ov-reset').click();
   await expect.poll(() => site.locator('#s1 > ss-shield').evaluate((h) => h.shadowRoot.textContent)).toContain("hey, it's the thing you wanted blurred");
 });
+
+test('settings: "(spoilers)" groups show as dots, hold to peek, and survive a save', async ({ context, sw, extensionId }) => {
+  // made-up secret terms, the real hidden group never shows up in tests
+  const secret = ['zzqx secret one', 'zzqx secret two'];
+  await sw.evaluate(async (terms) => {
+    const pack = { id: 'secret-test', name: 'secret test', active: true, strong: { visible: ['zzqx visible'], 'post-launch (spoilers)': terms }, weak: {}, context: {} };
+    const json = JSON.stringify({ diffs: {}, custom: { 'secret-test': pack }, order: [] });
+    await chrome.storage.sync.set({ 'ss:packs': 1, 'ss:packs:0': json });
+  }, secret);
+  const page = await context.newPage();
+  await page.goto(`chrome-extension://${extensionId}/src/options/options.html`);
+  await page.locator('.pack', { hasText: 'secret test' }).getByRole('button', { name: 'edit' }).click();
+  await expect(page.locator('#ed-hidden')).toBeVisible();
+  expect(await page.locator('#ed-strong').inputValue()).not.toContain('secret');
+  await expect(page.locator('#ed-hidden .hidden-body')).toContainText('••••••');
+  await expect(page.locator('#ed-hidden .hidden-body')).not.toContainText('secret');
+  const btn = page.locator('#ed-hidden ss-shield').locator('button.reveal');
+  await btn.scrollIntoViewIfNeeded();
+  const box = await btn.boundingBox();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.waitForTimeout(1250);
+  await page.mouse.up();
+  await expect(page.locator('#ed-hidden .hidden-body')).toContainText(secret[0]);
+  await page.locator('#ed-save').click();
+  await expect(page.locator('#ed-msg')).toContainText('saved');
+  const n = await sw.evaluate(async () => {
+    const all = await chrome.storage.sync.get(null);
+    let json = '';
+    for (let i = 0; i < all['ss:packs']; i++) json += all['ss:packs:' + i];
+    return JSON.parse(json).custom['secret-test'].strong['post-launch (spoilers)'].length;
+  });
+  expect(n).toBe(secret.length);
+});

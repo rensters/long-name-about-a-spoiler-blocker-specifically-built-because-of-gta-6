@@ -11,7 +11,27 @@
 // this file took like 6 rewrites. the regex compiler below is held together with tape and prayers. why are you still reading
 (function (root) {
   const SS = (root.NoSpoil = root.NoSpoil || {});
-  const { normalize, squash, WALL } = SS.text;
+  const { normalize, squash, flat: flatText, squashed, leet, WALL } = SS.text;
+
+  // groups with "(spoilers)" in the name are secret. the matcher still uses them, but every place that SHOWS a
+  // term (overlay "why", the settings test box) gets this instead. you don't get spoiled by your own spoiler filter lol
+  const MASK = '\u2022\u2022\u2022\u2022\u2022\u2022';
+  const isHiddenGroup = (g) => /\(spoilers?\)/i.test(String(g || ''));
+  const shown = (e) => (e.hidden ? MASK : e.term);
+
+  // launch week(s). console launch was 2026-11-19, the internet is a minefield until new year. during this
+  // window a bare "gta" on a live card or a video title counts as strong, unless it's clearly another gta
+  const LAUNCH_FROM = '2026-11-10';
+  const LAUNCH_TO = '2026-12-31';
+  const BARE_GTA = / gta (?!(?:5|v|five|online|rp|san andreas|iv|4|iii|3|trilogy|vice city stories|liberty city|chinatown wars|london) )/;
+  const localDay = (now) => {
+    const d = new Date(now == null ? Date.now() : now);
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  };
+  // title-ish strong groups get the squashed + leetspeak treatment. "g t a 6", "g.t.a.6", "gtav1" etc
+  const TITLE_GROUP = /^(title|typos|spelling)/i;
+  const KEEP_FLAT = /[*+%]/; // "R*" flattens to " r ", which matches literally every r. no thanks
 
   // a separator is anything that isn't a letter, a digit or our wall char. emoji, dots, dashes, #, all of it
   const SEP = '[^\\p{L}\\p{N}\\u2063]';
@@ -60,8 +80,10 @@
     const alts = [String(n)];
     if (ROMAN[n].length >= 2) alts.push(ROMAN[n]);
     alts.push(NUM_WORDS[n]);
+    // roman numerals don't get the "!" and "|" leet for i. "gta!!" is excitement, not GTA II (found that one on launch day lol)
+    const romanChar = (ch) => (ch === 'i' ? '[i1l]' : charSrc(ch));
     return alts.map((a) => ({
-      src: Array.from(a).map(charSrc).join(''),
+      src: Array.from(a).map(a === ROMAN[n] ? romanChar : charSrc).join(''),
       first: /\d/.test(a[0]) ? 'N' : 'L',
       last: /\d/.test(a[a.length - 1]) ? 'N' : 'L',
     }));
@@ -198,7 +220,11 @@
       const key = (t.bounded ? 'b:' : 'f:') + t.src;
       if (seen.has(key)) continue;
       const norm = normalize(e.term);
-      seen.set(key, { ...e, key, src: t.src, bounded: t.bounded, len: norm.length, letters: (norm.match(/\p{L}/gu) || []).length });
+      const entry = { ...e, key, src: t.src, bounded: t.bounded, len: norm.length, letters: (norm.match(/\p{L}/gu) || []).length, hidden: isHiddenGroup(e.group) };
+      // the boring backup plan: " term " on the flat copy. no regex, no \b, nothing clever to break
+      const ft = flatText(e.term);
+      if (!KEEP_FLAT.test(e.term) && ft.replace(/ /g, '').length >= 3) entry.flat = ft;
+      seen.set(key, entry);
     }
     const list = [...seen.values()].sort((a, b) => b.len - a.len);
     const parts = [];
@@ -206,7 +232,48 @@
     const free = list.filter((e) => !e.bounded);
     if (bounded.length) parts.push({ re: new RegExp(BOUNDARY + '(?:' + bounded.map((e) => '(' + e.src + ')').join('|') + ')', 'gu'), list: bounded });
     if (free.length) parts.push({ re: new RegExp(free.map((e) => '(' + e.src + ')').join('|'), 'gu'), list: free });
-    return { parts, list };
+    return { parts, list, flats: list.filter((e) => e.flat) };
+  }
+
+  // "gta 6" -> squashed keys gta6, gtavi, gtasix (leet-folded). only for title-ish groups
+  function squashKeys(entries) {
+    const out = [];
+    const seen = new Set();
+    for (const e of entries) {
+      if (!TITLE_GROUP.test(e.group) || KEEP_FLAT.test(e.term)) continue;
+      const words = flatText(e.term).trim().split(' ').filter(Boolean);
+      let variants = [words];
+      words.forEach((w, i) => {
+        if (!/^(6|vi|six)$/.test(w)) return;
+        variants = variants.flatMap((v) => ['6', 'vi', 'six'].map((n) => v.map((x, j) => (j === i ? n : x))));
+      });
+      for (const v of variants) {
+        const key = leet(v.join(''));
+        if (key.length < 4 || seen.has(key)) continue;
+        seen.add(key);
+        out.push({ key, letters: (key.match(/\p{L}/gu) || []).length, entry: e });
+      }
+    }
+    return out;
+  }
+
+  // strong hits the regexes missed: flat " term " + squashed title keys. returns the entry or null
+  function strongExtra(cp, masked) {
+    const ft = flatText(masked);
+    for (const e of cp.strong.flats) if (ft.includes(e.flat)) return e;
+    if (!cp.squashKeys.length) return null;
+    for (const b of squashed(masked)) {
+      for (const k of cp.squashKeys) {
+        let at = b.leet.indexOf(k.key);
+        while (at >= 0) {
+          const end = at + k.key.length;
+          // must start AND end on a word edge, and the original has to have real letters in it (not "9746")
+          if (b.cuts.has(at) && b.cuts.has(end) && lettersIn(b.text.slice(at, end)) * 2 >= k.letters) return k.entry;
+          at = b.leet.indexOf(k.key, at + 1);
+        }
+      }
+    }
+    return null;
   }
 
   // replaces every match of a compiled list with the wall char (that's how allow terms get cut out)
@@ -257,9 +324,32 @@
     return map;
   };
 
-  function compilePack(pack) {
+  // "powerpyx.com/gta-6*" -> regex. host: any case, subdomains ok. path: case matters ("/wiki/*VI*" shouldn't eat "Vice")
+  const globRe = (g) => g.split('*').map((x) => x.replace(/[\^$\\.+?()[\]{}|/]/g, '\\$&')).join('.*');
+  function compileUrls(list, errors) {
+    const out = [];
+    for (const raw of list || []) {
+      if (typeof raw !== 'string' || !raw.trim()) continue;
+      const clean = raw.trim().replace(/^[a-z]+:\/\//i, '').replace(/^www\./i, '');
+      const cut = clean.indexOf('/');
+      const host = (cut < 0 ? clean : clean.slice(0, cut)).toLowerCase();
+      const path = cut < 0 ? '' : clean.slice(cut);
+      try {
+        out.push({ raw, host: new RegExp('^(?:[^/]*\\.)?' + globRe(host) + '$'), path: path ? new RegExp('^' + globRe(path) + (path.endsWith('*') ? '' : '/?$')) : null });
+      } catch (e) {
+        errors.push('bad url pattern ' + raw + ': ' + e.message);
+      }
+    }
+    return out;
+  }
+
+  function compilePack(pack, opts) {
     const errors = [];
-    const strong = compileList(flat(pack.strong).map((e) => ({ ...e, tier: 'strong' })));
+    const strongEntries = flat(pack.strong).map((e) => ({ ...e, tier: 'strong' }));
+    const strong = compileList(strongEntries);
+    const day = localDay(opts && opts.now);
+    // the temporary launch watchlist switches itself off on its date. (YYYY-MM-DD strings compare fine as text)
+    const launchList = typeof pack.launchWatchlistUntil === 'string' && day < pack.launchWatchlistUntil ? pack.launchWatchlist || [] : [];
     // contextIgnores: weak groups that context words DON'T pair with. "Jason" + "review" is just some
     // guy named jason reviewing pizza (hi jason); "GTA" + "review" is the thing we're hiding
     const ignore = new Set((pack.contextIgnores || []).map((g) => String(g).trim().toLowerCase()));
@@ -290,7 +380,10 @@
       blockedChannels: squashSet(pack.blockedChannels),
       blockedCommunities: squashSet(pack.blockedCommunities, /^\/?r\//i),
       blockedCategories: squashSet(pack.blockedCategories),
-      watchlist: squashSet(pack.watchlist),
+      watchlist: squashSet([...(pack.watchlist || []), ...launchList]),
+      squashKeys: squashKeys(strongEntries),
+      blockedUrls: compileUrls(pack.blockedUrls, errors),
+      launchWeek: day >= LAUNCH_FROM && day <= LAUNCH_TO,
       counts: { strong: strong.list.length, weak: wc.list.filter((e) => e.tier === 'weak').length,
         context: wc.list.filter((e) => e.tier === 'context').length, allow: allow.list.length, regex: regex.length },
       errors,
@@ -308,13 +401,18 @@
     let strongHit = null;
     scan(cp.strong, text, (e) => {
       if (!collect) {
-        strongHit = e.term;
+        strongHit = shown(e);
         return true;
       }
-      found.strong.push(e.term);
+      found.strong.push(shown(e));
       return false;
     });
     if (strongHit) return { tier: 'strong', terms: [strongHit] };
+    const extra = strongExtra(cp, text);
+    if (extra) {
+      if (!collect) return { tier: 'strong', terms: [shown(extra)] };
+      if (!found.strong.includes(shown(extra))) found.strong.push(shown(extra));
+    }
     for (const r of cp.regex) {
       if (r.tier !== 'strong') continue;
       if (testRegex(r, text)) {
@@ -328,9 +426,9 @@
     const enough = () => weak.size >= 2 || (anchors.size >= 1 && ctx.size >= 1);
     scan(cp.wc, text, (e) => {
       if (e.tier === 'weak') {
-        weak.set(e.key, e.term);
+        weak.set(e.key, shown(e));
         if (e.anchor) anchors.add(e.key);
-      } else ctx.set(e.key, e.term);
+      } else ctx.set(e.key, shown(e));
       return !collect && enough();
     });
     for (const r of cp.regex) {
@@ -349,8 +447,9 @@
   }
 
   class Matcher {
-    constructor(packs) {
-      this.packs = (packs || []).map(compilePack);
+    // opts.now: pretend it's this time (tests). launch-week stuff + the launch watchlist look at the date
+    constructor(packs, opts) {
+      this.packs = (packs || []).map((p) => compilePack(p, opts));
       this.cache = new Map();
       this.errors = this.packs.flatMap((p) => p.errors.map((e) => p.name + ': ' + e));
     }
@@ -360,7 +459,7 @@
     match(item) {
       if (!this.packs.length || !item) return null;
       const key = [item.text || '', (item.channels || []).join('\u0001'), item.community || '',
-        (item.categories || []).join('\u0001'), item.live ? 1 : 0].join('\u0002');
+        (item.categories || []).join('\u0001'), item.live ? 1 : 0, item.video ? 1 : 0].join('\u0002');
       if (this.cache.has(key)) return this.cache.get(key);
       const res = this.run(item);
       if (this.cache.size > 2000) this.cache.clear(); // lazy LRU: just nuke it. it's fine. it's FINE
@@ -387,6 +486,8 @@
           const masked = maskOut(cp.allow, text);
           const j = judge(cp, masked, false);
           if (j) hit = { reason: j.tier, terms: j.terms };
+          // launch week: bare "gta" on a live card / video title is enough. "gta rp", "gta 5" etc still pass
+          else if (cp.launchWeek && (item.live || item.video) && BARE_GTA.test(flatText(masked))) hit = { reason: 'strong', terms: ['GTA (launch week)'] };
         }
         if (hit) return { ...hit, pack: cp.id, packName: cp.name, overlayText: cp.overlayText };
       }
@@ -403,7 +504,11 @@
       for (const cp of this.packs) {
         const masked = maskOut(cp.allow, norm);
         let term = null;
-        scan(cp.strong, masked, (e) => ((term = e.term), true));
+        scan(cp.strong, masked, (e) => ((term = shown(e)), true));
+        if (!term) {
+          const extra = strongExtra(cp, masked);
+          if (extra) term = shown(extra);
+        }
         if (!term) for (const r of cp.regex) if (r.tier === 'strong' && testRegex(r, masked)) {
           term = r.label;
           break;
@@ -424,7 +529,7 @@
       return this.packs.map((cp) => {
         const allowed = [];
         scan(cp.allow, norm, (e) => {
-          allowed.push(e.term);
+          allowed.push(shown(e));
           return false;
         });
         const masked = maskOut(cp.allow, norm);
@@ -432,6 +537,24 @@
         const verdict = judge(cp, masked, false);
         return { pack: cp.id, name: cp.name, normalized: norm, allowed, ...found, blur: !!verdict, why: verdict };
       });
+    }
+
+    // is this whole page on someone's blocked url list? loc = location or URL
+    urlHit(loc) {
+      if (!loc || !loc.hostname) return null;
+      const host = loc.hostname.toLowerCase().replace(/^www\./, '');
+      let path = loc.pathname || '/';
+      try {
+        path = decodeURIComponent(path);
+      } catch (e) {
+        /* broken % escapes, use it raw */
+      }
+      for (const cp of this.packs) {
+        for (const u of cp.blockedUrls) {
+          if (u.host.test(host) && (!u.path || u.path.test(path))) return { reason: 'url', terms: [u.raw], pack: cp.id, packName: cp.name, overlayText: cp.overlayText };
+        }
+      }
+      return null;
     }
 
     // does this name/category/subreddit hit any pack's lists? used for page-level checks
@@ -447,6 +570,6 @@
   }
 
   SS.Matcher = Matcher;
-  SS.matcherInternals = { compileTerm, termSource, compileList, flat, numeralValue };
+  SS.matcherInternals = { compileTerm, termSource, compileList, flat, numeralValue, isHiddenGroup, MASK, LAUNCH_FROM, LAUNCH_TO };
   if (typeof module === 'object' && module.exports) module.exports = SS;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

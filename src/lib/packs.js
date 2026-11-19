@@ -6,8 +6,10 @@
   const { normalize } = SS.text;
 
   const TIERS = ['strong', 'weak', 'context'];
-  const LISTS = ['allow', 'allowChannels', 'blockedCommunities', 'blockedCategories', 'blockedChannels', 'watchlist', 'contextIgnores'];
-  const SCALARS = ['name', 'description', 'active', 'expires', 'remindDaysBefore', 'overlayText'];
+  const LISTS = ['allow', 'allowChannels', 'blockedCommunities', 'blockedCategories', 'blockedChannels', 'watchlist', 'contextIgnores', 'launchWatchlist', 'blockedUrls'];
+  const SCALARS = ['name', 'description', 'active', 'expires', 'remindDaysBefore', 'overlayText', 'launchWatchlistUntil'];
+  // groups named like "post-launch (spoilers)" are secret: the settings page shows dots until you hold to peek
+  const isHiddenGroup = (g) => /\(spoilers?\)/i.test(String(g || ''));
   const ADDED_GROUP = 'Added by you';
   const DEFAULT_OVERLAY = ["hey, it's the thing you wanted blurred"];
   // the old default. if your saved stuff still says exactly this, you never customized it, so it
@@ -221,6 +223,7 @@
       expires: typeof input.expires === 'string' && DATE.test(input.expires) ? input.expires : null,
       remindDaysBefore: Number.isInteger(input.remindDaysBefore) ? Math.max(0, Math.min(60, input.remindDaysBefore)) : 3,
       overlayText: cleanStrings(input.overlayText, warn, 'overlayText').slice(0, 5),
+      launchWatchlistUntil: typeof input.launchWatchlistUntil === 'string' && DATE.test(input.launchWatchlistUntil) ? input.launchWatchlistUntil : null,
     };
     if (!p.overlayText.length) p.overlayText = DEFAULT_OVERLAY.slice();
     migrateOverlay(p); // old backups with the old default text get the new one too
@@ -276,6 +279,9 @@
       blockedChannels: [],
       watchlist: [],
       contextIgnores: [],
+      launchWatchlist: [],
+      launchWatchlistUntil: null,
+      blockedUrls: [],
     };
   }
 
@@ -345,7 +351,7 @@
   }
 
   SS.packs = {
-    TIERS, LISTS, SCALARS, DEFAULT_OVERLAY, ADDED_GROUP,
+    TIERS, LISTS, SCALARS, DEFAULT_OVERLAY, ADDED_GROUP, isHiddenGroup,
     keyOf, groups, entries, toLines, fromLines, regexToLines, regexFromLines,
     makeDiff, applyDiff, validatePack, blankPack, effectivePacks, isLive, expiringSoon, daysUntil, today, exportPack, slug,
   };

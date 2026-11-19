@@ -25,17 +25,26 @@
     home: 'https://www.twitch.tv/',
     hosts: /(^|\.)twitch\.tv$/,
 
+    video: true,
+    slugBlock: true,
     items: [
       ['article:has([data-a-target="preview-card-image-link"])', 'stream / VOD / clip cards: browse, directories, search, following, front page'],
-      ['.side-nav-card', 'left sidebar channels (shows the game under the name)'],
+      ['[data-a-target="front-page-carousel"]', 'front page autoplay player', { player: true }],
+      ['.front-page-carousel', 'front page autoplay player (class)', { player: true }],
+      ['.side-nav-card', 'left sidebar channels (shows the game under the name)', { quick: true }],
+      ['.online-side-nav-channel-tooltip__body', 'sidebar hover tooltip, it shows the stream title'],
+      ['[data-a-target="search-result-video"]', 'search results: videos'],
+      ['[data-a-target="search-result-clip"]', 'search results: clips'],
       ['.game-card', 'category cards on the browse page'],
       ['[data-a-target="search-result-live-channel"]', 'search results: live channels'],
       ['[data-a-target="search-result-category"]', 'search results: categories'],
       ['.search-tray [role="option"]', 'search dropdown suggestions'],
-      ['.chat-line__message', 'chat message'],
-      ['.vod-message', 'chat replay on VODs'],
-      ['[data-a-target="chat-line-message"]:not(.chat-line__message)', 'chat message (fallback)'],
+      ['.chat-line__message', 'chat message', { talk: true }],
+      ['.vod-message', 'chat replay on VODs', { talk: true }],
+      ['[data-a-target="chat-line-message"]:not(.chat-line__message)', 'chat message (fallback)', { talk: true }],
     ],
+    // hover previews on cards: nope
+    css: 'article:has([data-a-target="preview-card-image-link"]) video, .side-nav-card video, [data-ss-card] video{display:none!important}',
 
     channel: ['[data-a-target="preview-card-channel-link"]', 'p[title]', '[data-a-target="side-nav-title"]', '[data-a-target="side-nav-card-metadata"] p[title]'],
     handle(href) {
@@ -44,6 +53,10 @@
     },
     category: ['[data-a-target="preview-card-game-link"]', '[data-a-target="side-nav-game-title"]', 'a[href^="/directory/category/"]', 'a[href^="/directory/game/"]'],
     live: ['.tw-channel-status-text', '.tw-channel-status-text-indicator', '[data-a-target="side-nav-live-status"]', '.tw-channel-status-indicator'],
+    extract(el, f) {
+      for (const t of el.querySelectorAll('a[href*="/tags/"], [data-a-target^="tag-"]')) f.text += '\u2063' + t.textContent; // tags: "GTA6RP" etc
+      return f;
+    },
 
     page: {
       kind(loc) {

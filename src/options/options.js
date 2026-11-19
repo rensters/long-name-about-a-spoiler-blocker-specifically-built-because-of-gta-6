@@ -4,7 +4,9 @@
   const SS = globalThis.NoSpoil;
   const P = SS.packs;
   const $ = (id) => document.getElementById(id);
-  const LIST_FIELDS = ['allow', 'allowChannels', 'blockedCommunities', 'blockedCategories', 'blockedChannels', 'watchlist', 'contextIgnores'];
+  const LIST_FIELDS = ['allow', 'allowChannels', 'blockedCommunities', 'blockedCategories', 'blockedChannels', 'watchlist', 'contextIgnores', 'launchWatchlist', 'blockedUrls'];
+  // secret groups ("post-launch (spoilers)") never go in the textareas. they sit here while you edit and get glued back on save
+  let hiddenStash = {};
 
   let state = null;
   let unlocked = false; // per tab. close the tab and it locks again, no cheating
@@ -244,13 +246,50 @@
     $('ed-name').value = p.name || '';
     $('ed-desc').value = p.description || '';
     $('ed-overlay').value = (p.overlayText || []).join('\n');
-    for (const k of P.TIERS) $('ed-' + k).value = P.toLines(p[k] || {});
+    hiddenStash = {};
+    for (const k of P.TIERS) {
+      const shown = {};
+      for (const [g, terms] of Object.entries(P.groups(p[k] || {}))) {
+        if (P.isHiddenGroup(g)) (hiddenStash[k] = hiddenStash[k] || {})[g] = terms.slice();
+        else shown[g] = terms;
+      }
+      $('ed-' + k).value = P.toLines(shown);
+    }
+    renderHidden();
+    $('ed-launchWatchlistUntil').value = p.launchWatchlistUntil || '';
     $('ed-regex').value = P.regexToLines(p.regex || []);
     for (const k of LIST_FIELDS) $('ed-' + k).value = (p[k] || []).join('\n');
     $('ed-reset').hidden = !p.builtin;
     $('ed-delete').hidden = !!p.builtin;
     say('ed-msg', p.builtin ? 'built-in pack: your changes sit on top of it, so when i update the pack you still get the new stuff.' : '');
     $('editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // the dots box. hold to peek reuses the overlay's hold-to-reveal, so it's the same "are you SURE" energy
+  function renderHidden() {
+    const box = $('ed-hidden');
+    box.innerHTML = '';
+    const rows = [];
+    for (const k of P.TIERS) for (const [g, terms] of Object.entries(hiddenStash[k] || {})) rows.push({ k, g, terms });
+    box.hidden = !rows.length;
+    if (!rows.length) return;
+    for (const r of rows) {
+      const body = el('div', { class: 'hidden-body', text: '\u2022\u2022\u2022\u2022\u2022\u2022' });
+      box.append(el('div', { class: 'hidden-group' },
+        el('div', { class: 'hidden-head', text: `// ${r.g} (${r.k}, ${r.terms.length} terms, hidden so the settings page doesn't spoil you either)` }), body));
+      SS.shield.attach(body, {
+        key: 'peek',
+        lines: ["post-launch spoilers in here. like actual ones"],
+        mode: state.settings.revealMode,
+        holdLabel: 'hold to peek',
+        confirmLabel: 'peek…',
+        onReveal: () => {
+          SS.shield.detach(body);
+          body.textContent = r.terms.join('\n');
+          body.classList.add('peeked');
+        },
+      });
+    }
   }
 
   function closeEditor() {
@@ -275,8 +314,9 @@
       overlayText: overlay.length ? overlay : P.DEFAULT_OVERLAY.slice(),
       regex: rx.list,
     };
-    for (const k of P.TIERS) edited[k] = P.fromLines($('ed-' + k).value);
+    for (const k of P.TIERS) edited[k] = { ...P.fromLines($('ed-' + k).value), ...(hiddenStash[k] || {}) };
     for (const k of LIST_FIELDS) edited[k] = P.fromLines($('ed-' + k).value, true);
+    edited.launchWatchlistUntil = $('ed-launchWatchlistUntil').value || null;
     try {
       await SS.edit.savePack(state, edited);
       await load();

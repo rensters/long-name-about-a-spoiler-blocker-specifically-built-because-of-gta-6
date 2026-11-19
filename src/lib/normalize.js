@@ -46,11 +46,18 @@
 
   const MAX = 20000; // nobody's spoiler is in character 20001. probably. hopefully
 
+  // invisible stuff people sneak between letters so "gta<zwsp>6" dodges filters. U+200B-200F, U+2060, U+FEFF.
+  // (escapes only, a test yells if the real chars ever end up in a source file. it's happened before)
+  const ZERO_WIDTH_RE = /[\u200b-\u200f\u2060\ufeff]/g;
+  // keycap emoji: 6\ufe0f\u20e3 is "6\ufe0f\u20e3" and it should just be a 6. # and * keycaps too
+  const KEYCAP_RE = /([0-9#*])\ufe0f?\u20e3/g;
+
   function normalize(input) {
     if (input == null) return '';
     let s = String(input);
     if (!s) return '';
     if (s.length > MAX) s = s.slice(0, MAX);
+    s = s.replace(ZERO_WIDTH_RE, '').replace(KEYCAP_RE, '$1');
     s = s.normalize('NFKC');
     s = s.replace(CAMEL_1, '$1 $2').replace(CAMEL_2, '$1 $2');
     s = s.replace(DIGIT_RE, foldDigit);
@@ -66,6 +73,36 @@
     return normalize(input).replace(/[^\p{L}\p{N}]+/gu, '');
   }
 
+  // the "flat" copy: normalize(), then every emoji / symbol / punctuation run becomes ONE space, whitespace
+  // collapses, and the whole thing gets padded with spaces. so matching " gta 6 " is a plain includes(),
+  // no regex boundary weirdness. walls survive as their own token so blocks still can't bleed into each other
+  const NOT_WORDY_RE = /[^\p{L}\p{N}\p{M}\u2063]+/gu;
+  function flat(input) {
+    const s = normalize(input).replace(NOT_WORDY_RE, ' ').replace(/\u2063/g, ' \u2063 ').replace(/\s+/g, ' ').trim();
+    return s ? ' ' + s + ' ' : ' ';
+  }
+
+  // leetspeak, but ONLY for the squashed copy. 1/l/i all fold to i because "gtavl" and "gtav1" are both a thing
+  const LEET_FOLD = { 4: 'a', 3: 'e', 1: 'i', l: 'i', 0: 'o', 7: 't', 9: 'g', 5: 's' };
+  const leet = (s) => s.replace(/[4310l795]/g, (c) => LEET_FOLD[c]);
+
+  // the "squashed" copy: "g t a 6" / "g.t.a.6" -> "gta6". one squashed string per wall-separated block, and
+  // `cuts` remembers where every original word started/ended so a match can't start in the middle of
+  // "pigtail6" or whatever. yes i thought about pigtails, this is my life now
+  function squashed(input) {
+    const blocks = [];
+    for (const part of flat(input).split('\u2063')) {
+      const words = part.split(' ').filter(Boolean);
+      if (!words.length) continue;
+      const text = words.join('');
+      const cuts = new Set([0]);
+      let at = 0;
+      for (const w of words) cuts.add((at += w.length));
+      blocks.push({ text, leet: leet(text), cuts });
+    }
+    return blocks;
+  }
+
   // tiny fast string hash. spots when a site recycles a DOM node with new content in it. nothing fancy, move along
   function hash(str) {
     let h = 0x811c9dc5;
@@ -76,6 +113,6 @@
     return (h >>> 0).toString(36);
   }
 
-  SS.text = { normalize, squash, hash, WALL };
+  SS.text = { normalize, squash, flat, squashed, leet, hash, WALL };
   if (typeof module === 'object' && module.exports) module.exports = SS;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

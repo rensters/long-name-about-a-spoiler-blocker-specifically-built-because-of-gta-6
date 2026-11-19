@@ -10,6 +10,7 @@
 
   SS.sites.register({
     id: 'youtube',
+    video: true,
     name: 'YouTube',
     home: 'https://www.youtube.com/',
     hosts: /^(www\.|m\.)?youtube\.com$/, // not music.youtube.com, that's a whole different beast and i'm not going there
@@ -42,26 +43,26 @@
       ['.ytp-autonav-endscreen-upnext-container', 'autoplay "up next" overlay'],
       ['.ytp-modern-videowall-still', 'end screen wall, the redesigned one'],
       // ---- comments, posts, notifications ----
-      ['ytd-comment-view-model', 'one comment or reply (new)'],
-      ['ytd-comment-renderer', 'one comment or reply (old)'],
-      ['ytd-backstage-post-thread-renderer', 'community posts'],
+      ['ytd-comment-view-model', 'one comment or reply (new)', { talk: true }],
+      ['ytd-comment-renderer', 'one comment or reply (old)', { talk: true }],
+      ['ytd-backstage-post-thread-renderer', 'community posts', { talk: true }],
       ['ytd-post-renderer:not(ytd-backstage-post-thread-renderer ytd-post-renderer):not(ytd-rich-item-renderer ytd-post-renderer)', 'community posts dropped into feeds'],
       ['ytd-notification-renderer', 'bell dropdown notifications'],
       ['yt-notification-view-model', 'bell dropdown notifications (new)'],
       // ---- live chat (inside the /live_chat iframe) ----
-      ['yt-live-chat-text-message-renderer', 'chat message'],
-      ['yt-live-chat-paid-message-renderer', 'superchat'],
-      ['yt-live-chat-paid-sticker-renderer', 'super sticker'],
-      ['yt-live-chat-membership-item-renderer', 'membership message'],
-      ['yt-live-chat-banner-renderer', 'pinned message banner'],
+      ['yt-live-chat-text-message-renderer', 'chat message', { talk: true }],
+      ['yt-live-chat-paid-message-renderer', 'superchat', { talk: true }],
+      ['yt-live-chat-paid-sticker-renderer', 'super sticker', { talk: true }],
+      ['yt-live-chat-membership-item-renderer', 'membership message', { talk: true }],
+      ['yt-live-chat-banner-renderer', 'pinned message banner', { talk: true }],
       // ---- m.youtube.com ----
       ['ytm-rich-item-renderer', 'mobile home cards'],
       ['ytm-video-with-context-renderer:not(ytm-rich-item-renderer ytm-video-with-context-renderer)', 'mobile search / feed cards'],
       ['ytm-compact-video-renderer', 'mobile related videos'],
       ['ytm-media-item:not(ytm-rich-item-renderer ytm-media-item)', 'mobile feed cards (newer)'],
       ['ytm-reel-item-renderer', 'mobile shorts shelf'],
-      ['ytm-comment-renderer', 'mobile comments'],
-      ['ytm-backstage-post-thread-renderer', 'mobile community posts'],
+      ['ytm-comment-renderer', 'mobile comments', { talk: true }],
+      ['ytm-backstage-post-thread-renderer', 'mobile community posts', { talk: true }],
       ['ytm-compact-playlist-renderer', 'mobile playlists'],
     ],
 

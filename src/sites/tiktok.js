@@ -6,6 +6,7 @@
 
   SS.sites.register({
     id: 'tiktok',
+    video: true,
     name: 'TikTok',
     home: 'https://www.tiktok.com/',
     hosts: /(^|\.)tiktok\.com$/,
@@ -23,9 +24,9 @@
       ['[data-e2e="search-live-container"]', 'search: LIVE results'],
       ['[data-e2e="explore-item"]', 'Explore grid'],
       ['[data-e2e="live-card"]', 'LIVE cards'],
-      ['[data-e2e="comment-level-1"]', 'a comment'],
-      ['[data-e2e="comment-level-2"]', 'a reply'],
-      ['[data-e2e="chat-message"]', 'LIVE chat message'],
+      ['[data-e2e="comment-level-1"]', 'a comment', { talk: true }],
+      ['[data-e2e="comment-level-2"]', 'a reply', { talk: true }],
+      ['[data-e2e="chat-message"]', 'LIVE chat message', { talk: true }],
       ['[data-e2e="search-suggest-item"]', 'search suggestions dropdown'],
     ],
 

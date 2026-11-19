@@ -422,3 +422,12 @@ body.locked .lockable .file-btn {
   flex-direction: column;
   gap: 4px;
 }
+
+/* the secret spoiler group box. dots until you hold the button. hey, don't hold the button */
+.hidden-terms { display: grid; gap: 10px; margin: 8px 0 14px; }
+.hidden-group { display: grid; gap: 6px; }
+.hidden-head { font: 500 12px/1.3 ui-monospace, Menlo, Consolas, monospace; opacity: .75; }
+.hidden-body { position: relative; min-height: 96px; max-height: 260px; overflow: auto; padding: 10px 12px; border-radius: 10px;
+  border: 1px dashed currentColor; font: 13px/1.4 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; letter-spacing: .2em; }
+.hidden-body.peeked { letter-spacing: normal; }
+.hidden-body ss-shield { all: initial; position: absolute; inset: 0; display: block; z-index: 2; container-type: size; border-radius: 10px; overflow: hidden; }
