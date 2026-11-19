@@ -15,13 +15,14 @@
   if (site) {
     // one rule per selector: if a browser chokes on one it only loses that one, not the whole lot
     for (const [sel] of site.items) rules.push(`${sel}:not([data-ss]){opacity:0!important;pointer-events:none!important}`);
-    // cards the engine found by their LIVE badge (no selector knew them). same deal
-    rules.push('[data-ss-card]:not([data-ss]){opacity:0!important;pointer-events:none!important}');
     // while a video/stream page is being checked, its title + player area stay invisible too.
     // otherwise you'd read "GTA 6 whatever" in the title for 30ms before the warning lands. and then you're spoiled. great
     for (const sel of (site.page && site.page.holdCss) || []) rules.push(`html[data-ss-hold] ${sel}{visibility:hidden!important}`);
     if (site.css) rules.push(site.css);
   }
+  // cards found by their LIVE badge (no selector knew them): hidden until checked. on EVERY site, third-party
+  // stream directories and kick/twitch embeds included. the extra "html " in front out-specifies theme css like "opacity:1!important"
+  rules.push('html [data-ss-card]:not([data-ss]){opacity:0!important;pointer-events:none!important}');
   style.textContent = rules.join('\n');
   (document.head || document.documentElement).appendChild(style);
 
@@ -44,8 +45,8 @@
   // the badge fallback, but at document_start: marks LIVE-badge cards while the html is still streaming in, so
   // they're hidden before their first paint. the engine takes over once storage has loaded. (main.js / engine.start)
   let watch = null;
-  if (site && typeof MutationObserver === 'function') {
-    const known = () => (SS.sites.validSelectors(site.items.map((i) => i[0])).concat('[data-ss-card]')).join(',');
+  if (typeof MutationObserver === 'function') {
+    const known = () => (site ? SS.sites.validSelectors(site.items.map((i) => i[0])) : []).concat('[data-ss-card]').join(',');
     let sel = null;
     watch = new MutationObserver((muts) => {
       if (!SS.collect) return;
@@ -72,7 +73,8 @@
     unhide() {
       if (watch) watch.disconnect();
       watch = null;
-      style.textContent = site && site.css ? site.css : ''; // hold rules go too, they only bite while data-ss-hold is set anyway
+      style.textContent = site && site.css ? site.css : '';
+      for (const el of document.querySelectorAll('[data-ss-card]')) el.removeAttribute('data-ss-card'); // hold rules go too, they only bite while data-ss-hold is set anyway
       document.documentElement.removeAttribute('data-ss-pagecheck');
       document.documentElement.removeAttribute('data-ss-hold');
     },

@@ -15,6 +15,7 @@ const ROUTES = [
   [/^https:\/\/www\.youtube\.com\/live_chat/, () => ({ file: 'youtube-chat.html' })],
   [/^https:\/\/www\.youtube\.com\/watch\?v=gta/, () => ({ file: 'youtube-watch.html', vars: { TITLE: 'GTA 6 trailer analysis (made-up test video)', INFO: '1.2M views · 2 days ago', CHANNEL: 'Some Gamer', CHAT: '' } })],
   [/^https:\/\/www\.youtube\.com\/watch\?v=lofi/, () => ({ file: 'youtube-watch.html', vars: { TITLE: 'lofi hip hop radio - beats to relax/study to', INFO: '12,345 watching now · Started streaming 3 hours ago', CHANNEL: 'Lofi Girl', CHAT: '<ytd-live-chat-frame id="chat"><iframe id="chatframe" src="https://www.youtube.com/live_chat?v=lofi" style="width:360px;height:420px;border:0"></iframe></ytd-live-chat-frame>' } })],
+  [/^https:\/\/www\.youtube\.com\/results\?search_query=liverow/, () => ({ file: 'youtube-live-rows.html' })],
   [/^https:\/\/www\.youtube\.com\//, () => ({ file: 'youtube-home.html' })],
   [/^https:\/\/(www|old)\.reddit\.com\//, () => ({ file: 'reddit-feed.html' })],
   [/^https:\/\/x\.com\//, () => ({ file: 'x-home.html' })],
@@ -23,6 +24,7 @@ const ROUTES = [
   [/^https:\/\/www\.twitch\.tv\/chillstreamer/, () => ({ file: 'twitch-channel.html', vars: { LOGIN: 'chillstreamer', NAME: 'ChillStreamer', TITLE: 'chill vibes, day 40 of hardcore', GAME: 'Minecraft', SLUG: 'minecraft' } })],
   [/^https:\/\/example\.org\//, () => ({ file: 'generic.html' })],
   [/^https:\/\/kick\.com\//, () => ({ file: 'kick-home.html' })],
+  [/^https:\/\/streamz\.example\//, () => ({ file: 'stream-directory.html' })],
   [/^https:\/\/(www\.)?powerpyx\.com\//, () => ({ file: 'generic.html' })],
   [/^https:\/\/gta\.fandom\.com\//, () => ({ file: 'generic.html' })],
 ];

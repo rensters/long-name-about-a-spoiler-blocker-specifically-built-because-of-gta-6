@@ -1,0 +1,69 @@
+<!doctype html>
+<!-- fake youtube page with the WIDE horizontal live rows from the round-2 leak (2026-11-19): thumbnail left with a
+     LIVE pill bottom-right, text right, title wrapping onto 2 lines, "3.9K watching" on its own line, no avatar.
+     search-result version (ytd-video-renderer, markup copied from the real site) + watch-sidebar versions (a lockup
+     custom element AND a class-only lockup with no custom element around it). a terminal-style theme is injected on
+     top, monospace + green/cyan + "opacity:1 !important" on the cards, like a theme extension would. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>YouTube</title>
+    <style>
+      body { margin: 0; background: #000; font: 14px Roboto, sans-serif; }
+      .row { display: flex; gap: 16px; width: 1240px; padding: 8px; }
+      .thumb { position: relative; flex: none; width: 360px; height: 202px; background: linear-gradient(135deg, #333, #111); border-radius: 8px; }
+      .pill { position: absolute; right: 6px; bottom: 6px; background: #c00; color: #fff; font-size: 12px; padding: 1px 4px; border-radius: 4px; }
+      .side { width: 1240px; }
+      .side .row { width: auto; }
+      .side .thumb { width: 168px; height: 94px; }
+      h3 { margin: 0 0 4px; font-size: 18px; max-width: 420px; }
+    </style>
+    <!-- the theme. loads after our early css, tries its best to make everything visible. it shouldn't win -->
+    <style id="terminal-theme">
+      ytd-app, ytd-app * { font-family: Consolas, "Courier New", monospace !important; border-radius: 0 !important; }
+      ytd-app * { color: #58d854 !important; }
+      ytd-app a { color: #00fcfc !important; }
+      ytd-video-renderer, yt-lockup-view-model, .yt-lockup-view-model-wiz, .row { opacity: 1 !important; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler blocker test page. Every title here is made up, nothing about the real game.</div>
+    <ytd-app>
+      <ytd-search><ytd-section-list-renderer><div id="contents"><ytd-item-section-renderer><div id="contents">
+        <ytd-video-renderer class="style-scope ytd-item-section-renderer" data-test="spoiler" id="search-leak"><div id="dismissible" class="row">
+          <ytd-thumbnail><a id="thumbnail" class="thumb" href="/watch?v=ohne1"><yt-image><img src="" alt="" /></yt-image>
+            <div id="overlays"><ytd-thumbnail-overlay-time-status-renderer overlay-style="LIVE"><badge-shape class="badge-shape-wiz--thumbnail-live"><div class="pill">LIVE</div></badge-shape></ytd-thumbnail-overlay-time-status-renderer></div></a></ytd-thumbnail>
+          <div class="text-wrapper"><div id="meta"><div id="title-wrapper"><h3 class="title-and-badge">
+            <a id="video-title" title="🔴live: gta 6 full playthrough🔴" href="/watch?v=ohne1"><yt-formatted-string aria-label="🔴live: gta 6 full playthrough🔴">🔴live: gta 6 full playthrough🔴</yt-formatted-string></a></h3></div>
+            <ytd-video-meta-block><div id="metadata"><div id="byline-container"><ytd-channel-name id="channel-name"><a href="/@ohnepixel">ohnepixel</a> <span>✔</span></ytd-channel-name></div>
+              <div id="metadata-line"><span class="inline-metadata-item">3.9K watching</span></div></div></ytd-video-meta-block></div></div>
+        </div></ytd-video-renderer>
+        <ytd-video-renderer class="style-scope ytd-item-section-renderer" data-test="clean" id="search-clean"><div id="dismissible" class="row">
+          <ytd-thumbnail><a id="thumbnail" class="thumb" href="/watch?v=lofi1"><div class="pill">LIVE</div></a></ytd-thumbnail>
+          <div class="text-wrapper"><div id="meta"><h3><a id="video-title" title="lofi hip hop radio - beats to relax/study to" href="/watch?v=lofi1"><yt-formatted-string>lofi hip hop radio - beats to relax/study to</yt-formatted-string></a></h3>
+            <ytd-video-meta-block><div id="metadata"><ytd-channel-name><a href="/@LofiGirl">Lofi Girl</a></ytd-channel-name><div id="metadata-line"><span class="inline-metadata-item">12K watching</span></div></div></ytd-video-meta-block></div></div>
+        </div></ytd-video-renderer>
+      </div></ytd-item-section-renderer></div></ytd-section-list-renderer></ytd-search>
+
+      <div id="related" class="side"><ytd-watch-next-secondary-results-renderer><div id="items">
+        <!-- class-only lockup, no custom element around it -->
+        <div class="yt-lockup-view-model-wiz yt-lockup-view-model-wiz--horizontal row" data-test="spoiler" id="side-wiz">
+          <a class="yt-lockup-view-model-wiz__content-image thumb" href="/watch?v=ohne2"><yt-thumbnail-view-model><yt-thumbnail-overlay-badge-view-model><badge-shape class="badge-shape-wiz--thumbnail-live"><div class="pill">LIVE</div></badge-shape></yt-thumbnail-overlay-badge-view-model></yt-thumbnail-view-model></a>
+          <div class="yt-lockup-view-model-wiz__metadata"><yt-lockup-metadata-view-model class="yt-lockup-metadata-view-model-wiz">
+            <h3><a class="yt-lockup-metadata-view-model-wiz__title" href="/watch?v=ohne2"><span>🔴live: gta 6 full</span><br /><span>playthrough🔴</span></a></h3>
+            <yt-content-metadata-view-model><div><span>ohnepixel</span> <span>✔</span></div><div><span>3.9K watching</span></div></yt-content-metadata-view-model>
+          </yt-lockup-metadata-view-model></div>
+        </div>
+        <!-- custom element lockup, plain sidebar row -->
+        <yt-lockup-view-model data-test="spoiler" id="side-lockup"><div class="row">
+          <a class="thumb" href="/watch?v=ohne3"><div class="pill">LIVE</div></a>
+          <div><h3><a href="/watch?v=ohne3"><span>G.T.A. VI day 1 blind</span></a></h3><div>someguy</div><div>3,912 watching</div></div>
+        </div></yt-lockup-view-model>
+        <div class="yt-lockup-view-model-wiz row" data-test="clean" id="side-clean">
+          <a class="thumb" href="/watch?v=rain"><div class="pill">LIVE</div></a>
+          <div><h3><a href="/watch?v=rain">rain sounds for sleeping 24/7</a></h3><div>Rain Channel</div><div>1.2M viewers</div></div>
+        </div>
+      </div></ytd-watch-next-secondary-results-renderer></div>
+    </ytd-app>
+  </body>
+</html>

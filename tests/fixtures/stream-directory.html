@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- a random third-party stream directory: no selectors know this site, so only the LIVE-badge fallback can save us.
+     wide horizontal rows, background-image thumbnails (no img, no link on the thumb), and a kick-style card inside an
+     about:srcdoc iframe. every title here is made up -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>streamz.example</title>
+    <style>
+      body { margin: 0; background: #000; color: #58d854; font: 14px Consolas, monospace; }
+      .row { display: flex; gap: 16px; width: 1240px; padding: 8px; }
+      .thumb { position: relative; flex: none; width: 360px; height: 202px; border-radius: 0; }
+      .pill { position: absolute; right: 6px; bottom: 6px; background: #c00; color: #fff; padding: 1px 4px; }
+      .row { opacity: 1 !important; }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffd400;color:#000;font:600 12px sans-serif;padding:4px 10px">Spoiler blocker test page. Every title here is made up, nothing about the real game.</div>
+    <div class="list">
+      <div class="row" data-test="spoiler" id="dir-leak">
+        <div class="thumb" style="background-image:linear-gradient(135deg,#333,#111)"><span class="pill">LIVE</span></div>
+        <div><div class="t">🔴live: gta 6 full playthrough🔴</div><div>ohnepixel ✔</div><div>3.9K watching</div></div>
+      </div>
+      <div class="row" data-test="clean" id="dir-clean">
+        <div class="thumb" style="background-image:linear-gradient(135deg,#333,#111)"><span class="pill">LIVE</span></div>
+        <div><div class="t">speedrunning old platformers</div><div>runnerperson</div><div>1.2K watching</div></div>
+      </div>
+    </div>
+    <iframe id="embed" style="width:700px;height:260px;border:0" srcdoc='<!doctype html><meta charset="utf-8"><body style="background:#000;color:#fff;font:14px monospace"><div class="row" id="frame-card" style="display:flex;gap:12px;width:640px"><a href="/x" style="display:block;width:300px;height:170px;background:#333;position:relative"><span>LIVE</span></a><div><div>GTA VI first time playing</div><div>embedguy</div><div>3.9K viewers</div></div></div></body>'></iframe>
+  </body>
+</html>

@@ -198,18 +198,34 @@
     return counts ? counts : lives;
   }
 
+  // stuff that means "this is a thumbnail / a card", not just a text column
+  const CARDISH = 'a[href], img, video, picture, canvas, [style*="background"]';
+  const letters = (s) => (String(s || '').match(/\p{L}/gu) || []).length;
+
+  // round 2 (2026-11-19, same day lol): a WIDE horizontal row (thumbnail left, text right, "3.9K watching")
+  // still got through. the old climb gave up at 960px wide, so on a big screen it stopped at the text
+  // column or found nothing at all. now: keep climbing while it's still ONE card (one counter, not too tall,
+  // not suddenly 4x the text) and take the highest one that has a thumbnail-ish thing in it
   function climbCard(el) {
     let best = null;
+    let bestLen = 0;
+    let texty = null; // last resort: no thumbnail anywhere, but at least the title
     let cur = el;
-    for (let d = 0; d < 10 && cur && cur !== document.body && cur !== document.documentElement; d++) {
+    for (let d = 0; d < 12 && cur && cur !== document.body && cur !== document.documentElement; d++) {
+      if (/^(MAIN|NAV|HEADER|FOOTER|ASIDE|SECTION|UL|OL|YTD-ITEM-SECTION-RENDERER|YTD-SECTION-LIST-RENDERER)$/.test(cur.tagName) && d > 0 && best) break;
       const r = cur.getBoundingClientRect();
-      if (r.width > 960 || r.height > 760) break; // that's a whole section, not a card
-      if (d > 0 && badgeCount(cur) > 1) break; // two cards' worth of badges = we climbed into the grid
-      if (cur.matches('a[href]') || cur.querySelector('a[href], img')) best = cur;
+      if (r.height > 760) break; // that's a whole section, not a card
+      if (d > 0 && badgeCount(cur) > 1) break; // two cards' worth of badges = we climbed into the grid/list
+      const len = (cur.textContent || '').length;
+      if (best && len > Math.max(600, bestLen * 4)) break; // way more text than a card has. that's a container
+      if (cur.matches(CARDISH) || cur.querySelector(CARDISH)) {
+        best = cur;
+        bestLen = len;
+      } else if (letters(cur.textContent) >= 6) texty = cur;
       const root = cur.getRootNode ? cur.getRootNode() : null;
       cur = cur.parentElement || (root && root.host) || null;
     }
-    return best;
+    return best || texty;
   }
 
   // cardSel = selectors of cards we already know about (those don't need the fallback)

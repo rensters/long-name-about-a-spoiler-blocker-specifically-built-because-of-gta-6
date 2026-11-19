@@ -206,6 +206,8 @@
 
     genericBlock(el) {
       if (!el || !el.closest || el.closest(GENERIC_SKIP)) return null;
+      const card = el.closest('[data-ss-card]'); // text inside a badge card belongs to the card. one overlay, not two
+      if (card) return card;
       const b = el.closest(GENERIC_BLOCK) || el;
       if (b === document.body || b === document.documentElement || b.tagName === 'MAIN') return null;
       return b;
@@ -243,6 +245,7 @@
       const set = new Set();
       if (this.generic) {
         if (document.body) this.collectFrom(document.body, set);
+        for (const el of this.everywhere('[data-ss-card]')) set.add(el); // early.js marked these before we even started
       } else if (this.itemSel) {
         for (const el of this.everywhere(this.itemSel)) set.add(el);
       }
@@ -317,7 +320,7 @@
     }
 
     fieldsOf(el) {
-      if (this.generic) return { text: SS.collect.textOf(el) + WALL + SS.collect.attrText(el), channels: [], categories: [], live: false };
+      if (this.generic) return { text: SS.collect.textOf(el) + WALL + SS.collect.attrText(el) + WALL + SS.collect.slugText(el), channels: [], categories: [], live: false };
       return SS.collect.fields(el, this.site);
     }
 
@@ -346,7 +349,10 @@
         return;
       }
       this.sigs.set(el, sig);
-      const res = this.generic ? this.matcher.matchStrong(f.text) : this.matcher.match(f);
+      let res;
+      if (!this.generic) res = this.matcher.match(f);
+      else if (el.hasAttribute('data-ss-card')) res = this.matcher.match({ ...f, live: true, video: true }); // a live card is a live card, whatever site it's on
+      else res = this.matcher.matchStrong(f.text);
       if (!res) {
         if (this.waitForText(el, f)) return; // no title yet. stay hidden, look again when it shows up
         return this.clear(el);
@@ -428,8 +434,8 @@
         SS.shield.detach(el);
         this.inert(el, false);
       }
-      if (this.generic) el.removeAttribute('data-ss');
-      else el.setAttribute('data-ss', 'ok');
+      if (this.generic && !el.hasAttribute('data-ss-card')) el.removeAttribute('data-ss');
+      else el.setAttribute('data-ss', 'ok'); // badge cards are hidden by css until they say ok, so they HAVE to say ok
       if (was !== 'ok') SS.stream.releaseInside(el);
     }
 
@@ -736,6 +742,7 @@
       if (!this.running) return;
       // shadow roots that got attached after their element showed up. every other tick is plenty
       if (++this.ticks % 2 === 0 && document.documentElement) this.adoptShadows(document.documentElement);
+      if (this.generic) for (const el of this.everywhere('[data-ss-card]:not([data-ss])')) this.queue.add(el);
       if (!this.generic && this.itemSel) {
         // cards we somehow never saw (shouldn't happen, but sites are "creative". looking at you youtube)
         for (const el of this.everywhere(this.itemSel)) {

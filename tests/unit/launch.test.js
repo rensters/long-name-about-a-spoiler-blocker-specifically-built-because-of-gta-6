@@ -158,3 +158,11 @@ test('pack plumbing keeps the new fields', () => {
   assert.deepEqual(diff.launchWatchlist.add, ['someone new']);
   assert.ok(SS.packs.applyDiff(gta, diff).launchWatchlist.includes('someone new'));
 });
+
+test('live counters + pills, decimals and commas included', () => {
+  require('../../src/content/collect.js');
+  const { badgeKind } = SS.collect;
+  for (const t of ['3.9K watching', '3K watching', '1.2M viewers', '3,912 watching', '3.9K viewers', '12K watching now', ' 812  watching ', '3,9 mil espectadores'.replace(' mil', 'K')]) assert.equal(badgeKind(t), 'count', t);
+  for (const t of ['LIVE', 'live', 'Live now', 'EN VIVO', 'ao vivo']) assert.equal(badgeKind(t), 'live', t);
+  for (const t of ['live: gta 6 full playthrough', '3.9K views', 'watching paint dry', '']) assert.equal(badgeKind(t), null, t);
+});

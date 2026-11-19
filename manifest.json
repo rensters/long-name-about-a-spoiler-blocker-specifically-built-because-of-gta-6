@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "spoilerphobia",
   "short_name": "spoilerphobia",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Blurs GTA VI (or any topic you pick) all over YouTube, Reddit, X, Twitch and more until you're ready. Runs 100% locally.",
   "icons": {
     "16": "icons/icon-16.png",

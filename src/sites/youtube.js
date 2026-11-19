@@ -22,6 +22,12 @@
       ['ytd-rich-item-renderer', 'home / subscriptions / channel grid cards'],
       ['yt-lockup-view-model:not(ytd-rich-item-renderer yt-lockup-view-model)', 'the 2025+ card style: watch page sidebar, some search + home rows'],
       ['ytd-video-renderer', 'search results'],
+      // 2026: some lockups are just divs with a class, no <yt-lockup-view-model> around them (watch sidebar, search)
+      ['.yt-lockup-view-model-wiz:not(yt-lockup-view-model *):not(ytd-rich-item-renderer *)', 'class-only lockups (old wiz naming)'],
+      ['.yt-lockup-view-model:not(yt-lockup-view-model):not(yt-lockup-view-model *):not(ytd-rich-item-renderer *)', 'class-only lockups'],
+      ['.ytLockupViewModelHost:not(yt-lockup-view-model *):not(ytd-rich-item-renderer *)', 'class-only lockups (camelCase naming)'],
+      ['ytd-compact-radio-renderer', 'mixes in the watch sidebar'],
+      ['ytd-compact-playlist-renderer', 'playlists in the watch sidebar'],
       ['ytd-compact-video-renderer', 'old watch-page sidebar cards (still shows up in some A/B tests)'],
       ['ytd-grid-video-renderer', 'old channel page grids'],
       ['ytd-playlist-renderer', 'playlists in search'],
@@ -99,6 +105,7 @@
       if (firstMeta) f.channels.push(firstMeta.textContent.trim());
       // "1.5K watching" = live, badge or no badge. premieres count as live too, same spoiler risk
       if (!f.live && /\b(watching|premieres?|waiting)\b/i.test(f.text)) f.live = true;
+      if (el.querySelector('yt-thumbnail-overlay-badge-view-model badge-shape[class*="Live" i], .yt-badge-shape--thumbnail-live, [class*="badge-shape-wiz--thumbnail-live"]')) f.live = true;
       return f;
     },
 
